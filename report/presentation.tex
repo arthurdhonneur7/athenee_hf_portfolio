@@ -1,0 +1,126 @@
+
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+\definecolor{primary}{RGB}{44, 62, 80}
+\definecolor{secondary}{RGB}{231, 76, 60}
+
+\title{\vspace{-2cm}\color{primary}\textbf{Fund of Hedge Funds Strategy Overview}}
+\author{}
+\date{\vspace{-1.5cm}}
+
+\begin{document}
+\maketitle
+
+\section*{\color{primary}Overview}
+This product is a fund of hedge funds. The core idea is to pick strong performers that are uncorrelated, ensuring that returns keep up while overall volatility and max drawdown are significantly reduced. By blending distinct, non-overlapping strategies, the portfolio aims for robust risk-adjusted returns across market cycles.
+
+\section*{\color{primary}Fund Allocation \& Strategy Descriptions}
+The table below highlights the initial capital allocation weights alongside a brief description of each underlying fund's distinct edge and methodology.
+
+\begin{itemize}
+    \item \textbf{M1}: Crypto carry trade market neutral fund.
+    \item \textbf{Vadantia}: Trading-oriented fund on FX and precious metals with more than 4 trades per day.
+    \item \textbf{Enko}: Africa debt fund that invests to maturity in sovereign bonds, arbitraging between onshore and offshore bonds.
+    \item \textbf{Wizard Quant}: Chinese equity market neutral fund that is strictly quant-driven.
+    \item \textbf{ARR}: Trading fund on equities and macro, utilizing a quantamental approach to identify equities with high upside, backed by a strict risk management policy.
+    \item \textbf{R Squared}: Equities futures arbitrage and dividend futures arbitrage relative value style fund.
+    \item \textbf{Shiprock}: Fund investing in highly distressed debt and bond contracts.
+    \item \textbf{Grasshoper}: Market maker in Singapore investing in high-frequency strategies. They launched their open commingled fund for strategies that are highly scalable.
+    \item \textbf{26 Miles}: Indian-based fund investing in medium-frequency strategies across a lot of asset classes (intra-day trading with holdings of 2-3 hours). Founded by a team with strong prop trading desk experience who spun out to create this fund.
+    \item \textbf{Quanstream}: Volatility seller across more than 150 commodities underlying with over 20 years of experience in these strategies.
+\end{itemize}
+
+\section*{\color{primary}Performance \& Correlation}
+The following visuals illustrate the fund-level statistics and the diversification benefits.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{fund_stats.pdf}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\textwidth]{correlation.pdf}
+\end{figure}
+
+\clearpage
+\section*{\color{primary}Detailed Fund Statistics}
+\begin{table}[h]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lccccccccccccc}
+\toprule
+ & \textbf{CAGR} & \textbf{Std} & \textbf{Proxy Sharpe} & \textbf{MDD} & \textbf{Calmar} & \textbf{Pos Months} & \textbf{Up Capture} & \textbf{Down Capture} & \textbf{Alpha} & \textbf{Beta (t-stat)} & \textbf{Corr SP500} & \textbf{N months}\\
+\midrule
+\textbf{Quanstream} & 27.37\% & 10.57\% & 2.36 & -11.41\% & 2.40 & 78.6\% & 0.63 & -0.45 & 23.53\% & 0.11 (2.44) & 0.17 & 215 \\
+\textbf{M1} & 18.37\% & 5.43\% & 3.16 & -0.77\% & 23.91 & 92.5\% & 0.43 & -0.41 & 15.81\% & 0.06 (0.92) & 0.15 & 40 \\
+\textbf{Vadantia} & 34.62\% & 18.63\% & 1.70 & -26.03\% & 1.33 & 69.6\% & 0.68 & -0.75 & 34.33\% & -0.17 (-1.48) & -0.14 & 112 \\
+\textbf{Enko} & 17.50\% & 10.61\% & 1.58 & -23.00\% & 0.76 & 79.1\% & 0.50 & -0.10 & 13.81\% & 0.19 (3.13) & 0.28 & 115 \\
+\textbf{Wizard Quant} & 23.44\% & 11.58\% & 1.89 & -8.63\% & 2.71 & 71.7\% & 0.47 & -0.58 & 22.16\% & -0.02 (-0.28) & -0.03 & 127 \\
+\textbf{Arr} & 19.54\% & 16.97\% & 1.14 & -15.68\% & 1.25 & 59.6\% & 0.55 & -0.16 & 18.44\% & 0.07 (0.50) & 0.07 & 52 \\
+\textbf{R Squared} & 18.18\% & 8.86\% & 1.94 & -4.78\% & 3.80 & 71.2\% & 0.48 & -0.16 & 15.35\% & 0.13 (1.87) & 0.24 & 59 \\
+\textbf{Shiprock} & 25.85\% & 11.81\% & 2.02 & -8.74\% & 2.96 & 78.1\% & 0.68 & -0.03 & 20.12\% & 0.19 (2.29) & 0.26 & 73 \\
+\textbf{Grasshoper} & 27.24\% & 8.53\% & 2.89 & -1.74\% & 15.66 & 85.7\% & 0.58 & -0.86 & 25.41\% & -0.04 (-0.27) & -0.05 & 28 \\
+\textbf{26 Miles} & 37.02\% & 10.51\% & 3.09 & -3.14\% & 11.79 & 84.4\% & 0.62 & -0.88 & 34.49\% & -0.14 (-1.63) & -0.20 & 64 \\
+\textbf{Adar1} & 34.92\% & 15.60\% & 2.02 & -10.63\% & 3.28 & 74.4\% & 0.88 & -0.18 & 26.38\% & 0.31 (3.26) & 0.34 & 86 \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
+
+\section*{\color{primary}Portfolio Growth Analysis}
+Here we compare four portfolio weighting methodologies.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{4_strategies_growth.pdf}
+\end{figure}
+
+\clearpage
+\section*{\color{primary}6-Month Rebalancing Strategy Deep-Dive}
+The 6-Month Rebalancing Strategy resets the allocations back to target weights bi-annually, capturing drift while avoiding excessive turnover costs.
+
+\subsection*{Strategy Statistics}
+\begin{table}[h]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lccccccccccccc}
+\toprule
+ & \textbf{CAGR} & \textbf{Std} & \textbf{Proxy Sharpe} & \textbf{MDD} & \textbf{Calmar} & \textbf{Pos Months} & \textbf{Up Capture} & \textbf{Down Capture} & \textbf{Alpha} & \textbf{Beta (t-stat)} & \textbf{Corr SP500} & \textbf{N months}\\
+\midrule
+\textbf{6-Month Rebalanced} & 29.01\% & 4.72\% & 5.48 & -0.64\% & 45.29 & 96.2\% & 0.64 & -0.39 & 24.86\% & 0.08 (1.94) & 0.26 & 53 \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
+
+\subsection*{Monthly Returns Breakdown}
+\begin{table}[h]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lccccccccccccc}
+\toprule
+\textbf{Year} & \textbf{Jan} & \textbf{Feb} & \textbf{Mar} & \textbf{Apr} & \textbf{May} & \textbf{Jun} & \textbf{Jul} & \textbf{Aug} & \textbf{Sep} & \textbf{Oct} & \textbf{Nov} & \textbf{Dec} & \textbf{YTD} \\
+\midrule
+2022 & 0.4\% & 1.7\% & 2.6\% & 1.6\% & 3.5\% & 0.6\% & 2.7\% & 3.2\% & 1.3\% & 3.6\% & 4.1\% & 4.4\% & 34.1\% \\
+2023 & 1.3\% & 0.3\% & -0.2\% & 1.1\% & 6.0\% & 4.2\% & 3.1\% & 0.8\% & 1.2\% & 1.1\% & 3.4\% & 1.9\% & 27.0\% \\
+2024 & 1.9\% & 1.4\% & 3.9\% & -0.6\% & 1.9\% & 2.5\% & 3.2\% & 1.8\% & 0.6\% & 2.7\% & 2.7\% & 2.0\% & 26.5\% \\
+2025 & 2.4\% & 2.2\% & 2.8\% & 1.0\% & 1.5\% & 0.7\% & 3.1\% & 2.0\% & 3.9\% & 4.9\% & 3.2\% & 1.8\% & 33.8\% \\
+2026 & 1.2\% & 2.4\% & 0.7\% & 2.1\% & 0.4\% & - & - & - & - & - & - & - & 6.9\% \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.9\textwidth]{6m_vs_sp500.pdf}
+\end{figure}
+
+\end{document}
