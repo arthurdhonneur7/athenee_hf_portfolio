@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2026.7.4)  24 JUL 2026 14:58
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2026.7.4)  28 JUL 2026 21:44
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -281,20 +281,28 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <8> on input line 19.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <6> on input line 19.
-<fund_stats.pdf, id=4, 708.83656pt x 349.87299pt>
+<fund_stats.pdf, id=4, 711.89088pt x 349.93507pt>
 File: fund_stats.pdf Graphic file (type pdf)
 <use fund_stats.pdf>
 Package pdftex.def Info: fund_stats.pdf  used on input line 44.
-(pdftex.def)             Requested size: 375.80544pt x 185.49586pt.
+(pdftex.def)             Requested size: 375.80544pt x 184.73317pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<correlation.pdf, id=5, 685.06451pt x 566.57423pt>
+<correlation.pdf, id=5, 678.6604pt x 566.77995pt>
 File: correlation.pdf Graphic file (type pdf)
 <use correlation.pdf>
 Package pdftex.def Info: correlation.pdf  used on input line 49.
-(pdftex.def)             Requested size: 328.82707pt x 271.9439pt.
+(pdftex.def)             Requested size: 328.82707pt x 274.61119pt.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<worst_sp500_months.pdf, id=6, 1001.2359pt x 422.4039pt>
+File: worst_sp500_months.pdf Graphic file (type pdf)
+<use worst_sp500_months.pdf>
+Package pdftex.def Info: worst_sp500_months.pdf  used on input line 54.
+(pdftex.def)             Requested size: 422.77664pt x 178.36234pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
@@ -305,28 +313,41 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 {/Users/arthurdhonneur/Library/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
 
 [2 <./fund_stats.pdf> <./correlation.pdf>]
+
+[3 <./worst_sp500_months.pdf>]
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <10.95> on input line 76.
-<4_strategies_growth.pdf, id=123, 708.69957pt x 349.72282pt>
+(Font)              <10.95> on input line 77.
+<4_strategies_growth.pdf, id=173, 726.51111pt x 382.62575pt>
 File: 4_strategies_growth.pdf Graphic file (type pdf)
 <use 4_strategies_growth.pdf>
-Package pdftex.def Info: 4_strategies_growth.pdf  used on input line 84.
-(pdftex.def)             Requested size: 469.75502pt x 231.81032pt.
-
-
-[3
-
- <./4_strategies_growth.pdf>]
-<6m_vs_sp500.pdf, id=177, 710.48543pt x 349.8075pt>
-File: 6m_vs_sp500.pdf Graphic file (type pdf)
-<use 6m_vs_sp500.pdf>
-Package pdftex.def Info: 6m_vs_sp500.pdf  used on input line 125.
-(pdftex.def)             Requested size: 422.77664pt x 208.15672pt.
+Package pdftex.def Info: 4_strategies_growth.pdf  used on input line 85.
+(pdftex.def)             Requested size: 469.75502pt x 247.40181pt.
 
 
 [4
 
- <./6m_vs_sp500.pdf>] (./presentation.aux)
+ <./4_strategies_growth.pdf>]
+<growth_6_month_reb_initial_alloc_vs_sp500.pdf, id=227, 710.48543pt x 349.72282pt>
+File: growth_6_month_reb_initial_alloc_vs_sp500.pdf Graphic file (type pdf)
+<use growth_6_month_reb_initial_alloc_vs_sp500.pdf>
+Package pdftex.def Info: growth_6_month_reb_initial_alloc_vs_sp500.pdf  used on input line 126.
+(pdftex.def)             Requested size: 422.77664pt x 208.10632pt.
+<scatter_6_month_reb_initial_alloc_vs_sp500.pdf, id=228, 620.64061pt x 342.15956pt>
+File: scatter_6_month_reb_initial_alloc_vs_sp500.pdf Graphic file (type pdf)
+<use scatter_6_month_reb_initial_alloc_vs_sp500.pdf>
+Package pdftex.def Info: scatter_6_month_reb_initial_alloc_vs_sp500.pdf  used on input line 131.
+(pdftex.def)             Requested size: 422.77664pt x 233.07787pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+
+[5
+
+ <./growth_6_month_reb_initial_alloc_vs_sp500.pdf>]
+
+[6 <./scatter_6_month_reb_initial_alloc_vs_sp500.pdf>] (./presentation.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 1
 L3 programming layer <2024-11-02>
@@ -335,18 +356,18 @@ Package rerunfilecheck Info: File `presentation.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 9241 strings out of 475229
- 146222 string characters out of 5765256
- 562625 words of memory out of 5000000
- 32036 multiletter control sequences out of 15000+600000
+ 9257 strings out of 475229
+ 147064 string characters out of 5765256
+ 557625 words of memory out of 5000000
+ 32050 multiletter control sequences out of 15000+600000
  563888 words of font info for 55 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 75i,9n,79p,365b,436s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,9n,79p,365b,440s stack positions out of 10000i,1000n,20000p,200000b,200000s
  </Users/arthurdhonneur/Library/TinyTeX/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1095.600pk></Users/arthurdhonneur/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></Users/arthurdhonneur/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></Users/arthurdhonneur/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb>
-Output written on presentation.pdf (4 pages, 133955 bytes).
+Output written on presentation.pdf (6 pages, 161389 bytes).
 PDF statistics:
- 248 PDF objects out of 1000 (max. 8388607)
- 63 compressed objects within 1 object stream
- 13 named destinations out of 1000 (max. 500000)
- 21 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 350 PDF objects out of 1000 (max. 8388607)
+ 79 compressed objects within 1 object stream
+ 15 named destinations out of 1000 (max. 500000)
+ 31 words of extra memory for PDF output out of 10000 (max. 10000000)
 
