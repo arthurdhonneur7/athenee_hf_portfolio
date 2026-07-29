@@ -5,10 +5,27 @@
 \usepackage{graphicx}
 \usepackage{booktabs}
 \usepackage{xcolor}
+\usepackage{colortbl}
+\usepackage{tabularx}
+\usepackage{tcolorbox}
+\usepackage{titlesec}
+\usepackage{microtype}
+\usepackage{helvet}
 \usepackage{hyperref}
 
-\definecolor{primary}{RGB}{44, 62, 80}
-\definecolor{secondary}{RGB}{231, 76, 60}
+\renewcommand{\familydefault}{\sfdefault}
+
+\definecolor{primary}{RGB}{15, 23, 42}
+\definecolor{accent}{RGB}{37, 99, 235}
+\definecolor{cardbg}{RGB}{248, 250, 252}
+\definecolor{cardborder}{RGB}{226, 232, 240}
+\definecolor{posgreen}{RGB}{34, 197, 94}
+\definecolor{negred}{RGB}{239, 68, 68}
+
+\titleformat{\section}
+  {\normalfont\Large\bfseries\color{primary}}
+  {}{0em}
+  {\color{accent}\vrule width 4pt\hspace{6pt}\color{primary}}
 
 \title{\vspace{-2cm}\color{primary}\textbf{Fund of Hedge Funds Strategy Overview}}
 \author{}
@@ -17,51 +34,131 @@
 \begin{document}
 \maketitle
 
-\section*{\color{primary}Overview}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% PAGE 1: 6-Month Strategy Deep Dive
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{6-Month Rebalancing Strategy Deep-Dive}
+
+\begin{tcolorbox}[boxrule=0pt, leftrule=4pt, colframe=primary, colback=cardbg, sharp corners]
+\textbf{\large Executive Summary} \\[4pt]
 This product is a fund of hedge funds. The core idea is to pick strong performers that are uncorrelated, ensuring that returns keep up while overall volatility and max drawdown are significantly reduced. By blending distinct, non-overlapping strategies, the portfolio aims for robust risk-adjusted returns across market cycles.
+\end{tcolorbox}
 
-\section*{\color{primary}Fund Allocation \& Strategy Descriptions}
-The table below highlights the initial capital allocation weights alongside a brief description of each underlying fund's distinct edge and methodology.
-
-\begin{itemize}
-    \item \textbf{Quanstream}: Volatility seller across more than 150 commodities underlying with over 20 years of experience in these strategies.
-    \item \textbf{M1}: Crypto carry trade market neutral fund.
-    \item \textbf{Vadantia}: Trading-oriented fund on FX and precious metals with more than 4 trades per day.
-    \item \textbf{Wizard Quant}: Chinese equity market neutral fund that is strictly quant-driven.
-    \item \textbf{ARR}: Trading fund on equities and macro, utilizing a quantamental approach to identify equities with high upside, backed by a strict risk management policy.
-    \item \textbf{R Squared}: Equities futures arbitrage and dividend futures arbitrage relative value style fund.
-    \item \textbf{Shiprock}: Fund investing in highly distressed debt and bond contracts.
-    \item \textbf{Smithson}: Smithson fund description.
-    \item \textbf{26 Miles}: Indian-based fund investing in medium-frequency strategies across a lot of asset classes (intra-day trading with holdings of 2-3 hours). Founded by a team with strong prop trading desk experience who spun out to create this fund.
-    \item \textbf{Adar1}: Adar1 fund description.
-    \item \textbf{Sam Capital}: Sam capital fund description.
-\end{itemize}
-
-
-\section*{\color{primary}Performance \& Correlation}
-The following visuals illustrate the fund-level statistics and the diversification benefits.
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.8\textwidth]{fund_stats.pdf}
-\end{figure}
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.7\textwidth]{correlation.pdf}
-\end{figure}
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.9\textwidth]{worst_sp500_months.pdf}
-\end{figure}
-
-\clearpage
-\section*{\color{primary}Detailed Fund Statistics}
+\subsection*{Monthly Returns Breakdown}
 \begin{table}[h]
 \centering
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{lccccccccccccc}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{l *{13}{>{\centering\arraybackslash}X}}
+\toprule
+\textbf{Year} & \textbf{Jan} & \textbf{Feb} & \textbf{Mar} & \textbf{Apr} & \textbf{May} & \textbf{Jun} & \textbf{Jul} & \textbf{Aug} & \textbf{Sep} & \textbf{Oct} & \textbf{Nov} & \textbf{Dec} & \textbf{YTD} \\
+\midrule
+2022 & \cellcolor{posgreen!2!white}0.3\% & \cellcolor{posgreen!25!white}2.6\% & \cellcolor{posgreen!35!white}3.6\% & \cellcolor{posgreen!21!white}2.2\% & \cellcolor{posgreen!36!white}3.6\% & \cellcolor{posgreen!28!white}2.8\% & \cellcolor{posgreen!35!white}3.6\% & \cellcolor{posgreen!33!white}3.3\% & \cellcolor{posgreen!20!white}2.0\% & \cellcolor{posgreen!24!white}2.5\% & \cellcolor{posgreen!21!white}2.1\% & \cellcolor{posgreen!33!white}3.4\% & \cellcolor{posgreen!100!white}37.1\% \\
+2023 & \cellcolor{posgreen!20!white}2.1\% & \cellcolor{posgreen!6!white}0.6\% & \cellcolor{posgreen!21!white}2.1\% & \cellcolor{posgreen!20!white}2.0\% & \cellcolor{posgreen!40!white}4.1\% & \cellcolor{posgreen!28!white}2.9\% & \cellcolor{posgreen!29!white}2.9\% & \cellcolor{posgreen!11!white}1.2\% & \cellcolor{posgreen!13!white}1.3\% & \cellcolor{posgreen!9!white}1.0\% & \cellcolor{posgreen!37!white}3.8\% & \cellcolor{posgreen!22!white}2.2\% & \cellcolor{posgreen!100!white}29.5\% \\
+2024 & \cellcolor{posgreen!24!white}2.4\% & \cellcolor{posgreen!22!white}2.2\% & \cellcolor{posgreen!36!white}3.6\% & \cellcolor{posgreen!11!white}1.1\% & \cellcolor{posgreen!14!white}1.5\% & \cellcolor{posgreen!18!white}1.9\% & \cellcolor{posgreen!27!white}2.8\% & \cellcolor{posgreen!17!white}1.8\% & \cellcolor{posgreen!15!white}1.6\% & \cellcolor{posgreen!18!white}1.8\% & \cellcolor{posgreen!33!white}3.4\% & \cellcolor{posgreen!8!white}0.9\% & \cellcolor{posgreen!100!white}28.0\% \\
+2025 & \cellcolor{posgreen!16!white}1.6\% & \cellcolor{posgreen!23!white}2.3\% & \cellcolor{posgreen!19!white}1.9\% & \cellcolor{posgreen!19!white}2.0\% & \cellcolor{posgreen!1!white}0.2\% & \cellcolor{posgreen!10!white}1.1\% & \cellcolor{posgreen!30!white}3.0\% & \cellcolor{posgreen!24!white}2.5\% & \cellcolor{posgreen!31!white}3.2\% & \cellcolor{posgreen!38!white}3.9\% & \cellcolor{posgreen!28!white}2.8\% & \cellcolor{posgreen!14!white}1.5\% & \cellcolor{posgreen!100!white}29.2\% \\
+2026 & \cellcolor{posgreen!15!white}1.6\% & \cellcolor{posgreen!16!white}1.6\% & \cellcolor{posgreen!14!white}1.4\% & \cellcolor{posgreen!7!white}0.8\% & - & - & - & - & - & - & - & - & \cellcolor{posgreen!55!white}5.6\% \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection*{Strategy Statistics}
+\begin{table}[h]
+\centering
+\renewcommand{\arraystretch}{1.3}
+\scriptsize
+\begin{tabularx}{\textwidth}{l *{12}{>{\centering\arraybackslash}X}}
+\toprule
+ & \textbf{CAGR} & \textbf{Std} & \textbf{Proxy Sharpe} & \textbf{MDD} & \textbf{Calmar} & \textbf{Pos Months} & \textbf{Up Capture} & \textbf{Down Capture} & \textbf{Alpha (t-stat)} & \textbf{Beta} & \textbf{Corr SP500} & \textbf{N months}\\
+\midrule
+\textbf{6-Month Rebalanced} & 29.82\% & 3.38\% & 7.83 & 0.00\% & - & 100.0\% & 0.62 & -0.45 & 26.00\% (15.72) & 0.04 & 0.17 & 52 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.85\textwidth, height=0.25\textheight, keepaspectratio]{growth_6_month_reb_initial_alloc_vs_sp500.pdf}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.85\textwidth, height=0.25\textheight, keepaspectratio]{scatter_6_month_reb_initial_alloc_vs_sp500.pdf}
+\end{figure}
+
+
+
+\clearpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% PAGE 2: Fund Allocation & Strategy Descriptions
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Fund Allocation \& Strategy Descriptions}
+The table below highlights the initial capital allocation weights alongside a brief description of each underlying fund's distinct edge and methodology.
+
+
+\begin{tcolorbox}[colback=cardbg, colframe=cardborder, boxrule=0.5pt, arc=4pt, left=6pt, right=6pt, top=6pt, bottom=6pt]
+    \textbf{\textcolor{primary}{Quanstream}} \hfill \textbf{\textcolor{accent}{100.0\%}} \\[4pt]
+    \textcolor{primary}{Volatility seller across more than 150 commodities underlying with over 20 years of experience in these strategies.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=cardbg, colframe=cardborder, boxrule=0.5pt, arc=4pt, left=6pt, right=6pt, top=6pt, bottom=6pt]
+    \textbf{\textcolor{primary}{M1}} \hfill \textbf{\textcolor{accent}{100.0\%}} \\[4pt]
+    \textcolor{primary}{Crypto carry trade market neutral fund.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=cardbg, colframe=cardborder, boxrule=0.5pt, arc=4pt, left=6pt, right=6pt, top=6pt, bottom=6pt]
+    \textbf{\textcolor{primary}{Vadantia}} \hfill \textbf{\textcolor{accent}{100.0\%}} \\[4pt]
+    \textcolor{primary}{Trading-oriented fund on FX and precious metals with more than 4 trades per day.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=cardbg, colframe=cardborder, boxrule=0.5pt, arc=4pt, left=6pt, right=6pt, top=6pt, bottom=6pt]
+    \textbf{\textcolor{primary}{Wizard Quant}} \hfill \textbf{\textcolor{accent}{100.0\%}} \\[4pt]
+    \textcolor{primary}{Chinese equity market neutral fund that is strictly quant-driven.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=cardbg, colframe=cardborder, boxrule=0.5pt, arc=4pt, left=6pt, right=6pt, top=6pt, bottom=6pt]
+    \textbf{\textcolor{primary}{ARR}} \hfill \textbf{\textcolor{accent}{100.0\%}} \\[4pt]
+    \textcolor{primary}{Trading fund on equities and macro, utilizing a quantamental approach to identify equities with high upside, backed by a strict risk management policy.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=cardbg, colframe=cardborder, boxrule=0.5pt, arc=4pt, left=6pt, right=6pt, top=6pt, bottom=6pt]
+    \textbf{\textcolor{primary}{R Squared}} \hfill \textbf{\textcolor{accent}{100.0\%}} \\[4pt]
+    \textcolor{primary}{Equities futures arbitrage and dividend futures arbitrage relative value style fund.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=cardbg, colframe=cardborder, boxrule=0.5pt, arc=4pt, left=6pt, right=6pt, top=6pt, bottom=6pt]
+    \textbf{\textcolor{primary}{Shiprock}} \hfill \textbf{\textcolor{accent}{100.0\%}} \\[4pt]
+    \textcolor{primary}{Fund investing in highly distressed debt and bond contracts.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=cardbg, colframe=cardborder, boxrule=0.5pt, arc=4pt, left=6pt, right=6pt, top=6pt, bottom=6pt]
+    \textbf{\textcolor{primary}{Smithson}} \hfill \textbf{\textcolor{accent}{100.0\%}} \\[4pt]
+    \textcolor{primary}{Smithson fund description.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=cardbg, colframe=cardborder, boxrule=0.5pt, arc=4pt, left=6pt, right=6pt, top=6pt, bottom=6pt]
+    \textbf{\textcolor{primary}{26 Miles}} \hfill \textbf{\textcolor{accent}{100.0\%}} \\[4pt]
+    \textcolor{primary}{Indian-based fund investing in medium-frequency strategies across a lot of asset classes (intra-day trading with holdings of 2-3 hours). Founded by a team with strong prop trading desk experience who spun out to create this fund.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=cardbg, colframe=cardborder, boxrule=0.5pt, arc=4pt, left=6pt, right=6pt, top=6pt, bottom=6pt]
+    \textbf{\textcolor{primary}{Adar1}} \hfill \textbf{\textcolor{accent}{100.0\%}} \\[4pt]
+    \textcolor{primary}{Adar1 fund description.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=cardbg, colframe=cardborder, boxrule=0.5pt, arc=4pt, left=6pt, right=6pt, top=6pt, bottom=6pt]
+    \textbf{\textcolor{primary}{Sam Capital}} \hfill \textbf{\textcolor{accent}{100.0\%}} \\[4pt]
+    \textcolor{primary}{Sam capital fund description.}
+\end{tcolorbox}
+
+
+\section*{Detailed Fund Statistics}
+\begin{table}[h]
+\centering
+\renewcommand{\arraystretch}{1.3}
+\scriptsize
+\begin{tabularx}{\textwidth}{l *{12}{>{\centering\arraybackslash}X}}
 \toprule
  & \textbf{CAGR} & \textbf{Std} & \textbf{Proxy Sharpe} & \textbf{MDD} & \textbf{Calmar} & \textbf{Pos Months} & \textbf{Up Capture} & \textbf{Down Capture} & \textbf{Alpha (t-stat)} & \textbf{Beta} & \textbf{Corr SP500} & \textbf{N months}\\
 \midrule
@@ -77,62 +174,38 @@ The following visuals illustrate the fund-level statistics and the diversificati
 \textbf{Adar1} & 34.92\% & 15.60\% & 2.02 & -10.63\% & 3.28 & 74.4\% & 0.88 & -0.18 & 26.38\% (4.60) & 0.31 & 0.34 & 86 \\
 \textbf{Sam Capital} & 47.02\% & 14.44\% & 2.78 & -15.19\% & 3.10 & 86.8\% & 1.16 & -0.57 & 36.15\% (10.11) & 0.28 & 0.28 & 197 \\
 \bottomrule
-\end{tabular}
-}
+\end{tabularx}
 \end{table}
 
-\section*{\color{primary}Portfolio Growth Analysis}
+\section*{Performance \& Correlation}
+The following visuals illustrate the fund-level statistics and the diversification benefits.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.85\textwidth, height=0.25\textheight, keepaspectratio]{fund_stats.pdf}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.85\textwidth, height=0.25\textheight, keepaspectratio]{correlation.pdf}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.85\textwidth, height=0.25\textheight, keepaspectratio]{worst_sp500_months.pdf}
+\end{figure}
+
+\clearpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% PAGE 3: Portfolio Backtest Methodologies
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Portfolio Growth Analysis}
 Here we compare four portfolio weighting methodologies.
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=\textwidth]{4_strategies_growth.pdf}
-\end{figure}
-
-\clearpage
-\section*{\color{primary}6-Month Rebalancing Strategy Deep-Dive}
-The 6-Month Rebalancing Strategy resets the allocations back to target weights bi-annually, capturing drift while avoiding excessive turnover costs.
-
-\subsection*{Strategy Statistics}
-\begin{table}[h]
-\centering
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{lccccccccccccc}
-\toprule
- & \textbf{CAGR} & \textbf{Std} & \textbf{Proxy Sharpe} & \textbf{MDD} & \textbf{Calmar} & \textbf{Pos Months} & \textbf{Up Capture} & \textbf{Down Capture} & \textbf{Alpha (t-stat)} & \textbf{Beta} & \textbf{Corr SP500} & \textbf{N months}\\
-\midrule
-\textbf{6-Month Rebalanced} & 29.82\% & 3.38\% & 7.83 & 0.00\% & - & 100.0\% & 0.62 & -0.45 & 26.00\% (15.72) & 0.04 & 0.17 & 52 \\
-\bottomrule
-\end{tabular}
-}
-\end{table}
-
-\subsection*{Monthly Returns Breakdown}
-\begin{table}[h]
-\centering
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{lccccccccccccc}
-\toprule
-\textbf{Year} & \textbf{Jan} & \textbf{Feb} & \textbf{Mar} & \textbf{Apr} & \textbf{May} & \textbf{Jun} & \textbf{Jul} & \textbf{Aug} & \textbf{Sep} & \textbf{Oct} & \textbf{Nov} & \textbf{Dec} & \textbf{YTD} \\
-\midrule
-2022 & 0.3\% & 2.6\% & 3.6\% & 2.2\% & 3.6\% & 2.8\% & 3.6\% & 3.3\% & 2.0\% & 2.5\% & 2.1\% & 3.4\% & 37.1\% \\
-2023 & 2.1\% & 0.6\% & 2.1\% & 2.0\% & 4.1\% & 2.9\% & 2.9\% & 1.2\% & 1.3\% & 1.0\% & 3.8\% & 2.2\% & 29.5\% \\
-2024 & 2.4\% & 2.2\% & 3.6\% & 1.1\% & 1.5\% & 1.9\% & 2.8\% & 1.8\% & 1.6\% & 1.8\% & 3.4\% & 0.9\% & 28.0\% \\
-2025 & 1.6\% & 2.3\% & 1.9\% & 2.0\% & 0.2\% & 1.1\% & 3.0\% & 2.5\% & 3.2\% & 3.9\% & 2.8\% & 1.5\% & 29.2\% \\
-2026 & 1.6\% & 1.6\% & 1.4\% & 0.8\% & - & - & - & - & - & - & - & - & 5.6\% \\
-\bottomrule
-\end{tabular}
-}
-\end{table}
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.9\textwidth]{growth_6_month_reb_initial_alloc_vs_sp500.pdf}
-\end{figure}
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.9\textwidth]{scatter_6_month_reb_initial_alloc_vs_sp500.pdf}
+    \includegraphics[width=0.85\textwidth, height=0.25\textheight, keepaspectratio]{4_strategies_growth.pdf}
 \end{figure}
 
 
