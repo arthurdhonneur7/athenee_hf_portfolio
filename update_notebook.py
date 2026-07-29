@@ -189,8 +189,8 @@ except NameError:
 
 for port_name in port_cols:
     safe_name = port_name.replace(' ', '_').replace('-', '_').lower()
-    plot_str = f"\\begin{{figure}}[h]\n    \\centering\n    \\includegraphics[width=0.85\\textwidth, height=0.25\\textheight, keepaspectratio]{{growth_{safe_name}_vs_sp500.pdf}}\n\\end{{figure}}\n\n"
-    plot_str += f"\\begin{{figure}}[h]\n    \\centering\n    \\includegraphics[width=0.85\\textwidth, height=0.25\\textheight, keepaspectratio]{{scatter_{safe_name}_vs_sp500.pdf}}\n\\end{{figure}}\n\n"
+    plot_str = f"\\begin{{figure}}[h]\n    \\centering\n    \\includegraphics[width=0.95\\textwidth, height=0.25\\textheight, keepaspectratio]{{growth_{safe_name}_vs_sp500.pdf}}\n\\end{{figure}}\n\n"
+    plot_str += f"\\begin{{figure}}[h]\n    \\centering\n    \\includegraphics[width=0.95\\textwidth, height=0.25\\textheight, keepaspectratio]{{scatter_{safe_name}_vs_sp500.pdf}}\n\\end{{figure}}\n\n"
     
     if safe_name == '6_month_reb_initial_alloc':
         latex_6m_plots += plot_str
@@ -198,8 +198,8 @@ for port_name in port_cols:
         latex_portfolios_other += plot_str
 
 if not latex_6m_plots:
-    latex_6m_plots += "\\begin{figure}[h]\n    \\centering\n    \\includegraphics[width=0.85\\textwidth, height=0.25\\textheight, keepaspectratio]{growth_6_month_reb_initial_alloc_vs_sp500.pdf}\n\\end{figure}\n\n"
-    latex_6m_plots += "\\begin{figure}[h]\n    \\centering\n    \\includegraphics[width=0.85\\textwidth, height=0.25\\textheight, keepaspectratio]{scatter_6_month_reb_initial_alloc_vs_sp500.pdf}\n\\end{figure}\n\n"
+    latex_6m_plots += "\\begin{figure}[h]\n    \\centering\n    \\includegraphics[width=0.95\\textwidth, height=0.25\\textheight, keepaspectratio]{growth_6_month_reb_initial_alloc_vs_sp500.pdf}\n\\end{figure}\n\n"
+    latex_6m_plots += "\\begin{figure}[h]\n    \\centering\n    \\includegraphics[width=0.95\\textwidth, height=0.25\\textheight, keepaspectratio]{scatter_6_month_reb_initial_alloc_vs_sp500.pdf}\n\\end{figure}\n\n"
 
 fund_descriptions = {
     'm1': 'Crypto carry trade market neutral fund.',
@@ -250,7 +250,7 @@ for fund in allocs.keys():
 latex_template = r"""
 \documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
-\usepackage[margin=1in]{geometry}
+\usepackage[left=0.4in, right=0.4in, top=0.8in, bottom=0.8in]{geometry}
 \usepackage{graphicx}
 \usepackage{booktabs}
 \usepackage{xcolor}
@@ -320,17 +320,17 @@ The following visuals illustrate the fund-level statistics and the diversificati
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.85\textwidth, height=0.25\textheight, keepaspectratio]{fund_stats.pdf}
+    \includegraphics[width=0.95\textwidth, height=0.25\textheight, keepaspectratio]{fund_stats.pdf}
 \end{figure}
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.85\textwidth, height=0.25\textheight, keepaspectratio]{correlation.pdf}
+    \includegraphics[width=0.95\textwidth, height=0.25\textheight, keepaspectratio]{correlation.pdf}
 \end{figure}
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.85\textwidth, height=0.25\textheight, keepaspectratio]{worst_sp500_months.pdf}
+    \includegraphics[width=0.95\textwidth, height=0.25\textheight, keepaspectratio]{worst_sp500_months.pdf}
 \end{figure}
 
 \clearpage
@@ -343,7 +343,7 @@ Here we compare four portfolio weighting methodologies.
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.85\textwidth, height=0.25\textheight, keepaspectratio]{4_strategies_growth.pdf}
+    \includegraphics[width=0.95\textwidth, height=0.25\textheight, keepaspectratio]{4_strategies_growth.pdf}
 \end{figure}
 
 """ + latex_portfolios_other + r"""
