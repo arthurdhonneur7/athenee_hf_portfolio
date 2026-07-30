@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2026.7.4)  31 JUL 2026 00:44
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2026.7.4)  31 JUL 2026 00:54
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -601,15 +601,15 @@ Overfull \hbox (2.17992pt too wide) in paragraph at lines 232--232
 [3
 
 ]
-<correlation.pdf, id=102, 1066.92377pt x 856.016pt>
+<correlation.pdf, id=102, 1851.68214pt x 1578.16223pt>
 File: correlation.pdf Graphic file (type pdf)
 <use correlation.pdf>
-Package pdftex.def Info: correlation.pdf  used on input line 241.
-(pdftex.def)             Requested size: 247.16182pt x 198.30327pt.
+Package pdftex.def Info: correlation.pdf  used on input line 240.
+(pdftex.def)             Requested size: 415.48033pt x 354.10796pt.
 <worst_sp500_months.pdf, id=103, 1432.27002pt x 711.30814pt>
 File: worst_sp500_months.pdf Graphic file (type pdf)
 <use worst_sp500_months.pdf>
-Package pdftex.def Info: worst_sp500_months.pdf  used on input line 247.
+Package pdftex.def Info: worst_sp500_months.pdf  used on input line 244.
 (pdftex.def)             Requested size: 556.1135pt x 276.18259pt.
 
 
@@ -619,12 +619,12 @@ Package pdftex.def Info: worst_sp500_months.pdf  used on input line 247.
 <4_strategies_growth.pdf, id=272, 726.51111pt x 382.62575pt>
 File: 4_strategies_growth.pdf Graphic file (type pdf)
 <use 4_strategies_growth.pdf>
-Package pdftex.def Info: 4_strategies_growth.pdf  used on input line 262.
+Package pdftex.def Info: 4_strategies_growth.pdf  used on input line 257.
 (pdftex.def)             Requested size: 336.20566pt x 177.06671pt.
 <scatter_6_month_reb_initial_alloc_vs_sp500.pdf, id=273, 620.64061pt x 342.15956pt>
 File: scatter_6_month_reb_initial_alloc_vs_sp500.pdf Graphic file (type pdf)
 <use scatter_6_month_reb_initial_alloc_vs_sp500.pdf>
-Package pdftex.def Info: scatter_6_month_reb_initial_alloc_vs_sp500.pdf  used on input line 267.
+Package pdftex.def Info: scatter_6_month_reb_initial_alloc_vs_sp500.pdf  used on input line 262.
 (pdftex.def)             Requested size: 321.1724pt x 177.06253pt.
 
 
@@ -639,15 +639,15 @@ Package rerunfilecheck Info: File `presentation.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 23927 strings out of 475229
- 466302 string characters out of 5765256
- 903517 words of memory out of 5000000
- 46371 multiletter control sequences out of 15000+600000
+ 23929 strings out of 475229
+ 466358 string characters out of 5765256
+ 903518 words of memory out of 5000000
+ 46373 multiletter control sequences out of 15000+600000
  577933 words of font info for 119 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  98i,11n,101p,1009b,590s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </Users/arthurdhonneur/Library/TinyTeX/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></Users/arthurdhonneur/Library/TinyTeX/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb>
-Output written on presentation.pdf (5 pages, 145254 bytes).
+Output written on presentation.pdf (5 pages, 146160 bytes).
 PDF statistics:
  385 PDF objects out of 1000 (max. 8388607)
  69 compressed objects within 1 object stream
