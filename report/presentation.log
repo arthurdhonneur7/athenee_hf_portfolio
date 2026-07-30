@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2026.7.4)  30 JUL 2026 19:51
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2026.7.4)  30 JUL 2026 20:10
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -573,11 +573,11 @@ Underfull \hbox (badness 10000) in paragraph at lines 36--37
  []
 
 (/Users/arthurdhonneur/Library/TinyTeX/texmf-dist/tex/latex/microtype/mt-cmr.cfg)
-<combined_growth_worst20_sp500.pdf, id=7, 1434.03442pt x 422.40967pt>
+<combined_growth_worst20_sp500.pdf, id=7, 1577.63022pt x 710.19736pt>
 File: combined_growth_worst20_sp500.pdf Graphic file (type pdf)
 <use combined_growth_worst20_sp500.pdf>
 Package pdftex.def Info: combined_growth_worst20_sp500.pdf  used on input line 76.
-(pdftex.def)             Requested size: 556.12024pt x 163.81096pt.
+(pdftex.def)             Requested size: 550.66228pt x 247.89008pt.
 <scatter_6_month_reb_initial_alloc_vs_sp500.pdf, id=8, 620.64061pt x 342.15956pt>
 File: scatter_6_month_reb_initial_alloc_vs_sp500.pdf Graphic file (type pdf)
 <use scatter_6_month_reb_initial_alloc_vs_sp500.pdf>
@@ -602,17 +602,17 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 [4
 
 ]
-<fund_stats.pdf, id=160, 711.89088pt x 349.93507pt>
+<fund_stats.pdf, id=154, 711.89088pt x 349.93507pt>
 File: fund_stats.pdf Graphic file (type pdf)
 <use fund_stats.pdf>
 Package pdftex.def Info: fund_stats.pdf  used on input line 176.
 (pdftex.def)             Requested size: 360.21355pt x 177.06555pt.
-<correlation.pdf, id=161, 678.6604pt x 566.77995pt>
+<correlation.pdf, id=155, 678.6604pt x 566.77995pt>
 File: correlation.pdf Graphic file (type pdf)
 <use correlation.pdf>
 Package pdftex.def Info: correlation.pdf  used on input line 181.
 (pdftex.def)             Requested size: 212.00836pt x 177.05775pt.
-<worst_sp500_months.pdf, id=162, 1001.2359pt x 422.4039pt>
+<worst_sp500_months.pdf, id=156, 1001.2359pt x 422.4039pt>
 File: worst_sp500_months.pdf Graphic file (type pdf)
 <use worst_sp500_months.pdf>
 Package pdftex.def Info: worst_sp500_months.pdf  used on input line 186.
@@ -628,7 +628,7 @@ LaTeX Warning: `h' float specifier changed to `ht'.
  <./fund_stats.pdf> <./correlation.pdf>]
 
 [6 <./worst_sp500_months.pdf>]
-<4_strategies_growth.pdf, id=318, 726.51111pt x 382.62575pt>
+<4_strategies_growth.pdf, id=312, 726.51111pt x 382.62575pt>
 File: 4_strategies_growth.pdf Graphic file (type pdf)
 <use 4_strategies_growth.pdf>
 Package pdftex.def Info: 4_strategies_growth.pdf  used on input line 199.
@@ -654,9 +654,9 @@ Here is how much of TeX's memory you used:
  36 hyphenation exceptions out of 8191
  98i,11n,101p,1009b,590s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </Users/arthurdhonneur/Library/TinyTeX/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></Users/arthurdhonneur/Library/TinyTeX/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb>
-Output written on presentation.pdf (7 pages, 144567 bytes).
+Output written on presentation.pdf (7 pages, 143252 bytes).
 PDF statistics:
- 387 PDF objects out of 1000 (max. 8388607)
+ 381 PDF objects out of 1000 (max. 8388607)
  76 compressed objects within 1 object stream
  8 named destinations out of 1000 (max. 500000)
  43051 words of extra memory for PDF output out of 51595 (max. 10000000)
