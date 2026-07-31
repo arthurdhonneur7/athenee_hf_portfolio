@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2026.7.4)  31 JUL 2026 20:59
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2026.7.4)  31 JUL 2026 22:35
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -741,36 +741,41 @@ Overfull \hbox (0.79817pt too wide) in paragraph at lines 244--244
  []|\OT1/phv/m/n/9 (-20) 26.17% 
  []
 
+<correlation.pdf, id=98, 1854.9311pt x 1578.35608pt>
+File: correlation.pdf Graphic file (type pdf)
+<use correlation.pdf>
+Package pdftex.def Info: correlation.pdf  used on input line 248.
+(pdftex.def)             Requested size: 332.91086pt x 283.27298pt.
 
 
 [3
 
-]
-<correlation.pdf, id=102, 1854.9311pt x 1578.35608pt>
-File: correlation.pdf Graphic file (type pdf)
-<use correlation.pdf>
-Package pdftex.def Info: correlation.pdf  used on input line 252.
-(pdftex.def)             Requested size: 416.15273pt x 354.10327pt.
-<worst_sp500_months.pdf, id=103, 1430.92625pt x 711.30814pt>
+ <./correlation.pdf>]
+<worst_sp500_months.pdf, id=180, 1430.92625pt x 711.30814pt>
 File: worst_sp500_months.pdf Graphic file (type pdf)
 <use worst_sp500_months.pdf>
 Package pdftex.def Info: worst_sp500_months.pdf  used on input line 256.
 (pdftex.def)             Requested size: 556.11577pt x 276.44307pt.
+<yearly_returns_all_funds.pdf, id=181, 1430.92625pt x 697.7098pt>
+File: yearly_returns_all_funds.pdf Graphic file (type pdf)
+<use yearly_returns_all_funds.pdf>
+Package pdftex.def Info: yearly_returns_all_funds.pdf  used on input line 260.
+(pdftex.def)             Requested size: 556.11577pt x 271.15822pt.
 
 
 [4
 
- <./correlation.pdf> <./worst_sp500_months.pdf>]
-<4_strategies_growth.pdf, id=273, 726.51111pt x 384.05295pt>
+ <./worst_sp500_months.pdf> <./yearly_returns_all_funds.pdf>]
+<4_strategies_growth.pdf, id=352, 726.51111pt x 384.05295pt>
 File: 4_strategies_growth.pdf Graphic file (type pdf)
 <use 4_strategies_growth.pdf>
-Package pdftex.def Info: 4_strategies_growth.pdf  used on input line 269.
-(pdftex.def)             Requested size: 334.9419pt x 177.05913pt.
-<scatter_6_month_reb_initial_alloc_vs_sp500.pdf, id=274, 620.64061pt x 342.15956pt>
+Package pdftex.def Info: 4_strategies_growth.pdf  used on input line 272.
+(pdftex.def)             Requested size: 535.92477pt x 283.30399pt.
+<scatter_6_month_reb_initial_alloc_vs_sp500.pdf, id=353, 620.64061pt x 342.15956pt>
 File: scatter_6_month_reb_initial_alloc_vs_sp500.pdf Graphic file (type pdf)
 <use scatter_6_month_reb_initial_alloc_vs_sp500.pdf>
-Package pdftex.def Info: scatter_6_month_reb_initial_alloc_vs_sp500.pdf  used on input line 274.
-(pdftex.def)             Requested size: 321.1724pt x 177.06253pt.
+Package pdftex.def Info: scatter_6_month_reb_initial_alloc_vs_sp500.pdf  used on input line 276.
+(pdftex.def)             Requested size: 513.86258pt x 283.29274pt.
 
 
 [5
@@ -784,18 +789,18 @@ Package rerunfilecheck Info: File `presentation.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 23931 strings out of 475229
- 466450 string characters out of 5765256
+ 23938 strings out of 475229
+ 466718 string characters out of 5765256
  903552 words of memory out of 5000000
- 46378 multiletter control sequences out of 15000+600000
+ 46385 multiletter control sequences out of 15000+600000
  577820 words of font info for 117 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  98i,11n,101p,1009b,588s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </Users/arthurdhonneur/Library/TinyTeX/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></Users/arthurdhonneur/Library/TinyTeX/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb>
-Output written on presentation.pdf (5 pages, 149721 bytes).
+Output written on presentation.pdf (5 pages, 173254 bytes).
 PDF statistics:
- 403 PDF objects out of 1000 (max. 8388607)
- 73 compressed objects within 1 object stream
+ 482 PDF objects out of 1000 (max. 8388607)
+ 82 compressed objects within 1 object stream
  6 named destinations out of 1000 (max. 500000)
- 45094 words of extra memory for PDF output out of 51595 (max. 10000000)
+ 45099 words of extra memory for PDF output out of 51595 (max. 10000000)
 
