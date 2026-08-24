@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2026.7.4)  1 AUG 2026 23:14
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2026.7.4)  24 AUG 2026 11:19
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -573,11 +573,11 @@ Underfull \hbox (badness 10000) in paragraph at lines 36--37
  []
 
 (/Users/arthurdhonneur/Library/TinyTeX/texmf-dist/tex/latex/microtype/mt-cmr.cfg)
-<combined_growth_worst20_sp500.pdf, id=7, 1577.53992pt x 637.92735pt>
+<combined_growth_worst20_sp500.pdf, id=7, 1577.56564pt x 637.92735pt>
 File: combined_growth_worst20_sp500.pdf Graphic file (type pdf)
 <use combined_growth_worst20_sp500.pdf>
 Package pdftex.def Info: combined_growth_worst20_sp500.pdf  used on input line 76.
-(pdftex.def)             Requested size: 556.119pt x 224.88402pt.
+(pdftex.def)             Requested size: 556.12808pt x 224.88402pt.
 
 
 [1
@@ -587,194 +587,189 @@ Package pdftex.def Info: combined_growth_worst20_sp500.pdf  used on input line 7
 [2
 
 ]
-Overfull \hbox (1.18544pt too wide) in paragraph at lines 244--244
+Overfull \hbox (1.66898pt too wide) in paragraph at lines 231--231
  \OT1/phv/b/n/9 (-20) Sharpe| 
  []
 
 
-Overfull \hbox (1.18535pt too wide) in paragraph at lines 244--244
+Overfull \hbox (1.66888pt too wide) in paragraph at lines 231--231
  []|\OT1/phv/b/n/9 (-20) Calmar| 
  []
 
 
-Overfull \hbox (2.64088pt too wide) in paragraph at lines 244--244
+Overfull \hbox (3.12442pt too wide) in paragraph at lines 231--231
  \OT1/phv/b/n/9 (-20) Months| 
  []
 
 
-Overfull \hbox (3.13474pt too wide) in paragraph at lines 244--244
+Overfull \hbox (3.61827pt too wide) in paragraph at lines 231--231
  \OT1/phv/b/n/9 (-20) months| 
  []
 
 
-Overfull \hbox (1.19417pt too wide) in paragraph at lines 244--244
- []|\OT1/phv/m/n/9 (-20) 21.50%| 
- []
-
-
-Overfull \hbox (0.79817pt too wide) in paragraph at lines 244--244
- []|\OT1/phv/m/n/9 (-20) 18.82% 
- []
-
-
-Overfull \hbox (1.19417pt too wide) in paragraph at lines 244--244
+Overfull \hbox (1.6777pt too wide) in paragraph at lines 231--231
  []|\OT1/phv/m/n/9 (-20) 18.37%| 
  []
 
 
-Overfull \hbox (0.79817pt too wide) in paragraph at lines 244--244
+Overfull \hbox (1.28171pt too wide) in paragraph at lines 231--231
  []|\OT1/phv/m/n/9 (-20) 15.81% 
  []
 
 
-Overfull \hbox (1.19417pt too wide) in paragraph at lines 244--244
+Overfull \hbox (1.6777pt too wide) in paragraph at lines 231--231
  []|\OT1/phv/m/n/9 (-20) 34.62%| 
  []
 
 
-Overfull \hbox (1.19417pt too wide) in paragraph at lines 244--244
+Overfull \hbox (1.6777pt too wide) in paragraph at lines 231--231
  []|\OT1/phv/m/n/9 (-20) 18.63%| 
  []
 
 
-Overfull \hbox (0.79817pt too wide) in paragraph at lines 244--244
+Overfull \hbox (1.28171pt too wide) in paragraph at lines 231--231
  []|\OT1/phv/m/n/9 (-20) 34.33% 
  []
 
 
-Overfull \hbox (1.19417pt too wide) in paragraph at lines 244--244
+Overfull \hbox (1.6777pt too wide) in paragraph at lines 231--231
  []|\OT1/phv/m/n/9 (-20) 20.55%| 
  []
 
 
-Overfull \hbox (1.19417pt too wide) in paragraph at lines 244--244
+Overfull \hbox (1.6777pt too wide) in paragraph at lines 231--231
  []|\OT1/phv/m/n/9 (-20) 13.63%| 
  []
 
 
-Overfull \hbox (0.79817pt too wide) in paragraph at lines 244--244
+Overfull \hbox (1.28171pt too wide) in paragraph at lines 231--231
  []|\OT1/phv/m/n/9 (-20) 20.53% 
  []
 
 
-Overfull \hbox (1.19417pt too wide) in paragraph at lines 244--244
- []|\OT1/phv/m/n/9 (-20) 19.54%| 
- []
-
-
-Overfull \hbox (1.19417pt too wide) in paragraph at lines 244--244
- []|\OT1/phv/m/n/9 (-20) 16.97%| 
- []
-
-
-Overfull \hbox (0.79817pt too wide) in paragraph at lines 244--244
- []|\OT1/phv/m/n/9 (-20) 18.44% 
- []
-
-
-Overfull \hbox (1.19417pt too wide) in paragraph at lines 244--244
- []|\OT1/phv/m/n/9 (-20) 18.18%| 
- []
-
-
-Overfull \hbox (0.79817pt too wide) in paragraph at lines 244--244
- []|\OT1/phv/m/n/9 (-20) 15.35% 
- []
-
-
-Overfull \hbox (1.19417pt too wide) in paragraph at lines 244--244
+Overfull \hbox (1.6777pt too wide) in paragraph at lines 231--231
  []|\OT1/phv/m/n/9 (-20) 25.85%| 
  []
 
 
-Overfull \hbox (1.19417pt too wide) in paragraph at lines 244--244
+Overfull \hbox (1.6777pt too wide) in paragraph at lines 231--231
  []|\OT1/phv/m/n/9 (-20) 11.81%| 
  []
 
 
-Overfull \hbox (0.79817pt too wide) in paragraph at lines 244--244
+Overfull \hbox (1.28171pt too wide) in paragraph at lines 231--231
  []|\OT1/phv/m/n/9 (-20) 20.12% 
  []
 
 
-Overfull \hbox (1.19417pt too wide) in paragraph at lines 244--244
- []|\OT1/phv/m/n/9 (-20) 27.24%| 
+Overfull \hbox (1.6777pt too wide) in paragraph at lines 231--231
+ []|\OT1/phv/m/n/9 (-20) 21.33%| 
  []
 
 
-Overfull \hbox (0.79817pt too wide) in paragraph at lines 244--244
- []|\OT1/phv/m/n/9 (-20) 25.46% 
+Overfull \hbox (1.28171pt too wide) in paragraph at lines 231--231
+ []|\OT1/phv/m/n/9 (-20) 20.33% 
  []
 
 
-Overfull \hbox (1.19417pt too wide) in paragraph at lines 244--244
+Overfull \hbox (1.6777pt too wide) in paragraph at lines 231--231
  []|\OT1/phv/m/n/9 (-20) 47.09%| 
  []
 
 
-Overfull \hbox (0.79817pt too wide) in paragraph at lines 244--244
+Overfull \hbox (1.28171pt too wide) in paragraph at lines 231--231
  []|\OT1/phv/m/n/9 (-20) 39.92% 
  []
 
 
-Overfull \hbox (1.19417pt too wide) in paragraph at lines 244--244
+Overfull \hbox (1.6777pt too wide) in paragraph at lines 231--231
  []|\OT1/phv/m/n/9 (-20) 24.90%| 
  []
 
 
-Overfull \hbox (0.79817pt too wide) in paragraph at lines 244--244
+Overfull \hbox (1.28171pt too wide) in paragraph at lines 231--231
  []|\OT1/phv/m/n/9 (-20) 24.14% 
  []
 
 
-Overfull \hbox (1.19417pt too wide) in paragraph at lines 244--244
+Overfull \hbox (1.6777pt too wide) in paragraph at lines 231--231
+ []|\OT1/phv/m/n/9 (-20) 34.92%| 
+ []
+
+
+Overfull \hbox (1.6777pt too wide) in paragraph at lines 231--231
+ []|\OT1/phv/m/n/9 (-20) 15.60%| 
+ []
+
+
+Overfull \hbox (1.28171pt too wide) in paragraph at lines 231--231
+ []|\OT1/phv/m/n/9 (-20) 26.38% 
+ []
+
+
+Overfull \hbox (1.6777pt too wide) in paragraph at lines 231--231
  []|\OT1/phv/m/n/9 (-20) 29.08%| 
  []
 
 
-Overfull \hbox (1.19417pt too wide) in paragraph at lines 244--244
+Overfull \hbox (1.6777pt too wide) in paragraph at lines 231--231
  []|\OT1/phv/m/n/9 (-20) 100.0%| 
  []
 
 
-Overfull \hbox (0.79817pt too wide) in paragraph at lines 244--244
+Overfull \hbox (1.28171pt too wide) in paragraph at lines 231--231
  []|\OT1/phv/m/n/9 (-20) 26.17% 
  []
 
-<correlation.pdf, id=98, 1854.9311pt x 1578.35608pt>
+
+Overfull \hbox (1.6777pt too wide) in paragraph at lines 231--231
+ []|\OT1/phv/m/n/9 (-20) 46.93%| 
+ []
+
+
+Overfull \hbox (1.6777pt too wide) in paragraph at lines 231--231
+ []|\OT1/phv/m/n/9 (-20) 14.41%| 
+ []
+
+
+Overfull \hbox (1.28171pt too wide) in paragraph at lines 231--231
+ []|\OT1/phv/m/n/9 (-20) 36.08% 
+ []
+
+<correlation.pdf, id=98, 1856.90111pt x 1578.08014pt>
 File: correlation.pdf Graphic file (type pdf)
 <use correlation.pdf>
-Package pdftex.def Info: correlation.pdf  used on input line 248.
-(pdftex.def)             Requested size: 332.91086pt x 283.27298pt.
+Package pdftex.def Info: correlation.pdf  used on input line 235.
+(pdftex.def)             Requested size: 333.34943pt x 283.2957pt.
 
 
 [3
 
  <./correlation.pdf>]
-<worst_sp500_months.pdf, id=180, 1430.92625pt x 711.30814pt>
+<worst_sp500_months.pdf, id=180, 1430.03743pt x 711.30814pt>
 File: worst_sp500_months.pdf Graphic file (type pdf)
 <use worst_sp500_months.pdf>
-Package pdftex.def Info: worst_sp500_months.pdf  used on input line 256.
-(pdftex.def)             Requested size: 556.11577pt x 276.44307pt.
-<yearly_returns_all_funds.pdf, id=181, 1430.92625pt x 697.7098pt>
+Package pdftex.def Info: worst_sp500_months.pdf  used on input line 243.
+(pdftex.def)             Requested size: 556.11946pt x 276.61673pt.
+<yearly_returns_all_funds.pdf, id=181, 1430.03743pt x 711.3645pt>
 File: yearly_returns_all_funds.pdf Graphic file (type pdf)
 <use yearly_returns_all_funds.pdf>
-Package pdftex.def Info: yearly_returns_all_funds.pdf  used on input line 260.
-(pdftex.def)             Requested size: 556.11577pt x 271.15822pt.
+Package pdftex.def Info: yearly_returns_all_funds.pdf  used on input line 247.
+(pdftex.def)             Requested size: 556.11946pt x 276.63866pt.
 
 
 [4
 
  <./worst_sp500_months.pdf> <./yearly_returns_all_funds.pdf>]
-<4_strategies_growth.pdf, id=352, 726.51111pt x 384.05295pt>
+<4_strategies_growth.pdf, id=352, 732.65909pt x 384.05295pt>
 File: 4_strategies_growth.pdf Graphic file (type pdf)
 <use 4_strategies_growth.pdf>
-Package pdftex.def Info: 4_strategies_growth.pdf  used on input line 272.
-(pdftex.def)             Requested size: 535.92477pt x 283.30399pt.
+Package pdftex.def Info: 4_strategies_growth.pdf  used on input line 259.
+(pdftex.def)             Requested size: 540.45996pt x 283.30399pt.
 <scatter_6_month_reb_initial_alloc_vs_sp500.pdf, id=353, 626.78857pt x 342.15956pt>
 File: scatter_6_month_reb_initial_alloc_vs_sp500.pdf Graphic file (type pdf)
 <use scatter_6_month_reb_initial_alloc_vs_sp500.pdf>
-Package pdftex.def Info: scatter_6_month_reb_initial_alloc_vs_sp500.pdf  used on input line 276.
+Package pdftex.def Info: scatter_6_month_reb_initial_alloc_vs_sp500.pdf  used on input line 263.
 (pdftex.def)             Requested size: 518.9528pt x 283.29274pt.
 
 
@@ -789,17 +784,17 @@ Package rerunfilecheck Info: File `presentation.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 23934 strings out of 475229
- 466619 string characters out of 5765256
- 903542 words of memory out of 5000000
- 46381 multiletter control sequences out of 15000+600000
- 577820 words of font info for 117 fonts, out of 8000000 for 9000
+ 23926 strings out of 475229
+ 466485 string characters out of 5765256
+ 903560 words of memory out of 5000000
+ 46376 multiletter control sequences out of 15000+600000
+ 577707 words of font info for 115 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  98i,11n,101p,1009b,588s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </Users/arthurdhonneur/Library/TinyTeX/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></Users/arthurdhonneur/Library/TinyTeX/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb>
-Output written on presentation.pdf (5 pages, 173800 bytes).
+Output written on presentation.pdf (5 pages, 173469 bytes).
 PDF statistics:
- 482 PDF objects out of 1000 (max. 8388607)
+ 481 PDF objects out of 1000 (max. 8388607)
  82 compressed objects within 1 object stream
  6 named destinations out of 1000 (max. 500000)
  45099 words of extra memory for PDF output out of 51595 (max. 10000000)
