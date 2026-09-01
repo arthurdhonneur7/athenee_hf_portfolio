@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2026.7.4)  1 SEP 2026 18:56
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2026.7.4)  1 SEP 2026 19:08
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -510,14 +510,14 @@ LaTeX Font Info:    ... okay on input line 30.
 * layoutoffset:(h,v)=(0.0pt,0.0pt)
 * modes: 
 * h-part:(L,W,R)=(14.45377pt, 585.38747pt, 14.45377pt)
-* v-part:(T,H,B)=(28.90755pt, 737.15489pt, 28.90755pt)
+* v-part:(T,H,B)=(18.06749pt, 758.835pt, 18.06749pt)
 * \paperwidth=614.295pt
 * \paperheight=794.96999pt
 * \textwidth=585.38747pt
-* \textheight=737.15489pt
+* \textheight=758.835pt
 * \oddsidemargin=-57.81622pt
 * \evensidemargin=-57.81622pt
-* \topmargin=-80.36244pt
+* \topmargin=-91.2025pt
 * \headheight=12.0pt
 * \headsep=25.0pt
 * \topskip=11.0pt
@@ -573,27 +573,15 @@ Underfull \hbox (badness 10000) in paragraph at lines 32--33
  []
 
 (/Users/arthurdhonneur/Library/TinyTeX/texmf-dist/tex/latex/microtype/mt-cmr.cfg)
-Underfull \hbox (badness 10000) in paragraph at lines 140--140
-[]|[]\OT1/phv/b/n/10.95 (+20) Investment
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 140--140
-[]|[]\OT1/phv/b/n/10.95 (+20) Portfolio
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 140--140
-[]|[]\OT1/phv/b/n/10.95 (+20) Strategy
+Underfull \hbox (badness 10000) in paragraph at lines 141--141
+[]|[]\OT1/phv/b/n/9 (+20) Investment
  []
 
 
 
 [1
 
-{/Users/arthurdhonneur/Library/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/Users/arthurdhonneur/Library/TinyTeX/texmf-dist/fonts/enc/dvips/base/8r.enc}]
-
-[2] (./presentation.aux)
+{/Users/arthurdhonneur/Library/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/Users/arthurdhonneur/Library/TinyTeX/texmf-dist/fonts/enc/dvips/base/8r.enc}] (./presentation.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 1
 L3 programming layer <2024-11-02>
@@ -602,18 +590,18 @@ Package rerunfilecheck Info: File `presentation.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 23836 strings out of 475229
- 464200 string characters out of 5765256
- 919073 words of memory out of 5000000
- 46313 multiletter control sequences out of 15000+600000
- 574599 words of font info for 99 fonts, out of 8000000 for 9000
+ 23870 strings out of 475229
+ 464664 string characters out of 5765256
+ 925895 words of memory out of 5000000
+ 46330 multiletter control sequences out of 15000+600000
+ 577027 words of font info for 110 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 98i,13n,101p,1009b,671s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 98i,13n,101p,1009b,667s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </Users/arthurdhonneur/Library/TinyTeX/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></Users/arthurdhonneur/Library/TinyTeX/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb>
-Output written on presentation.pdf (2 pages, 29092 bytes).
+Output written on presentation.pdf (1 page, 28182 bytes).
 PDF statistics:
- 34 PDF objects out of 1000 (max. 8388607)
- 23 compressed objects within 1 object stream
- 3 named destinations out of 1000 (max. 500000)
- 36877 words of extra memory for PDF output out of 42996 (max. 10000000)
+ 30 PDF objects out of 1000 (max. 8388607)
+ 20 compressed objects within 1 object stream
+ 2 named destinations out of 1000 (max. 500000)
+ 43021 words of extra memory for PDF output out of 51595 (max. 10000000)
 
