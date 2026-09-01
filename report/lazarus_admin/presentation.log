@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2026.7.4)  1 SEP 2026 19:22
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2026.7.4)  1 SEP 2026 19:36
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -573,8 +573,28 @@ Underfull \hbox (badness 10000) in paragraph at lines 32--33
  []
 
 (/Users/arthurdhonneur/Library/TinyTeX/texmf-dist/tex/latex/microtype/mt-cmr.cfg)
-Underfull \hbox (badness 10000) in paragraph at lines 141--141
-[]|[]\OT1/phv/b/n/9 (+20) Investment
+Overfull \hbox (1.39542pt too wide) in paragraph at lines 69--69
+ []|\OT1/phv/m/n/10.95 (-20) 32.5%| 
+ []
+
+
+Overfull \hbox (1.39542pt too wide) in paragraph at lines 69--69
+ []|\OT1/phv/m/n/10.95 (-20) 24.8%| 
+ []
+
+
+Overfull \hbox (1.39542pt too wide) in paragraph at lines 69--69
+ []|\OT1/phv/m/n/10.95 (-20) 22.7%| 
+ []
+
+
+Overfull \hbox (1.39542pt too wide) in paragraph at lines 69--69
+ []|\OT1/phv/m/n/10.95 (-20) 25.1%| 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 134--134
+[]|[]\OT1/phv/b/n/9 (+20) Investment Man-
  []
 
 
@@ -590,18 +610,18 @@ Package rerunfilecheck Info: File `presentation.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 23870 strings out of 475229
- 464664 string characters out of 5765256
- 925895 words of memory out of 5000000
- 46330 multiletter control sequences out of 15000+600000
- 577027 words of font info for 110 fonts, out of 8000000 for 9000
+ 23853 strings out of 475229
+ 464493 string characters out of 5765256
+ 929283 words of memory out of 5000000
+ 46328 multiletter control sequences out of 15000+600000
+ 574295 words of font info for 100 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 98i,13n,101p,1009b,667s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 98i,13n,101p,1009b,675s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </Users/arthurdhonneur/Library/TinyTeX/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></Users/arthurdhonneur/Library/TinyTeX/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb>
-Output written on presentation.pdf (1 page, 28182 bytes).
+Output written on presentation.pdf (1 page, 28624 bytes).
 PDF statistics:
  30 PDF objects out of 1000 (max. 8388607)
  20 compressed objects within 1 object stream
  2 named destinations out of 1000 (max. 500000)
- 43021 words of extra memory for PDF output out of 51595 (max. 10000000)
+ 36877 words of extra memory for PDF output out of 42996 (max. 10000000)
 
