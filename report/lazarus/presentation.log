@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2026.7.4)  3 SEP 2026 15:35
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2026.7.4)  4 SEP 2026 11:52
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -811,7 +811,7 @@ Here is how much of TeX's memory you used:
  36 hyphenation exceptions out of 8191
  98i,11n,101p,1009b,603s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </Users/arthurdhonneur/Library/TinyTeX/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></Users/arthurdhonneur/Library/TinyTeX/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb>
-Output written on presentation.pdf (5 pages, 173812 bytes).
+Output written on presentation.pdf (5 pages, 173814 bytes).
 PDF statistics:
  481 PDF objects out of 1000 (max. 8388607)
  82 compressed objects within 1 object stream
