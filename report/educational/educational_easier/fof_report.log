@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2026.7.4)  6 SEP 2026 17:15
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2026.7.4)  6 SEP 2026 20:19
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -283,31 +283,62 @@ LaTeX Info: Redefining \Relbar on input line 970.
 \mathdisplay@stack=\toks27
 LaTeX Info: Redefining \[ on input line 2953.
 LaTeX Info: Redefining \] on input line 2954.
+) (/Users/arthurdhonneur/Library/TinyTeX/texmf-dist/tex/latex/xcolor/xcolor.sty
+Package: xcolor 2024/09/29 v3.02 LaTeX color extensions (UK)
+ (/Users/arthurdhonneur/Library/TinyTeX/texmf-dist/tex/latex/graphics-cfg/color.cfg
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package xcolor Info: Driver file: pdftex.def on input line 274.
+ (/Users/arthurdhonneur/Library/TinyTeX/texmf-dist/tex/latex/graphics/mathcolor.ltx)
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1349.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1353.
+Package xcolor Info: Model `RGB' extended on input line 1365.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1367.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1368.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1369.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1370.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1371.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1372.
+) (/Users/arthurdhonneur/Library/TinyTeX/texmf-dist/tex/latex/colortbl/colortbl.sty
+Package: colortbl 2024/07/06 v1.0i Color table columns (DPC)
+ (/Users/arthurdhonneur/Library/TinyTeX/texmf-dist/tex/latex/tools/array.sty
+Package: array 2024/10/17 v2.6g Tabular extension package (FMi)
+\col@sep=\dimen186
+\ar@mcellbox=\box56
+\extrarowheight=\dimen187
+\NC@list=\toks28
+\extratabsurround=\skip55
+\backup@length=\skip56
+\ar@cellbox=\box57
+)
+\everycr=\toks29
+\minrowclearance=\skip57
+\rownum=\count306
 ) (/Users/arthurdhonneur/Library/TinyTeX/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2024-05-08 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count306
-\l__pdf_internal_box=\box56
+\l__color_backend_stack_int=\count307
+\l__pdf_internal_box=\box58
 ) (./fof_report.aux)
 \openout1 = `fof_report.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -345,14 +376,11 @@ LaTeX Font Info:    ... okay on input line 17.
 
 (/Users/arthurdhonneur/Library/TinyTeX/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
- (./grfext.sty
-Package: grfext 
-)
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
  (/Users/arthurdhonneur/Library/TinyTeX/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
-Package hyperref Info: Link coloring OFF on input line 17.
+Package hyperref Info: Link coloring OFF on input line 20.
  (./fof_report.out) (./fof_report.out)
 \@outlinefile=\write3
 \openout3 = `fof_report.out'.
@@ -362,12 +390,12 @@ Package caption Info: End \AtBeginDocument code.
 <Theoretical_vol_vs_N.png, id=45, 610.6815pt x 397.485pt>
 File: Theoretical_vol_vs_N.png Graphic file (type png)
 <use Theoretical_vol_vs_N.png>
-Package pdftex.def Info: Theoretical_vol_vs_N.png  used on input line 41.
+Package pdftex.def Info: Theoretical_vol_vs_N.png  used on input line 44.
 (pdftex.def)             Requested size: 203.83417pt x 132.6746pt.
 <Theoretical_MDD_vs_N.png, id=47, 617.1858pt x 397.485pt>
 File: Theoretical_MDD_vs_N.png Graphic file (type png)
 <use Theoretical_MDD_vs_N.png>
-Package pdftex.def Info: Theoretical_MDD_vs_N.png  used on input line 47.
+Package pdftex.def Info: Theoretical_MDD_vs_N.png  used on input line 50.
 (pdftex.def)             Requested size: 203.83417pt x 131.27356pt.
 
 
@@ -377,22 +405,22 @@ Package pdftex.def Info: Theoretical_MDD_vs_N.png  used on input line 47.
 <JPM_vol_stat_N_augmenting.png, id=59, 858.20625pt x 547.04375pt>
 File: JPM_vol_stat_N_augmenting.png Graphic file (type png)
 <use JPM_vol_stat_N_augmenting.png>
-Package pdftex.def Info: JPM_vol_stat_N_augmenting.png  used on input line 68.
+Package pdftex.def Info: JPM_vol_stat_N_augmenting.png  used on input line 71.
 (pdftex.def)             Requested size: 203.83417pt x 129.92424pt.
 <JPM_MDD_stat_N_augmenting.png, id=60, 869.2475pt x 547.04375pt>
 File: JPM_MDD_stat_N_augmenting.png Graphic file (type png)
 <use JPM_MDD_stat_N_augmenting.png>
-Package pdftex.def Info: JPM_MDD_stat_N_augmenting.png  used on input line 74.
+Package pdftex.def Info: JPM_MDD_stat_N_augmenting.png  used on input line 77.
 (pdftex.def)             Requested size: 203.83417pt x 128.27983pt.
 <JPM_vol_ret_surface_N_10.png, id=61, 834.11626pt x 547.04375pt>
 File: JPM_vol_ret_surface_N_10.png Graphic file (type png)
 <use JPM_vol_ret_surface_N_10.png>
-Package pdftex.def Info: JPM_vol_ret_surface_N_10.png  used on input line 85.
+Package pdftex.def Info: JPM_vol_ret_surface_N_10.png  used on input line 88.
 (pdftex.def)             Requested size: 203.83417pt x 133.68048pt.
 <JPM_MDD_ret_surface_N_10.png, id=62, 834.11626pt x 547.04375pt>
 File: JPM_MDD_ret_surface_N_10.png Graphic file (type png)
 <use JPM_MDD_ret_surface_N_10.png>
-Package pdftex.def Info: JPM_MDD_ret_surface_N_10.png  used on input line 91.
+Package pdftex.def Info: JPM_MDD_ret_surface_N_10.png  used on input line 94.
 (pdftex.def)             Requested size: 203.83417pt x 133.68048pt.
 
 
@@ -402,7 +430,7 @@ Package pdftex.def Info: JPM_MDD_ret_surface_N_10.png  used on input line 91.
 <../../lazarus/correlation.pdf, id=83, 1856.90111pt x 1578.08014pt>
 File: ../../lazarus/correlation.pdf Graphic file (type pdf)
 <use ../../lazarus/correlation.pdf>
-Package pdftex.def Info: ../../lazarus/correlation.pdf  used on input line 145.
+Package pdftex.def Info: ../../lazarus/correlation.pdf  used on input line 148.
 (pdftex.def)             Requested size: 317.07614pt x 269.44997pt.
 
 
@@ -410,7 +438,7 @@ Package pdftex.def Info: ../../lazarus/correlation.pdf  used on input line 145.
 <../../lazarus/worst20_sp500_6m_reb.pdf, id=89, 995.72226pt x 421.11732pt>
 File: ../../lazarus/worst20_sp500_6m_reb.pdf Graphic file (type pdf)
 <use ../../lazarus/worst20_sp500_6m_reb.pdf>
-Package pdftex.def Info: ../../lazarus/worst20_sp500_6m_reb.pdf  used on input line 178.
+Package pdftex.def Info: ../../lazarus/worst20_sp500_6m_reb.pdf  used on input line 181.
 (pdftex.def)             Requested size: 362.37569pt x 153.25352pt.
 
 
@@ -425,15 +453,15 @@ Package rerunfilecheck Info: File `fof_report.out' has not changed.
 (rerunfilecheck)             Checksum: 6A7F3C4A901B880B42943CE858BAE75A;2218.
  ) 
 Here is how much of TeX's memory you used:
- 11047 strings out of 475229
- 179916 string characters out of 5765256
- 585977 words of memory out of 5000000
- 33799 multiletter control sequences out of 15000+600000
+ 11687 strings out of 475229
+ 189514 string characters out of 5765256
+ 605307 words of memory out of 5000000
+ 34426 multiletter control sequences out of 15000+600000
  564786 words of font info for 59 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 75i,9n,79p,576b,535s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,11n,79p,576b,538s stack positions out of 10000i,1000n,20000p,200000b,200000s
  </Users/arthurdhonneur/Library/TinyTeX/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1095.600pk></Users/arthurdhonneur/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></Users/arthurdhonneur/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></Users/arthurdhonneur/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></Users/arthurdhonneur/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></Users/arthurdhonneur/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></Users/arthurdhonneur/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
-Output written on fof_report.pdf (6 pages, 439248 bytes).
+Output written on fof_report.pdf (6 pages, 440472 bytes).
 PDF statistics:
  286 PDF objects out of 1000 (max. 8388607)
  123 compressed objects within 2 object streams
