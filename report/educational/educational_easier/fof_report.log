@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2026.7.4)  11 SEP 2026 14:07
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2026.7.4)  5 OCT 2026 12:20
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -387,11 +387,11 @@ Package hyperref Info: Link coloring OFF on input line 20.
 
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
-<Theoretical_vol_vs_N.png, id=45, 617.1858pt x 397.485pt>
+<Theoretical_vol_vs_N.png, id=45, 617.1858pt x 398.2077pt>
 File: Theoretical_vol_vs_N.png Graphic file (type png)
 <use Theoretical_vol_vs_N.png>
 Package pdftex.def Info: Theoretical_vol_vs_N.png  used on input line 44.
-(pdftex.def)             Requested size: 203.83417pt x 131.27356pt.
+(pdftex.def)             Requested size: 203.83417pt x 131.51224pt.
 <Theoretical_MDD_vs_N.png, id=47, 617.1858pt x 397.485pt>
 File: Theoretical_MDD_vs_N.png Graphic file (type png)
 <use Theoretical_MDD_vs_N.png>
@@ -461,7 +461,7 @@ Here is how much of TeX's memory you used:
  36 hyphenation exceptions out of 8191
  75i,11n,79p,576b,538s stack positions out of 10000i,1000n,20000p,200000b,200000s
  </Users/arthurdhonneur/Library/TinyTeX/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1095.600pk></Users/arthurdhonneur/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></Users/arthurdhonneur/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></Users/arthurdhonneur/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></Users/arthurdhonneur/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></Users/arthurdhonneur/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></Users/arthurdhonneur/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
-Output written on fof_report.pdf (6 pages, 440727 bytes).
+Output written on fof_report.pdf (6 pages, 441873 bytes).
 PDF statistics:
  286 PDF objects out of 1000 (max. 8388607)
  123 compressed objects within 2 object streams

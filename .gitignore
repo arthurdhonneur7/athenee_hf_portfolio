@@ -3,3 +3,4 @@
 /ucits
 # /report/educational
 *.log
+.venv/
