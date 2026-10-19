@@ -1,0 +1,278 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[left=0.32in, right=0.32in, top=0.28in, bottom=0.28in]{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{colortbl}
+\usepackage{tabularx}
+\usepackage{tcolorbox}
+\usepackage{titlesec}
+\usepackage{microtype}
+\usepackage{helvet}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+\usepackage{hyperref}
+
+\renewcommand{\familydefault}{\sfdefault}
+\pagestyle{empty}
+
+% Institutional Color Palette (Athénée Investment)
+\definecolor{primary}{RGB}{15, 23, 42}       % Deep Institutional Navy
+\definecolor{accent}{RGB}{26, 54, 93}        % Royal Slate Navy
+\definecolor{goldaccent}{RGB}{176, 138, 87}  % Athénée Warm Bronze/Gold
+\definecolor{cardbg}{RGB}{248, 250, 252}     % Crisp Light Slate Background
+\definecolor{cardborder}{RGB}{218, 226, 236} % Subtle Card Border
+\definecolor{posgreen}{RGB}{34, 197, 94}     % Positive Return Green
+\definecolor{negred}{RGB}{239, 68, 68}       % Negative Return Red
+\definecolor{mutedtext}{RGB}{100, 116, 139}  % Secondary Slate Text
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=accent,
+    urlcolor=accent
+}
+
+\tcbuselibrary{skins}
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% PAGE 1: INSTITUTIONAL ONE-PAGER TEAR SHEET
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% --- HEADER BAR WITH LOGO ---
+\noindent
+\begin{minipage}[c]{0.68\textwidth}
+    {\fontsize{20}{24}\selectfont \bfseries \textcolor{primary}{DCM Systematic}}\\[3pt]
+    {\normalsize \bfseries \textcolor{accent}{Systematic Multi-Asset \& Diversified Quantitative Strategy}}\\[3pt]
+    {\footnotesize \textcolor{mutedtext}{\textbf{Track Record:} Jan 2023 - Jul 2026 (43 Months / 3.6 Years) \quad $\vert$ \quad \textbf{Benchmark:} S\&P 500 Total Return}}
+\end{minipage}%
+\hfill
+\begin{minipage}[c]{0.30\textwidth}
+    \raggedleft
+    \includegraphics[height=1.15cm, keepaspectratio]{athenee_logo.png}\\[2pt]
+    {\tiny \bfseries \textcolor{goldaccent}{CAPITAL INTRODUCTION \& THIRD-PARTY MARKETING}}
+\end{minipage}
+
+\vspace{0.30em}
+\noindent{\color{goldaccent}\rule{\textwidth}{1.5pt}}
+\vspace{0.60em}
+
+% --- SECTION 1: TOP-LINE KPI HIGHLIGHT CARDS ---
+\noindent
+\begin{minipage}[t]{0.192\textwidth}\vspace{0pt}
+\begin{tcolorbox}[equal height group=kpicards, colback=white, colframe=primary, title=\textbf{\footnotesize\strut CAGR (Net)}, fonttitle=\sffamily\bfseries\footnotesize, arc=4pt, boxrule=0.8pt, toptitle=3.5pt, bottomtitle=3.5pt, left=2pt, right=2pt, top=4pt, bottom=4pt, colbacktitle=primary, halign title=center]
+    \centering
+    {\Large \bfseries \textcolor{primary}{\strut 10.08\%}}\\[2pt]
+    {\tiny \textcolor{mutedtext}{\strut S\&P 500: 22.13\%}}
+\end{tcolorbox}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.192\textwidth}\vspace{0pt}
+\begin{tcolorbox}[equal height group=kpicards, colback=white, colframe=primary, title=\textbf{\footnotesize\strut Ann. Volatility}, fonttitle=\sffamily\bfseries\footnotesize, arc=4pt, boxrule=0.8pt, toptitle=3.5pt, bottomtitle=3.5pt, left=2pt, right=2pt, top=4pt, bottom=4pt, colbacktitle=primary, halign title=center]
+    \centering
+    {\Large \bfseries \textcolor{primary}{\strut 2.98\%}}\\[2pt]
+    {\tiny \textcolor{mutedtext}{\strut S\&P 500: 12.74\%}}
+\end{tcolorbox}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.192\textwidth}\vspace{0pt}
+\begin{tcolorbox}[equal height group=kpicards, colback=white, colframe=primary, title=\textbf{\footnotesize\strut Sharpe Ratio}, fonttitle=\sffamily\bfseries\footnotesize, arc=4pt, boxrule=0.8pt, toptitle=3.5pt, bottomtitle=3.5pt, left=2pt, right=2pt, top=4pt, bottom=4pt, colbacktitle=primary, halign title=center]
+    \centering
+    {\Large \bfseries \textcolor{primary}{\strut 3.25}}\\[2pt]
+    {\tiny \textcolor{mutedtext}{\strut S\&P 500: 1.64 $\vert$ Sortino: 13.74}}
+\end{tcolorbox}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.192\textwidth}\vspace{0pt}
+\begin{tcolorbox}[equal height group=kpicards, colback=white, colframe=primary, title=\textbf{\footnotesize\strut Max Drawdown}, fonttitle=\sffamily\bfseries\footnotesize, arc=4pt, boxrule=0.8pt, toptitle=3.5pt, bottomtitle=3.5pt, left=2pt, right=2pt, top=4pt, bottom=4pt, colbacktitle=primary, halign title=center]
+    \centering
+    {\Large \bfseries \textcolor{primary}{\strut -1.20\%}}\\[2pt]
+    {\tiny \textcolor{mutedtext}{\strut S\&P 500: -8.25\% $\vert$ Calmar: 8.41}}
+\end{tcolorbox}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.192\textwidth}\vspace{0pt}
+\begin{tcolorbox}[equal height group=kpicards, colback=white, colframe=primary, title=\textbf{\footnotesize\strut Ann. Alpha ($\alpha$)}, fonttitle=\sffamily\bfseries\footnotesize, arc=4pt, boxrule=0.8pt, toptitle=3.5pt, bottomtitle=3.5pt, left=2pt, right=2pt, top=4pt, bottom=4pt, colbacktitle=primary, halign title=center]
+    \centering
+    {\Large \bfseries \textcolor{primary}{\strut 7.57\%}}\\[2pt]
+    {\tiny \textcolor{mutedtext}{\strut Beta: 0.10 $\vert$ Corr: 0.43}}
+\end{tcolorbox}
+\end{minipage}
+
+\vspace{0.60em}
+
+% --- SECTION 2: COMPREHENSIVE SINGLE-FUND ANALYSIS INDICATORS ---
+\noindent
+\begin{minipage}[t]{0.492\textwidth}\vspace{0pt}
+\begin{tcolorbox}[equal height group=statspanels, colback=white, colframe=primary, title=\textbf{\small\strut Performance, Risk \& Hit Rate Indicators}, fonttitle=\sffamily\bfseries\small, arc=5pt, boxrule=0.9pt, toptitle=4pt, bottomtitle=4pt, left=2pt, right=2pt, top=1pt, bottom=1pt, colbacktitle=primary]
+\renewcommand{\arraystretch}{1.22}
+\scriptsize
+\begin{tabularx}{\textwidth}{>{\columncolor{white}}X >{\columncolor{white}}r >{\columncolor{white}}r}
+\rowcolor{primary!10!white} \textbf{\textcolor{primary}{Indicator}} & \textbf{\textcolor{primary}{Fund}} & \textbf{\textcolor{mutedtext}{S\&P 500}} \\
+\textbf{\textcolor{primary}{CAGR (Compound Annual Growth)}} & \textbf{\textcolor{primary}{10.08\%}} & \textcolor{mutedtext}{22.13\%} \\
+\rowcolor{cardbg} \textbf{\textcolor{primary}{Annualized Mean Return}} & \textcolor{primary}{9.68\%} & \textcolor{mutedtext}{20.94\%} \\
+\textbf{\textcolor{primary}{Annualized Volatility (Std. Dev.)}} & \textcolor{primary}{2.98\%} & \textcolor{mutedtext}{12.74\%} \\
+\rowcolor{cardbg} \textbf{\textcolor{primary}{Proxy Sharpe Ratio ($r_f = 0\%$)}} & \textbf{\textcolor{primary}{3.25}} & \textcolor{mutedtext}{1.64} \\
+\textbf{\textcolor{primary}{Annualized Sortino Ratio}} & \textcolor{primary}{13.74} & \textcolor{mutedtext}{3.63} \\
+\rowcolor{cardbg} \textbf{\textcolor{primary}{Maximum Drawdown (MDD)}} & \textbf{\textcolor{primary}{-1.20\%}} & \textcolor{mutedtext}{-8.25\%} \\
+\textbf{\textcolor{primary}{Calmar Ratio (CAGR / $|$MDD$|$)}} & \textcolor{primary}{8.41} & \textcolor{mutedtext}{2.68} \\
+\rowcolor{cardbg} \textbf{\textcolor{primary}{Cumulative Total Return}} & \textcolor{primary}{41.07\%} & \textcolor{mutedtext}{104.69\%} \\
+\textbf{\textcolor{primary}{Best / Worst Monthly Return}} & \textcolor{primary}{+2.90\% / -1.00\%} & \textcolor{mutedtext}{+10.49\% / -5.63\%} \\
+\rowcolor{cardbg} \textbf{\textcolor{primary}{Positive Months (Hit Rate)}} & \textcolor{primary}{86.0\% (37/43)} & \textcolor{mutedtext}{67.4\% (29/43)} \\
+\textbf{\textcolor{primary}{Crisis Hit Rate ($\text{Fund}>0 \mid \text{SPX}<0$)}} & \textbf{\textcolor{primary}{57.1\% (8/14)}} & \textcolor{mutedtext}{--} \\
+\rowcolor{cardbg} \textbf{\textcolor{primary}{Up-Mkt Loss ($\text{Fund}<0 \mid \text{SPX}>0$)}} & \textcolor{primary}{0.0\% (0/29)} & \textcolor{mutedtext}{--} \\
+\end{tabularx}
+\end{tcolorbox}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.492\textwidth}\vspace{0pt}
+\begin{tcolorbox}[equal height group=statspanels, colback=white, colframe=primary, title=\textbf{\small\strut Alpha, Beta, Correlation \& Tail Analysis (vs. S\&P 500)}, fonttitle=\sffamily\bfseries\small, arc=5pt, boxrule=0.9pt, toptitle=4pt, bottomtitle=4pt, left=2pt, right=2pt, top=1pt, bottom=1pt, colbacktitle=primary]
+\renewcommand{\arraystretch}{1.22}
+\scriptsize
+\begin{tabularx}{\textwidth}{>{\columncolor{white}}X >{\columncolor{white}}r}
+\rowcolor{primary!10!white} \textbf{\textcolor{primary}{Quantitative Metric}} & \textbf{\textcolor{primary}{Estimate / Diagnostic}} \\
+\textbf{\textcolor{primary}{Annualized Alpha ($\alpha$) \& $t$-stat}} & \textbf{\textcolor{primary}{7.57\% (t=4.75)}} \\
+\rowcolor{cardbg} \textbf{\textcolor{primary}{Market Beta ($\beta_{\text{SPX}}$) \& $t$-stat}} & \textcolor{primary}{0.10 (t=3.06) ($R^2=18.6\%$)} \\
+\textbf{\textcolor{primary}{Pearson Corr. ($r$) to S\&P 500}} & \textbf{\textcolor{primary}{0.43}} \textcolor{mutedtext}{(95\% Blk CI: [0.11, 0.69])} \\
+\rowcolor{cardbg} \textbf{\textcolor{primary}{Spearman Rank Corr. ($\rho$)}} & \textcolor{primary}{0.39} \textcolor{mutedtext}{(95\% Blk CI: [0.08, 0.68])} \\
+\textbf{\textcolor{primary}{Upside / Downside Capture}} & \textcolor{primary}{Up: \textbf{0.28} $\vert$ Down: \textbf{-0.13}} \\
+\rowcolor{cardbg} \textbf{\textcolor{primary}{Cond. Up-Market ($\text{SPX}>0$)}} & \textcolor{primary}{$\alpha=9.5\%, \beta=0.07$} \\
+\textbf{\textcolor{primary}{Cond. Down-Market ($\text{SPX}<0$)}} & \textcolor{primary}{$\alpha=6.1\%, \beta=0.08$} \\
+\rowcolor{cardbg} \textbf{\textcolor{primary}{Tail Corr. ($\text{SPX} < \text{Q}_1$, 25\%)}} & \textcolor{primary}{$r=0.27, \rho=0.27\ (n=11)$} \\
+\textbf{\textcolor{primary}{Tail Corr. ($\text{SPX} < \text{D}_1$, 10\%)}} & \textcolor{primary}{$r=-0.23, \rho=-0.05\ (n=5)$} \\
+\rowcolor{cardbg} \textbf{\textcolor{primary}{Worst 20\% SPX Months Mean}} & \textcolor{primary}{Fund: +0.18\% vs SPX: -3.25\%} \\
+\textbf{\textcolor{primary}{Cross-Asset Beta (WTI / BTC)}} & \textcolor{primary}{WTI $\beta$: -0.02 $\vert$ BTC $\beta$: -0.01} \\
+\rowcolor{cardbg} \textbf{\textcolor{primary}{Ljung-Box Serial Corr.}} & \textcolor{primary}{$p_1=0.16,\ p_3=0.40\ (\text{Pass (No Serial Corr.)})$} \\
+\end{tabularx}
+\end{tcolorbox}
+\end{minipage}
+
+\vspace{0.60em}
+
+% --- SECTION 3: MONTHLY RETURN MATRIX ---
+\begin{tcolorbox}[colback=white, colframe=primary, title=\textbf{\small\strut Historical Monthly \& Yearly Net Return Matrix (\%)}, fonttitle=\sffamily\bfseries\small, arc=5pt, boxrule=0.9pt, toptitle=4pt, bottomtitle=4pt, left=3pt, right=3pt, top=1pt, bottom=1pt, colbacktitle=primary, halign title=center]
+\renewcommand{\arraystretch}{1.28}
+\footnotesize
+\begin{tabularx}{\textwidth}{l *{12}{>{\centering\arraybackslash}X} >{\centering\arraybackslash}p{1.15cm}}
+\rowcolor{primary!8!white}
+\textbf{\textcolor{primary}{Year}} & \textbf{\textcolor{primary}{Jan}} & \textbf{\textcolor{primary}{Feb}} & \textbf{\textcolor{primary}{Mar}} & \textbf{\textcolor{primary}{Apr}} & \textbf{\textcolor{primary}{May}} & \textbf{\textcolor{primary}{Jun}} & \textbf{\textcolor{primary}{Jul}} & \textbf{\textcolor{primary}{Aug}} & \textbf{\textcolor{primary}{Sep}} & \textbf{\textcolor{primary}{Oct}} & \textbf{\textcolor{primary}{Nov}} & \textbf{\textcolor{primary}{Dec}} & \textbf{\textcolor{primary}{Yearly}} \\
+\midrule
+\textbf{2023} & \cellcolor{posgreen!4!white}0.3\% & \cellcolor{posgreen!4!white}0.2\% & \cellcolor{posgreen!4!white}0.5\% & \cellcolor{posgreen!4!white}0.3\% & \cellcolor{posgreen!4!white}0.3\% & \cellcolor{posgreen!4!white}0.5\% & \cellcolor{posgreen!4!white}0.1\% & \cellcolor{negred!4!white}-0.2\% & 0.0\% & \cellcolor{negred!7!white}-1.0\% & \cellcolor{posgreen!16!white}2.2\% & \cellcolor{posgreen!21!white}2.9\% & \cellcolor{posgreen!19!white}\textbf{6.2\%} \\
+\textbf{2024} & \cellcolor{posgreen!4!white}0.6\% & \cellcolor{posgreen!4!white}0.3\% & \cellcolor{posgreen!8!white}1.1\% & 0.0\% & \cellcolor{posgreen!4!white}0.6\% & \cellcolor{posgreen!6!white}0.9\% & \cellcolor{posgreen!9!white}1.3\% & \cellcolor{posgreen!18!white}2.5\% & \cellcolor{posgreen!19!white}2.6\% & \cellcolor{posgreen!9!white}1.2\% & \cellcolor{posgreen!6!white}0.9\% & \cellcolor{posgreen!4!white}0.1\% & \cellcolor{posgreen!40!white}\textbf{12.8\%} \\
+\textbf{2025} & \cellcolor{posgreen!9!white}1.3\% & \cellcolor{posgreen!14!white}1.9\% & \cellcolor{posgreen!9!white}1.3\% & \cellcolor{negred!4!white}-0.5\% & \cellcolor{posgreen!9!white}1.3\% & \cellcolor{posgreen!4!white}0.2\% & \cellcolor{posgreen!4!white}0.6\% & \cellcolor{posgreen!4!white}0.6\% & \cellcolor{posgreen!6!white}0.8\% & \cellcolor{posgreen!10!white}1.4\% & \cellcolor{posgreen!4!white}0.3\% & \cellcolor{posgreen!6!white}0.8\% & \cellcolor{posgreen!33!white}\textbf{10.4\%} \\
+\textbf{2026} & \cellcolor{posgreen!13!white}1.8\% & \cellcolor{posgreen!4!white}0.5\% & \cellcolor{negred!5!white}-0.7\% & \cellcolor{posgreen!15!white}2.1\% & \cellcolor{posgreen!9!white}1.2\% & \cellcolor{posgreen!7!white}1.0\% & \cellcolor{posgreen!4!white}0.6\% & \textcolor{gray!60}{-} & \textcolor{gray!60}{-} & \textcolor{gray!60}{-} & \textcolor{gray!60}{-} & \textcolor{gray!60}{-} & \cellcolor{posgreen!21!white}\textbf{6.7\%} \\
+\bottomrule
+\end{tabularx}
+\end{tcolorbox}
+
+\vfill
+
+% --- PAGE 1 FOOTER ---
+\noindent{\color{cardborder}\rule{\textwidth}{0.6pt}}\\[2pt]
+\noindent
+\begin{minipage}[c]{0.74\textwidth}
+    {\tiny \textcolor{mutedtext}{\textbf{Ath\'en\'ee Investment} $\vert$ Quai des Bergues 23, 1201 Geneva, Switzerland $\vert$ \href{mailto:arthur.dhonneur@athenee-investment.com}{arthur.dhonneur@athenee-investment.com}}\\[1pt]
+    \tiny \textcolor{mutedtext}{\textit{Capital Introduction \& Third-Party Marketing Memorandum. Strictly for Institutional \& Qualified Investors. Please see Page 2 for Risk \& Legal Disclosures.}}}
+\end{minipage}%
+\hfill
+\begin{minipage}[c]{0.24\textwidth}
+    \raggedleft
+    {\tiny \bfseries \textcolor{primary}{Page 1 of 2}}
+\end{minipage}
+
+\clearpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% PAGE 2: APPENDIX, QUANTITATIVE METHODOLOGY & RISK / LEGAL DISCLAIMER
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% --- PAGE 2 HEADER ---
+\noindent
+\begin{minipage}[c]{0.68\textwidth}
+    {\Large \bfseries \textcolor{primary}{Appendix, Quantitative Methodology \& Risk Disclosures}}\\[2pt]
+    {\footnotesize \bfseries \textcolor{accent}{Fund Reference: DCM Systematic (Jan 2023 - Jul 2026 (43 Months / 3.6 Years))}}
+\end{minipage}%
+\hfill
+\begin{minipage}[c]{0.30\textwidth}
+    \raggedleft
+    \includegraphics[height=1.0cm, keepaspectratio]{athenee_logo.png}\\[2pt]
+    {\tiny \bfseries \textcolor{goldaccent}{CAPITAL INTRODUCTION \& THIRD-PARTY MARKETING}}
+\end{minipage}
+
+\vspace{0.3em}
+\noindent{\color{goldaccent}\rule{\textwidth}{1.2pt}}
+\vspace{0.5em}
+
+% --- PART I: EXTENDED SINGLE-FUND QUANTITATIVE DIAGNOSTICS ---
+\begin{tcolorbox}[colback=white, colframe=primary, title=\textbf{\small\strut Appendix A: Extended Statistical, Bootstrap \& Factor Diagnostics}, fonttitle=\sffamily\bfseries\small, arc=5pt, boxrule=0.8pt, toptitle=4pt, bottomtitle=4pt, left=6pt, right=6pt, top=4pt, bottom=4pt, colbacktitle=primary]
+\renewcommand{\arraystretch}{1.25}
+\scriptsize
+\begin{tabularx}{\textwidth}{l X r}
+\toprule
+\textbf{\textcolor{primary}{Diagnostic Family}} & \textbf{\textcolor{primary}{Methodology / Statistical Specification}} & \textbf{\textcolor{primary}{Empirical Value}} \\
+\midrule
+\textbf{Pearson Correlation CI} & 95\% Confidence Interval (IID Bootstrap vs. Moving Block $B=3$, 1,000 iters) & Std: [0.14, 0.63] $\vert$ Blk: [0.11, 0.69] \\
+\rowcolor{cardbg} \textbf{Spearman Rank Corr. CI} & 95\% Confidence Interval (Rank Monotonic Co-Movement, IID vs. Block $B=3$) & Std: [0.06, 0.64] $\vert$ Blk: [0.08, 0.68] \\
+\textbf{Worst-Case Co-Dependence} & 97.5th Percentile Upper-Bound Block Bootstrap Correlation (PSD Projection) & $\rho_{\text{wc}} = 0.69$ \\
+\rowcolor{cardbg} \textbf{Serial Correlation (Lag 1 \& 3)} & Ljung-Box $Q$-Statistic $p$-values testing for return smoothing / illiquidity bias & $p_1=0.16,\ p_3=0.40\ (\text{Pass (No Serial Corr.)})$ \\
+\textbf{Conditional Up-Market OLS} & Annualized Alpha \& Beta estimated during positive S\&P 500 months ($n=29$) & $\alpha=9.5\%, \beta=0.07$ ($t_\alpha=3.05$) \\
+\rowcolor{cardbg} \textbf{Conditional Down-Market OLS} & Annualized Alpha \& Beta estimated during negative S\&P 500 months ($n=14$) & $\alpha=6.1\%, \beta=0.08$ ($t_\alpha=1.34$) \\
+\textbf{Commodity Factor (WTI)} & OLS Regression against Front-Month WTI Crude Oil Monthly Returns & $\beta=-0.02\ (t=-1.51),\ \alpha=9.8\%$ \\
+\rowcolor{cardbg} \textbf{Digital Asset Factor (BTC)} & OLS Regression against Bitcoin (BTC-USD) Monthly Returns & $\beta=-0.01\ (t=-0.65),\ \alpha=10.0\%$ \\
+\bottomrule
+\end{tabularx}
+\end{tcolorbox}
+
+\vspace{0.35em}
+
+% --- PART II: METHODOLOGY DEFINITIONS ---
+\begin{tcolorbox}[colback=cardbg, colframe=cardborder, title=\textbf{\small Appendix B: Quantitative Framework \& Indicator Definitions}, fonttitle=\sffamily\bfseries\small\color{primary}, arc=5pt, boxrule=0.8pt, toptitle=4pt, bottomtitle=4pt, left=6pt, right=6pt, top=4pt, bottom=4pt, colbacktitle=cardborder]
+\scriptsize
+\begin{itemize}[leftmargin=1.2em, itemsep=1.5pt, topsep=1pt]
+    \item \textbf{CAGR \& Annualized Volatility:} Compound Annual Growth Rate is computed geometrically as $\text{CAGR} = \left(\prod_{t=1}^T (1 + r_t)\right)^{12/T} - 1$. Annualized Volatility is sample standard deviation scaled by $\sqrt{12}$: $\sigma_{\text{ann}} = \hat{\sigma}_m \sqrt{12}$. Proxy Sharpe Ratio assumes $r_f = 0\%$ ($\bar{r}_{\text{ann}} / \sigma_{\text{ann}}$).
+    \item \textbf{Maximum Drawdown (MDD) \& Calmar Ratio:} Maximum peak-to-trough decline of cumulative compounded wealth $W_t = \prod_{s \le t}(1+r_s)$, defined as $\text{MDD} = \min_t \left((W_t - \max_{s \le t} W_s) / \max_{s \le t} W_s\right)$. Calmar Ratio is $\text{CAGR} / |\text{MDD}|$.
+    \item \textbf{OLS Alpha ($\alpha$), Beta ($\beta$) \& Capture Ratios:} Estimated via Ordinary Least Squares $r_{\text{fund},t} = \alpha_m + \beta r_{\text{SPX},t} + \varepsilon_t$, where $\alpha_{\text{ann}} = 12 \times \alpha_m$. Upside (Downside) Capture measures the ratio of the fund's mean return to the S\&P 500's mean return during positive (negative) S\&P 500 months.
+    \item \textbf{Tail Correlations \& Moving Block Bootstrap:} Tail correlations evaluate linear ($r$) and rank ($\rho$) co-movement during S\&P 500 drawdowns below the 25th percentile ($Q_1$) and 10th percentile ($D_1$). Moving Block Bootstrap ($B=3$ months) preserves local serial dependencies when constructing 95\% confidence intervals.
+\end{itemize}
+\end{tcolorbox}
+
+\vspace{0.35em}
+
+% --- PART III: CAPITAL INTRODUCTION & RISK DISCLAIMER ---
+\begin{tcolorbox}[colback=white, colframe=accent, title=\textbf{\small Important Legal Disclaimer, Risk Disclosures \& Capital Introduction Notice}, fonttitle=\sffamily\bfseries\small, arc=5pt, boxrule=0.9pt, toptitle=5pt, bottomtitle=5pt, left=8pt, right=8pt, top=5pt, bottom=5pt, colbacktitle=accent]
+\scriptsize
+\textcolor{primary}{
+\textbf{1. Role of Ath\'en\'ee Investment — Capital Introduction Services Only (No Investment Advice):}\\[1.5pt]
+This document has been prepared by \textbf{Ath\'en\'ee Investment} solely for informational and discussion purposes as part of its institutional \textbf{Capital Introduction and Third-Party Marketing} activities. \textbf{This document does not constitute investment advice, financial advisory services, a personal recommendation, or an offer to sell or a solicitation of an offer to buy} any shares, units, or interests in any investment fund or financial instrument. Prospective investors must conduct their own independent due diligence and consult their own professional legal, regulatory, tax, and financial advisors before making any investment decision.\\[5pt]
+\textbf{2. No Warranty of Data Accuracy or Completeness (Third-Party Manager Data):}\\[1.5pt]
+All historical performance figures, return series, and strategy descriptions presented herein are derived from information provided directly by the respective third-party hedge fund managers or external data providers. While Ath\'en\'ee Investment has compiled and analyzed these quantitative metrics in good faith, \textbf{Ath\'en\'ee Investment has not independently audited or verified the underlying data and cannot guarantee—and makes no representation or warranty, express or implied, regarding—the accuracy, completeness, reliability, or timeliness} of any information contained in this document. Any errors, omissions, or subsequent restatements by the underlying fund manager are the sole responsibility of such manager.\\[5pt]
+\textbf{3. Key Risk Factors of Alternative \& Hedge Fund Strategies:}\\[1.5pt]
+Investing in alternative investment funds and hedge funds involves a \textbf{high degree of risk} and is suitable only for sophisticated investors capable of bearing the loss of their entire investment. Material risks include, without limitation:
+\begin{itemize}[leftmargin=1.3em, itemsep=1pt, topsep=1pt]
+    \item \textbf{Market, Leverage \& Derivative Risk:} Underlying funds may employ substantial leverage, short-selling, options, futures, swaps, and other derivative instruments, which can amplify both gains and losses and cause rapid capital erosion during extreme market dislocations.
+    \item \textbf{Illiquidity \& Lock-Up Risk:} Hedge fund interests are typically not listed on any regulated exchange and are subject to redemption gates, notice periods, lock-ups, and side-pocket arrangements.
+    \item \textbf{Model, Regime Shift \& Tail-Correlation Risk:} Quantitative and systematic strategies rely on mathematical models and historical statistical relationships (such as low equity beta or negative downside capture) that may break down or experience sudden correlation spikes during systemic liquidity crises.
+    \item \textbf{Operational, Counterparty \& Valuation Risk:} Strategies trading in over-the-counter (OTC) derivatives, digital assets, distressed debt, or emerging markets face heightened counterparty default, custody, regulatory, and mark-to-model valuation risks.
+\end{itemize}
+\vspace{3pt}
+\textbf{4. Past Performance \& Quantitative Limitations:}\\[1.5pt]
+\textbf{Past performance is not indicative of, nor a guarantee of, future results.} The value of investments and the income derived from them may go down as well as up. Simulated, bootstrap, or regression-based indicators (including Alpha, Beta, Sharpe Ratio, Sortino Ratio, and Capture Ratios) are backward-looking statistical estimates and do not represent a promise or forecast of future risk-adjusted returns.\\[5pt]
+\textbf{5. Qualified Investors Only \& Confidentiality:}\\[1.5pt]
+This document is strictly confidential and is directed exclusively at \textbf{Institutional, Professional, and Qualified Investors} (including Qualified Investors within the meaning of the Swiss Collective Investment Schemes Act (CISA) and Financial Services Act (FinSA)). It may not be copied, reproduced, distributed, or disclosed to any third party, nor distributed in any jurisdiction where such distribution would be unlawful.
+}
+\end{tcolorbox}
+
+\vfill
+
+% --- PAGE 2 FOOTER ---
+\noindent{\color{cardborder}\rule{\textwidth}{0.6pt}}\\[2pt]
+\noindent
+\begin{minipage}[c]{0.74\textwidth}
+    {\tiny \textcolor{mutedtext}{\textbf{Ath\'en\'ee Investment} $\vert$ Quai des Bergues 23, 1201 Geneva, Switzerland $\vert$ \href{mailto:arthur.dhonneur@athenee-investment.com}{arthur.dhonneur@athenee-investment.com}}\\[1pt]
+    \tiny \textcolor{mutedtext}{\textit{\textcopyright\ 2026 Ath\'en\'ee Investment. All rights reserved. For Institutional \& Qualified Investors Only.}}}
+\end{minipage}%
+\hfill
+\begin{minipage}[c]{0.24\textwidth}
+    \raggedleft
+    {\tiny \bfseries \textcolor{primary}{Page 2 of 2}}
+\end{minipage}
+
+\end{document}
