@@ -1,0 +1,18 @@
+- Jason
+- Sam capital
+- Anvik capital
+- mbx
+- 26 miles 
+- Adar1 capital
+- clarion multi asset
+- qlumina 
+- agt partners
+- vadantia
+- castleknight
+- grasshoper
+- tesoro
+- zavara tech
+- counterpoint
+- eltican
+- shiprock
+- 

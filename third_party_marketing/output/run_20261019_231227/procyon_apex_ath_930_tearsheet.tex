@@ -1,0 +1,388 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[left=0.30in, right=0.30in, top=0.24in, bottom=0.24in]{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{colortbl}
+\usepackage{tabularx}
+\usepackage{tcolorbox}
+\usepackage{titlesec}
+\usepackage{microtype}
+\usepackage{helvet}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+\usepackage{hyperref}
+
+\renewcommand{\familydefault}{\sfdefault}
+\pagestyle{empty}
+
+% Institutional Color Palette (Athénée Investment)
+\definecolor{primary}{RGB}{15, 23, 42}       % Deep Institutional Navy
+\definecolor{accent}{RGB}{26, 54, 93}        % Royal Slate Navy
+\definecolor{goldaccent}{RGB}{176, 138, 87}  % Athénée Warm Bronze/Gold
+\definecolor{cardbg}{RGB}{248, 250, 252}     % Crisp Light Slate Background
+\definecolor{cardborder}{RGB}{218, 226, 236} % Subtle Card Border
+\definecolor{posgreen}{RGB}{34, 197, 94}     % Positive Return Green
+\definecolor{negred}{RGB}{239, 68, 68}       % Negative Return Red
+\definecolor{mutedtext}{RGB}{100, 116, 139}  % Secondary Slate Text
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=accent,
+    urlcolor=accent
+}
+
+\tcbuselibrary{skins}
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% PAGE 1: INSTITUTIONAL ONE-PAGER TEAR SHEET
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% --- HEADER BAR WITH LOGO ---
+\noindent
+\begin{minipage}[c]{0.69\textwidth}
+    {\fontsize{19}{23}\selectfont \bfseries \textcolor{primary}{Procyon Apex (ATH-930)}}\\[2.5pt]
+    {\small \bfseries \textcolor{accent}{Dividend Futures \& Index Futures Quantitative Arbitrage}}\\[3pt]
+    {\footnotesize \textcolor{primary}{\textbf{Track Record: Jun 2021 -- Apr 2026}} \ \textcolor{goldaccent}{\textbf{(59 Months / 4.9 Years)}} \quad $\vert$ \quad \textcolor{mutedtext}{\textbf{Benchmark:} S\&P 500 Total Return}}
+\end{minipage}%
+\hfill
+\begin{minipage}[c]{0.29\textwidth}
+    \raggedleft
+    \includegraphics[height=1.08cm, keepaspectratio]{athenee_logo.png}\\[1.5pt]
+    {\tiny \bfseries \textcolor{goldaccent}{CAPITAL INTRODUCTION \& THIRD-PARTY MARKETING}}
+\end{minipage}
+
+\vspace{0.22em}
+\noindent{\color{goldaccent}\rule{\textwidth}{1.4pt}}
+\vspace{0.40em}
+
+% --- SECTION 1: 6 TOP-LINE KPI HIGHLIGHT CARDS (INCL. DEDICATED ALPHA BOX + BETA & CORR BOX) ---
+\noindent
+\begin{tcolorbox}[nobeforeafter, box align=top, width=0.160\textwidth, colback=white, colframe=primary, title=\textbf{\scriptsize\strut CAGR (Net)}, fonttitle=\sffamily\bfseries\scriptsize, arc=4pt, boxrule=0.8pt, toptitle=3pt, bottomtitle=3pt, left=1.5pt, right=1.5pt, top=3.5pt, bottom=3.5pt, colbacktitle=primary, halign title=center]
+    \centering
+    {\large \bfseries \textcolor{primary}{\strut 18.18\%}}\\[1.5pt]
+    {\tiny \textcolor{mutedtext}{\strut S\&P 500: 13.22\%}}
+\end{tcolorbox}\hfill
+\begin{tcolorbox}[nobeforeafter, box align=top, width=0.160\textwidth, colback=white, colframe=primary, title=\textbf{\scriptsize\strut Ann. Volatility}, fonttitle=\sffamily\bfseries\scriptsize, arc=4pt, boxrule=0.8pt, toptitle=3pt, bottomtitle=3pt, left=1.5pt, right=1.5pt, top=3.5pt, bottom=3.5pt, colbacktitle=primary, halign title=center]
+    \centering
+    {\large \bfseries \textcolor{primary}{\strut 8.86\%}}\\[1.5pt]
+    {\tiny \textcolor{mutedtext}{\strut S\&P 500: 15.86\%}}
+\end{tcolorbox}\hfill
+\begin{tcolorbox}[nobeforeafter, box align=top, width=0.160\textwidth, colback=white, colframe=primary, title=\textbf{\scriptsize\strut Sharpe Ratio}, fonttitle=\sffamily\bfseries\scriptsize, arc=4pt, boxrule=0.8pt, toptitle=3pt, bottomtitle=3pt, left=1.5pt, right=1.5pt, top=3.5pt, bottom=3.5pt, colbacktitle=primary, halign title=center]
+    \centering
+    {\large \bfseries \textcolor{primary}{\strut 1.94}}\\[1.5pt]
+    {\tiny \textcolor{mutedtext}{\strut SPX: 0.86 $\vert$ Sortino: 5.30}}
+\end{tcolorbox}\hfill
+\begin{tcolorbox}[nobeforeafter, box align=top, width=0.160\textwidth, colback=white, colframe=primary, title=\textbf{\scriptsize\strut Max Drawdown}, fonttitle=\sffamily\bfseries\scriptsize, arc=4pt, boxrule=0.8pt, toptitle=3pt, bottomtitle=3pt, left=1.5pt, right=1.5pt, top=3.5pt, bottom=3.5pt, colbacktitle=primary, halign title=center]
+    \centering
+    {\large \bfseries \textcolor{primary}{\strut -4.78\%}}\\[1.5pt]
+    {\tiny \textcolor{mutedtext}{\strut SPX: -23.87\% $\vert$ Calmar: 3.80}}
+\end{tcolorbox}\hfill
+\begin{tcolorbox}[nobeforeafter, box align=top, width=0.160\textwidth, colback=white, colframe=primary, title=\textbf{\scriptsize\strut Alpha (Ann.)}, fonttitle=\sffamily\bfseries\scriptsize, arc=4pt, boxrule=0.8pt, toptitle=3pt, bottomtitle=3pt, left=1.5pt, right=1.5pt, top=3.5pt, bottom=3.5pt, colbacktitle=primary, halign title=center]
+    \centering
+    {\large \bfseries \textcolor{primary}{\strut 15.35\%}}\\[1.5pt]
+    {\tiny \textcolor{mutedtext}{\strut $t$-stat: 3.80}}
+\end{tcolorbox}\hfill
+\begin{tcolorbox}[nobeforeafter, box align=top, width=0.160\textwidth, colback=white, colframe=primary, title=\textbf{\scriptsize\strut Beta \& Corr.}, fonttitle=\sffamily\bfseries\scriptsize, arc=4pt, boxrule=0.8pt, toptitle=3pt, bottomtitle=3pt, left=1.5pt, right=1.5pt, top=3.5pt, bottom=3.5pt, colbacktitle=primary, halign title=center]
+    \centering
+    {\large \bfseries \textcolor{primary}{\strut 0.13 $\vert$ +0.24}}\\[1.5pt]
+    {\tiny \textcolor{mutedtext}{\strut Beta $t$-stat: 1.87}}
+\end{tcolorbox}
+
+\vspace{0.40em}
+
+% --- SECTION 2: COMPREHENSIVE SINGLE-FUND ANALYSIS INDICATORS (STRICTLY ALIGNED 13 ROWS EACH) ---
+\noindent
+\begin{tcolorbox}[nobeforeafter, box align=top, width=0.492\textwidth, colback=white, colframe=primary, title=\textbf{\small\strut Performance, Risk \& Hit Rate Indicators}, fonttitle=\sffamily\bfseries\small, arc=5pt, boxrule=0.9pt, toptitle=3.5pt, bottomtitle=3.5pt, left=4pt, right=4pt, top=1pt, bottom=1pt, colbacktitle=primary]
+\renewcommand{\arraystretch}{1.21}
+\setlength{\tabcolsep}{2pt}
+\scriptsize
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} l r r @{}}
+\rowcolor{primary!10!white}[0pt][0pt] \textbf{\textcolor{primary}{\strut Indicator}} & \textbf{\textcolor{primary}{\strut Fund}} & \textbf{\textcolor{mutedtext}{\strut S\&P 500}} \\
+\textbf{\textcolor{primary}{\strut CAGR (Annualized)}} & \textbf{\textcolor{primary}{18.18\%}} & \textcolor{mutedtext}{13.22\%} \\
+\rowcolor{cardbg}[0pt][0pt] \textbf{\textcolor{primary}{\strut Annualized Mean Return}} & \textcolor{primary}{17.19\%} & \textcolor{mutedtext}{13.71\%} \\
+\textbf{\textcolor{primary}{\strut Annualized Volatility}} & \textcolor{primary}{8.86\%} & \textcolor{mutedtext}{15.86\%} \\
+\rowcolor{cardbg}[0pt][0pt] \textbf{\textcolor{primary}{\strut Proxy Sharpe Ratio ($r_f = 0\%$)}} & \textbf{\textcolor{primary}{1.94}} & \textcolor{mutedtext}{0.86} \\
+\textbf{\textcolor{primary}{\strut Annualized Sortino Ratio}} & \textcolor{primary}{5.30} & \textcolor{mutedtext}{1.43} \\
+\rowcolor{cardbg}[0pt][0pt] \textbf{\textcolor{primary}{\strut Maximum Drawdown (MDD)}} & \textbf{\textcolor{primary}{-4.78\%}} & \textcolor{mutedtext}{-23.87\%} \\
+\textbf{\textcolor{primary}{\strut Calmar Ratio (CAGR / $|$MDD$|$)}} & \textcolor{primary}{3.80} & \textcolor{mutedtext}{0.55} \\
+\rowcolor{cardbg}[0pt][0pt] \textbf{\textcolor{primary}{\strut Cumulative Total Return}} & \textcolor{primary}{127.29\%} & \textcolor{mutedtext}{84.11\%} \\
+\textbf{\textcolor{primary}{\strut Best / Worst Monthly}} & \textcolor{primary}{+7.51\% / -4.14\%} & \textcolor{mutedtext}{+10.49\% / -9.21\%} \\
+\rowcolor{cardbg}[0pt][0pt] \textbf{\textcolor{primary}{\strut Positive Months (Hit Rate)}} & \textcolor{primary}{71.2\% (42/59)} & \textcolor{mutedtext}{64.4\% (38/59)} \\
+\textbf{\textcolor{primary}{\strut Crisis Hit Rate ($\text{Fund}>0 \mid \text{SPX}<0$)}} & \textbf{\textcolor{primary}{66.7\% (14/21)}} & \textcolor{mutedtext}{--} \\
+\rowcolor{cardbg}[0pt][0pt] \textbf{\textcolor{primary}{\strut Up-Mkt Loss ($\text{Fund}<0 \mid \text{SPX}>0$)}} & \textcolor{primary}{26.3\% (10/38)} & \textcolor{mutedtext}{--} \\
+\end{tabular*}
+\end{tcolorbox}\hfill
+\begin{tcolorbox}[nobeforeafter, box align=top, width=0.492\textwidth, colback=white, colframe=primary, title=\textbf{\small\strut Alpha, Beta, Correlation \& Tail Analysis (vs. S\&P 500)}, fonttitle=\sffamily\bfseries\small, arc=5pt, boxrule=0.9pt, toptitle=3.5pt, bottomtitle=3.5pt, left=4pt, right=4pt, top=1pt, bottom=1pt, colbacktitle=primary]
+\renewcommand{\arraystretch}{1.21}
+\setlength{\tabcolsep}{2pt}
+\scriptsize
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} l r @{}}
+\rowcolor{primary!10!white}[0pt][0pt] \textbf{\textcolor{primary}{\strut Quantitative Metric}} & \textbf{\textcolor{primary}{\strut Estimate / Diagnostic}} \\
+\textbf{\textcolor{primary}{\strut Annualized Alpha ($\alpha$) \& $t$-stat}} & \textbf{\textcolor{primary}{15.35\% (t=3.80)}} \\
+\rowcolor{cardbg}[0pt][0pt] \textbf{\textcolor{primary}{\strut Market Beta ($\beta_{\text{SPX}}$) \& $t$-stat}} & \textcolor{primary}{0.13 (t=1.87) ($R^2=5.8\%$)} \\
+\textbf{\textcolor{primary}{\strut Pearson Correlation ($r$) to S\&P 500}} & \textbf{\textcolor{primary}{+0.24}} \textcolor{mutedtext}{(95\% Blk CI: [0.02, 0.49])} \\
+\rowcolor{cardbg}[0pt][0pt] \textbf{\textcolor{primary}{\strut Spearman Rank Correlation ($\rho$)}} & \textcolor{primary}{+0.23} \textcolor{mutedtext}{(95\% Blk CI: [-0.00, 0.52])} \\
+\textbf{\textcolor{primary}{\strut Upside / Downside Capture Ratio}} & \textcolor{primary}{Up: \textbf{0.48} $\vert$ Down: \textbf{-0.16}} \\
+\rowcolor{cardbg}[0pt][0pt] \textbf{\textcolor{primary}{\strut Cond. Up-Market ($\text{SPX}>0$)}} & \textcolor{primary}{$\alpha=19.9\%,\ \beta=0.06$} \\
+\textbf{\textcolor{primary}{\strut Cond. Down-Market ($\text{SPX}<0$)}} & \textcolor{primary}{$\alpha=12.8\%,\ \beta=0.12$} \\
+\rowcolor{cardbg}[0pt][0pt] \textbf{\textcolor{primary}{\strut Tail Corr. ($\text{SPX} < Q_1$, Worst 25\%)}} & \textcolor{primary}{$r=-0.24,\ \rho=-0.28\ (n=15)$} \\
+\textbf{\textcolor{primary}{\strut Tail Corr. ($\text{SPX} < D_1$, Worst 10\%)}} & \textcolor{primary}{$r=0.40,\ \rho=0.14\ (n=6)$} \\
+\rowcolor{cardbg}[0pt][0pt] \textbf{\textcolor{primary}{\strut Worst 20\% SPX Months Avg. Return}} & \textcolor{primary}{Fund: +0.72\% vs SPX: -5.69\%} \\
+\textbf{\textcolor{primary}{\strut Cross-Asset Beta (WTI / BTC)}} & \textcolor{primary}{WTI $\beta$: -0.02 $\vert$ BTC $\beta$: 0.00} \\
+\rowcolor{cardbg}[0pt][0pt] \textbf{\textcolor{primary}{\strut Ljung-Box Serial Correlation}} & \textcolor{primary}{$p_1=0.58,\ p_3=0.53\ (\text{Pass})$} \\
+\end{tabular*}
+\end{tcolorbox}
+
+\vspace{0.40em}
+
+% --- SECTION 3: GROWTH OF $1M USD VS SP500 & WORST 20% SP500 MONTHS CHARTS ---
+\noindent
+\begin{tcolorbox}[nobeforeafter, box align=top, width=0.492\textwidth, colback=white, colframe=primary, title=\textbf{\small\strut Cumulative Growth of \$1M USD (Fund vs. S\&P 500)}, fonttitle=\sffamily\bfseries\small, arc=5pt, boxrule=0.9pt, toptitle=3.5pt, bottomtitle=3.5pt, left=4pt, right=4pt, top=3pt, bottom=2pt, colbacktitle=primary, halign title=center]
+\centering
+\begin{tikzpicture}[x=1cm, y=1cm]
+    \useasboundingbox (-0.95,-0.46) rectangle (7.60,4.17);
+    \draw[cardborder, densely dashed, line width=0.4pt] (0,0.000) -- (7.450,0.000);
+\node[anchor=east, font=\sffamily\tiny, text=mutedtext, inner sep=1.5pt] at (-0.06,0.000) {\$0.79M};
+\draw[cardborder, densely dashed, line width=0.4pt] (0,0.938) -- (7.450,0.938);
+\node[anchor=east, font=\sffamily\tiny, text=mutedtext, inner sep=1.5pt] at (-0.06,0.938) {\$1.20M};
+\draw[cardborder, densely dashed, line width=0.4pt] (0,1.875) -- (7.450,1.875);
+\node[anchor=east, font=\sffamily\tiny, text=mutedtext, inner sep=1.5pt] at (-0.06,1.875) {\$1.62M};
+\draw[cardborder, densely dashed, line width=0.4pt] (0,2.812) -- (7.450,2.812);
+\node[anchor=east, font=\sffamily\tiny, text=mutedtext, inner sep=1.5pt] at (-0.06,2.812) {\$2.04M};
+\draw[cardborder, densely dashed, line width=0.4pt] (0,3.750) -- (7.450,3.750);
+\node[anchor=east, font=\sffamily\tiny, text=mutedtext, inner sep=1.5pt] at (-0.06,3.750) {\$2.45M};
+\draw[mutedtext!60, dotted, line width=0.5pt] (0,0.483) -- (7.450,0.483);
+
+    \fill[accent!10!white] (0.000,0.000) (0.000,0.483) (0.126,0.500) (0.253,0.493) (0.379,0.492) (0.505,0.549) (0.631,0.533) (0.758,0.545) (0.884,0.556) (1.010,0.548) (1.136,0.596) (1.263,0.672) (1.389,0.680) (1.515,0.714) (1.642,0.693) (1.768,0.697) (1.894,0.676) (2.020,0.681) (2.147,0.772) (2.273,0.787) (2.399,0.804) (2.525,0.876) (2.652,0.767) (2.778,0.750) (2.904,0.814) (3.031,0.848) (3.157,0.924) (3.283,1.056) (3.409,1.073) (3.536,1.046) (3.662,1.047) (3.788,1.258) (3.914,1.338) (4.041,1.362) (4.167,1.285) (4.293,1.350) (4.419,1.374) (4.546,1.485) (4.672,1.714) (4.798,1.957) (4.925,1.876) (5.051,2.117) (5.177,1.999) (5.303,2.174) (5.430,2.058) (5.556,2.062) (5.682,2.244) (5.808,2.377) (5.935,2.627) (6.061,2.660) (6.187,2.808) (6.314,2.872) (6.440,2.996) (6.566,2.992) (6.692,3.134) (6.819,3.260) (6.945,3.199) (7.071,3.154) (7.197,3.280) (7.324,3.369) (7.450,3.344) (7.450,0.000) -- cycle;
+    \draw[primary!45, line width=1.1pt] plot coordinates {(0.000,0.483) (0.126,0.535) (0.253,0.590) (0.379,0.661) (0.505,0.549) (0.631,0.711) (0.758,0.694) (0.884,0.804) (1.010,0.671) (1.136,0.598) (1.263,0.686) (1.389,0.472) (1.515,0.476) (1.642,0.291) (1.768,0.481) (1.894,0.389) (2.020,0.191) (2.147,0.349) (2.273,0.467) (2.399,0.339) (2.525,0.471) (2.652,0.416) (2.778,0.496) (2.904,0.532) (3.031,0.542) (3.157,0.694) (3.283,0.773) (3.409,0.733) (3.536,0.613) (3.662,0.563) (3.788,0.776) (3.914,0.892) (4.041,0.936) (4.167,1.080) (4.293,1.172) (4.419,1.052) (4.546,1.192) (4.672,1.298) (4.798,1.335) (4.925,1.410) (5.051,1.478) (5.177,1.449) (5.303,1.637) (5.430,1.556) (5.556,1.649) (5.682,1.604) (5.808,1.414) (5.935,1.393) (6.061,1.591) (6.187,1.762) (6.314,1.841) (6.440,1.914) (6.566,2.049) (6.692,2.138) (6.819,2.148) (6.945,2.150) (7.071,2.207) (7.197,2.177) (7.324,1.980) (7.450,2.373)};
+    \draw[accent, line width=1.5pt] plot coordinates {(0.000,0.483) (0.126,0.500) (0.253,0.493) (0.379,0.492) (0.505,0.549) (0.631,0.533) (0.758,0.545) (0.884,0.556) (1.010,0.548) (1.136,0.596) (1.263,0.672) (1.389,0.680) (1.515,0.714) (1.642,0.693) (1.768,0.697) (1.894,0.676) (2.020,0.681) (2.147,0.772) (2.273,0.787) (2.399,0.804) (2.525,0.876) (2.652,0.767) (2.778,0.750) (2.904,0.814) (3.031,0.848) (3.157,0.924) (3.283,1.056) (3.409,1.073) (3.536,1.046) (3.662,1.047) (3.788,1.258) (3.914,1.338) (4.041,1.362) (4.167,1.285) (4.293,1.350) (4.419,1.374) (4.546,1.485) (4.672,1.714) (4.798,1.957) (4.925,1.876) (5.051,2.117) (5.177,1.999) (5.303,2.174) (5.430,2.058) (5.556,2.062) (5.682,2.244) (5.808,2.377) (5.935,2.627) (6.061,2.660) (6.187,2.808) (6.314,2.872) (6.440,2.996) (6.566,2.992) (6.692,3.134) (6.819,3.260) (6.945,3.199) (7.071,3.154) (7.197,3.280) (7.324,3.369) (7.450,3.344)};
+    \draw[cardborder, line width=0.6pt] (0,0) rectangle (7.450,3.750);
+    \draw[cardborder, line width=0.4pt] (0.000,0) -- (0.000,-0.08);
+\node[anchor=north, font=\sffamily\tiny, text=mutedtext, inner sep=1.5pt] at (0.000,-0.10) {2021-06};
+\draw[cardborder, line width=0.4pt] (1.894,0) -- (1.894,-0.08);
+\node[anchor=north, font=\sffamily\tiny, text=mutedtext, inner sep=1.5pt] at (1.894,-0.10) {2022-08};
+\draw[cardborder, line width=0.4pt] (3.788,0) -- (3.788,-0.08);
+\node[anchor=north, font=\sffamily\tiny, text=mutedtext, inner sep=1.5pt] at (3.788,-0.10) {2023-11};
+\draw[cardborder, line width=0.4pt] (5.682,0) -- (5.682,-0.08);
+\node[anchor=north, font=\sffamily\tiny, text=mutedtext, inner sep=1.5pt] at (5.682,-0.10) {2025-02};
+\draw[cardborder, line width=0.4pt] (7.450,0) -- (7.450,-0.08);
+\node[anchor=north, font=\sffamily\tiny, text=mutedtext, inner sep=1.5pt] at (7.450,-0.10) {2026-04};
+
+    % Legend
+    \draw[accent, line width=1.6pt] (0.15,3.950) -- (0.55,3.950);
+    \node[anchor=west, font=\sffamily\tiny\bfseries, text=primary] at (0.60,3.950) {Procyon Apex (\$2.27M)};
+    \draw[primary!45, line width=1.2pt] (3.95,3.950) -- (4.35,3.950);
+    \node[anchor=west, font=\sffamily\tiny, text=mutedtext] at (4.40,3.950) {S\&P 500 (\$1.84M)};
+\end{tikzpicture}
+\end{tcolorbox}\hfill
+\begin{tcolorbox}[nobeforeafter, box align=top, width=0.492\textwidth, colback=white, colframe=primary, title=\textbf{\small\strut Worst 20\% S\&P 500 Months}, fonttitle=\sffamily\bfseries\small, arc=5pt, boxrule=0.9pt, toptitle=3.5pt, bottomtitle=3.5pt, left=4pt, right=4pt, top=3pt, bottom=2pt, colbacktitle=primary, halign title=center]
+\centering
+\begin{tikzpicture}[x=1cm, y=1cm]
+    \useasboundingbox (-0.95,-0.46) rectangle (7.60,4.17);
+    \draw[cardborder, densely dashed, line width=0.4pt] (0,0.000) -- (7.450,0.000);
+\node[anchor=east, font=\sffamily\tiny, text=mutedtext, inner sep=1.5pt] at (-0.06,0.000) {-11\%};
+\draw[cardborder, densely dashed, line width=0.4pt] (0,0.938) -- (7.450,0.938);
+\node[anchor=east, font=\sffamily\tiny, text=mutedtext, inner sep=1.5pt] at (-0.06,0.938) {-7\%};
+\draw[cardborder, densely dashed, line width=0.4pt] (0,1.875) -- (7.450,1.875);
+\node[anchor=east, font=\sffamily\tiny, text=mutedtext, inner sep=1.5pt] at (-0.06,1.875) {-3\%};
+\draw[cardborder, densely dashed, line width=0.4pt] (0,2.812) -- (7.450,2.812);
+\node[anchor=east, font=\sffamily\tiny, text=mutedtext, inner sep=1.5pt] at (-0.06,2.812) {+0\%};
+\draw[cardborder, densely dashed, line width=0.4pt] (0,3.750) -- (7.450,3.750);
+\node[anchor=east, font=\sffamily\tiny, text=mutedtext, inner sep=1.5pt] at (-0.06,3.750) {+4\%};
+
+    \fill[primary!40] (0.075,0.357) rectangle (0.298,2.737);
+\fill[accent] (0.322,2.737) rectangle (0.546,2.792);
+\node[rotate=45, anchor=north east, font=\sffamily\fontsize{4.6}{5.6}\selectfont, text=mutedtext, inner sep=0.8pt] at (0.350,-0.06) {22-09};
+\fill[primary!40] (0.696,0.484) rectangle (0.919,2.737);
+\fill[accent] (0.943,2.737) rectangle (1.167,2.818);
+\node[rotate=45, anchor=north east, font=\sffamily\fontsize{4.6}{5.6}\selectfont, text=mutedtext, inner sep=0.8pt] at (0.971,-0.06) {22-04};
+\fill[primary!40] (1.317,0.604) rectangle (1.540,2.737);
+\fill[accent] (1.564,2.518) rectangle (1.788,2.737);
+\node[rotate=45, anchor=north east, font=\sffamily\fontsize{4.6}{5.6}\selectfont, text=mutedtext, inner sep=0.8pt] at (1.592,-0.06) {22-06};
+\fill[primary!40] (1.937,1.248) rectangle (2.161,2.737);
+\fill[accent] (2.185,2.737) rectangle (2.408,2.905);
+\node[rotate=45, anchor=north east, font=\sffamily\fontsize{4.6}{5.6}\selectfont, text=mutedtext, inner sep=0.8pt] at (2.213,-0.06) {22-12};
+\fill[primary!40] (2.558,1.281) rectangle (2.782,2.737);
+\fill[accent] (2.806,2.737) rectangle (3.029,3.596);
+\node[rotate=45, anchor=north east, font=\sffamily\fontsize{4.6}{5.6}\selectfont, text=mutedtext, inner sep=0.8pt] at (2.834,-0.06) {25-03};
+\fill[primary!40] (3.179,1.400) rectangle (3.403,2.737);
+\fill[accent] (3.427,2.650) rectangle (3.650,2.737);
+\node[rotate=45, anchor=north east, font=\sffamily\fontsize{4.6}{5.6}\selectfont, text=mutedtext, inner sep=0.8pt] at (3.455,-0.06) {22-01};
+\fill[primary!40] (3.800,1.450) rectangle (4.023,2.737);
+\fill[accent] (4.047,2.737) rectangle (4.271,3.192);
+\node[rotate=45, anchor=north east, font=\sffamily\fontsize{4.6}{5.6}\selectfont, text=mutedtext, inner sep=0.8pt] at (4.075,-0.06) {26-03};
+\fill[primary!40] (4.421,1.505) rectangle (4.644,2.737);
+\fill[accent] (4.668,2.500) rectangle (4.892,2.737);
+\node[rotate=45, anchor=north east, font=\sffamily\fontsize{4.6}{5.6}\selectfont, text=mutedtext, inner sep=0.8pt] at (4.696,-0.06) {23-09};
+\fill[primary!40] (5.042,1.535) rectangle (5.265,2.737);
+\fill[accent] (5.289,2.737) rectangle (5.513,3.386);
+\node[rotate=45, anchor=north east, font=\sffamily\fontsize{4.6}{5.6}\selectfont, text=mutedtext, inner sep=0.8pt] at (5.317,-0.06) {21-09};
+\fill[primary!40] (5.662,1.682) rectangle (5.886,2.737);
+\fill[accent] (5.910,2.737) rectangle (6.133,2.944);
+\node[rotate=45, anchor=north east, font=\sffamily\fontsize{4.6}{5.6}\selectfont, text=mutedtext, inner sep=0.8pt] at (5.938,-0.06) {24-04};
+\fill[primary!40] (6.283,1.683) rectangle (6.507,2.737);
+\fill[accent] (6.531,2.515) rectangle (6.754,2.737);
+\node[rotate=45, anchor=north east, font=\sffamily\fontsize{4.6}{5.6}\selectfont, text=mutedtext, inner sep=0.8pt] at (6.559,-0.06) {22-08};
+\fill[primary!40] (6.904,1.964) rectangle (7.128,2.737);
+\fill[accent] (7.152,2.737) rectangle (7.375,3.280);
+\node[rotate=45, anchor=north east, font=\sffamily\fontsize{4.6}{5.6}\selectfont, text=mutedtext, inner sep=0.8pt] at (7.180,-0.06) {22-02};
+\draw[primary!80, line width=0.55pt] (0,2.737) -- (7.450,2.737);
+
+    \draw[cardborder, line width=0.6pt] (0,0) rectangle (7.450,3.750);
+    % Legend
+    \fill[accent] (0.85,3.880) rectangle (1.15,4.020);
+    \node[anchor=west, font=\sffamily\tiny\bfseries, text=primary] at (1.22,3.950) {Procyon Apex};
+    \fill[primary!40] (4.35,3.880) rectangle (4.65,4.020);
+    \node[anchor=west, font=\sffamily\tiny, text=mutedtext] at (4.72,3.950) {S\&P 500};
+\end{tikzpicture}
+\end{tcolorbox}
+
+
+\vspace{0.40em}
+
+% --- SECTION 4: MONTHLY RETURN MATRIX (NO BLACK HORIZONTAL RULES) ---
+\begin{tcolorbox}[colback=white, colframe=primary, title=\textbf{\small\strut Historical Monthly \& Yearly Net Return Matrix (\%)}, fonttitle=\sffamily\bfseries\small, arc=5pt, boxrule=0.9pt, toptitle=3.5pt, bottomtitle=3.5pt, left=3pt, right=3pt, top=4.5pt, bottom=4.5pt, colbacktitle=primary, halign title=center]
+\renewcommand{\arraystretch}{1.63}
+\footnotesize
+\begin{tabularx}{\textwidth}{l *{12}{>{\centering\arraybackslash}X} >{\centering\arraybackslash}p{1.15cm}}
+\rowcolor{primary!8!white}
+\textbf{\textcolor{primary}{Year}} & \textbf{\textcolor{primary}{Jan}} & \textbf{\textcolor{primary}{Feb}} & \textbf{\textcolor{primary}{Mar}} & \textbf{\textcolor{primary}{Apr}} & \textbf{\textcolor{primary}{May}} & \textbf{\textcolor{primary}{Jun}} & \textbf{\textcolor{primary}{Jul}} & \textbf{\textcolor{primary}{Aug}} & \textbf{\textcolor{primary}{Sep}} & \textbf{\textcolor{primary}{Oct}} & \textbf{\textcolor{primary}{Nov}} & \textbf{\textcolor{primary}{Dec}} & \textbf{\textcolor{primary}{Yearly}} \\
+\textbf{2021} & \textcolor{gray!60}{-} & \textcolor{gray!60}{-} & \textcolor{gray!60}{-} & \textcolor{gray!60}{-} & \textcolor{gray!60}{-} & \cellcolor{posgreen!5!white}0.8\% & \cellcolor{negred!4!white}-0.3\% & \cellcolor{negred!4!white}-0.0\% & \cellcolor{posgreen!18!white}2.5\% & \cellcolor{negred!5!white}-0.7\% & \cellcolor{posgreen!4!white}0.5\% & \cellcolor{posgreen!4!white}0.5\% & \cellcolor{posgreen!10!white}\textbf{3.2\%} \\
+\textbf{2022} & \cellcolor{negred!4!white}-0.3\% & \cellcolor{posgreen!15!white}2.1\% & \cellcolor{posgreen!24!white}3.2\% & \cellcolor{posgreen!4!white}0.3\% & \cellcolor{posgreen!10!white}1.4\% & \cellcolor{negred!6!white}-0.9\% & \cellcolor{posgreen!4!white}0.2\% & \cellcolor{negred!6!white}-0.9\% & \cellcolor{posgreen!4!white}0.2\% & \cellcolor{posgreen!27!white}3.7\% & \cellcolor{posgreen!4!white}0.6\% & \cellcolor{posgreen!4!white}0.7\% & \cellcolor{posgreen!34!white}\textbf{10.7\%} \\
+\textbf{2023} & \cellcolor{posgreen!21!white}2.8\% & \cellcolor{negred!31!white}-4.1\% & \cellcolor{negred!5!white}-0.7\% & \cellcolor{posgreen!19!white}2.5\% & \cellcolor{posgreen!9!white}1.3\% & \cellcolor{posgreen!21!white}2.9\% & \cellcolor{posgreen!36!white}4.9\% & \cellcolor{posgreen!4!white}0.6\% & \cellcolor{negred!6!white}-0.9\% & \cellcolor{posgreen!4!white}0.0\% & \cellcolor{posgreen!56!white}7.5\% & \cellcolor{posgreen!19!white}2.6\% & \cellcolor{posgreen!66!white}\textbf{20.8\%} \\
+\textbf{2024} & \cellcolor{posgreen!6!white}0.8\% & \cellcolor{negred!18!white}-2.5\% & \cellcolor{posgreen!15!white}2.1\% & \cellcolor{posgreen!6!white}0.8\% & \cellcolor{posgreen!26!white}3.5\% & \cellcolor{posgreen!52!white}7.1\% & \cellcolor{posgreen!52!white}7.0\% & \cellcolor{negred!16!white}-2.2\% & \cellcolor{posgreen!49!white}6.6\% & \cellcolor{negred!22!white}-3.0\% & \cellcolor{posgreen!34!white}4.6\% & \cellcolor{negred!21!white}-2.9\% & \cellcolor{posgreen!74!white}\textbf{23.2\%} \\
+\textbf{2025} & \cellcolor{posgreen!4!white}0.1\% & \cellcolor{posgreen!35!white}4.7\% & \cellcolor{posgreen!24!white}3.3\% & \cellcolor{posgreen!45!white}6.0\% & \cellcolor{posgreen!5!white}0.7\% & \cellcolor{posgreen!25!white}3.4\% & \cellcolor{posgreen!10!white}1.4\% & \cellcolor{posgreen!20!white}2.7\% & \cellcolor{negred!4!white}-0.1\% & \cellcolor{posgreen!22!white}3.0\% & \cellcolor{posgreen!19!white}2.6\% & \cellcolor{negred!9!white}-1.2\% & \cellcolor{posgreen!75!white}\textbf{29.8\%} \\
+\textbf{2026} & \cellcolor{negred!6!white}-0.9\% & \cellcolor{posgreen!19!white}2.6\% & \cellcolor{posgreen!13!white}1.8\% & \cellcolor{negred!4!white}-0.5\% & \textcolor{gray!60}{-} & \textcolor{gray!60}{-} & \textcolor{gray!60}{-} & \textcolor{gray!60}{-} & \textcolor{gray!60}{-} & \textcolor{gray!60}{-} & \textcolor{gray!60}{-} & \textcolor{gray!60}{-} & \cellcolor{posgreen!9!white}\textbf{2.9\%} \\
+\end{tabularx}
+\end{tcolorbox}
+\vspace{0.40em}
+
+% --- SECTION 5: FUND TERMS & COMMERCIAL OVERVIEW BOX (BOTTOM OF PAGE 1) ---
+\begin{tcolorbox}[colback=white, colframe=primary, title=\textbf{\small\strut Fund Terms \& Commercial Overview}, fonttitle=\sffamily\bfseries\small, arc=5pt, boxrule=0.9pt, toptitle=3.5pt, bottomtitle=3.5pt, left=4pt, right=4pt, top=2.5pt, bottom=2.5pt, colbacktitle=primary, halign title=center]
+\renewcommand{\arraystretch}{1.38}
+\setlength{\tabcolsep}{6pt}
+\scriptsize
+\begin{tabularx}{\textwidth}{X !{\color{cardborder}\vrule width 0.6pt} X !{\color{cardborder}\vrule width 0.6pt} X !{\color{cardborder}\vrule width 0.6pt} X}
+\textbf{\textcolor{mutedtext}{\strut Vehicle:}}\hfill \textbf{\textcolor{primary}{\strut Commingled Fund}} & \textbf{\textcolor{mutedtext}{\strut Return Basis:}}\hfill \textbf{\textcolor{primary}{\strut Net of Fees}} & \textbf{\textcolor{mutedtext}{\strut Fee Structure:}}\hfill \textbf{\textcolor{primary}{\strut 2\% Mgmt / 20\% Perf}} & \textbf{\textcolor{mutedtext}{\strut Liquidity:}}\hfill \textbf{\textcolor{primary}{\strut Quarter Liquidity}} \\
+\rowcolor{cardbg} \textbf{\textcolor{mutedtext}{\strut Lock-Up Period:}}\hfill \textbf{\textcolor{primary}{\strut No Lockup}} & \textbf{\textcolor{mutedtext}{\strut Min. Investment:}}\hfill \textbf{\textcolor{primary}{\strut 1M USD}} & \textbf{\textcolor{mutedtext}{\strut Current AUM:}}\hfill \textbf{\textcolor{primary}{\strut 250M}} & \textbf{\textcolor{mutedtext}{\strut Domicile:}}\hfill \textbf{\textcolor{primary}{\strut Cayman Islands}} \\
+\end{tabularx}
+\end{tcolorbox}
+
+\vfill
+
+% --- PAGE 1 FOOTER ---
+\noindent{\color{cardborder}\rule{\textwidth}{0.6pt}}\\[2pt]
+\noindent
+\begin{minipage}[c]{0.74\textwidth}
+    {\tiny \textcolor{mutedtext}{\textbf{Ath\'en\'ee Investment} $\vert$ Quai des Bergues 23, 1201 Geneva, Switzerland $\vert$ \href{mailto:arthur.dhonneur@athenee-investment.com}{arthur.dhonneur@athenee-investment.com}}\\[1pt]
+    \tiny \textcolor{mutedtext}{\textit{Capital Introduction \& Third-Party Marketing Memorandum. Strictly for Institutional \& Qualified Investors. Please see Page 2 for Risk \& Legal Disclosures.}}}
+\end{minipage}%
+\hfill
+\begin{minipage}[c]{0.24\textwidth}
+    \raggedleft
+    {\tiny \bfseries \textcolor{primary}{Page 1 of 2}}
+\end{minipage}
+
+\clearpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% PAGE 2: LEGAL DISCLAIMER (TOP) + QUANTITATIVE METHODOLOGY & APPENDIX
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% --- PAGE 2 HEADER ---
+\noindent
+\begin{minipage}[c]{0.68\textwidth}
+    {\Large \bfseries \textcolor{primary}{Risk Disclosures, Legal Notice \& Quantitative Appendix}}\\[2pt]
+    {\footnotesize \bfseries \textcolor{accent}{Fund Reference: Procyon Apex (ATH-930) (Jun 2021 - Apr 2026 (59 Months / 4.9 Years))}}
+\end{minipage}%
+\hfill
+\begin{minipage}[c]{0.30\textwidth}
+    \raggedleft
+    \includegraphics[height=1.0cm, keepaspectratio]{athenee_logo.png}\\[2pt]
+    {\tiny \bfseries \textcolor{goldaccent}{CAPITAL INTRODUCTION \& THIRD-PARTY MARKETING}}
+\end{minipage}
+
+\vspace{0.3em}
+\noindent{\color{goldaccent}\rule{\textwidth}{1.2pt}}
+\vspace{0.4em}
+
+% --- PART I (TOP OF PAGE 2): CAPITAL INTRODUCTION & RISK DISCLAIMER ---
+\begin{tcolorbox}[colback=white, colframe=accent, title=\textbf{\small\strut Important Legal Disclaimer, Risk Disclosures \& Capital Introduction Notice}, fonttitle=\sffamily\bfseries\small, arc=5pt, boxrule=0.9pt, toptitle=4.5pt, bottomtitle=4.5pt, left=8pt, right=8pt, top=4.5pt, bottom=4.5pt, colbacktitle=accent]
+\scriptsize
+\textcolor{primary}{
+\textbf{1. Role of Ath\'en\'ee Investment — Capital Introduction Services Only (No Investment Advice):}\\[1.5pt]
+This document has been prepared by \textbf{Ath\'en\'ee Investment} solely for informational and discussion purposes as part of its institutional \textbf{Capital Introduction and Third-Party Marketing} activities. \textbf{This document does not constitute investment advice, financial advisory services, a personal recommendation, or an offer to sell or a solicitation of an offer to buy} any shares, units, or interests in any investment fund or financial instrument. Prospective investors must conduct their own independent due diligence and consult their own professional legal, regulatory, tax, and financial advisors before making any investment decision.\\[4.5pt]
+\textbf{2. No Warranty of Data Accuracy or Completeness (Third-Party Manager Data):}\\[1.5pt]
+All historical performance figures, return series, and strategy descriptions presented herein are derived from information provided directly by the respective third-party hedge fund managers or external data providers. While Ath\'en\'ee Investment has compiled and analyzed these quantitative metrics in good faith, \textbf{Ath\'en\'ee Investment has not independently audited or verified the underlying data and cannot guarantee—and makes no representation or warranty, express or implied, regarding—the accuracy, completeness, reliability, or timeliness} of any information contained in this document. Any errors, omissions, or subsequent restatements by the underlying fund manager are the sole responsibility of such manager.\\[4.5pt]
+\textbf{3. Key Risk Factors of Alternative \& Hedge Fund Strategies:}\\[1.5pt]
+Investing in alternative investment funds and hedge funds involves a \textbf{high degree of risk} and is suitable only for sophisticated investors capable of bearing the loss of their entire investment. Material risks include, without limitation:
+\begin{itemize}[leftmargin=1.3em, itemsep=1pt, topsep=1pt]
+    \item \textbf{Market, Leverage \& Derivative Risk:} Underlying funds may employ substantial leverage, short-selling, options, futures, swaps, and other derivative instruments, which can amplify both gains and losses and cause rapid capital erosion during extreme market dislocations.
+    \item \textbf{Illiquidity \& Lock-Up Risk:} Hedge fund interests are typically not listed on any regulated exchange and are subject to redemption gates, notice periods, lock-ups, and side-pocket arrangements.
+    \item \textbf{Model, Regime Shift \& Tail-Correlation Risk:} Quantitative and systematic strategies rely on mathematical models and historical statistical relationships (such as low equity beta or negative downside capture) that may break down or experience sudden correlation spikes during systemic liquidity crises.
+    \item \textbf{Operational, Counterparty \& Valuation Risk:} Strategies trading in over-the-counter (OTC) derivatives, digital assets, distressed debt, or emerging markets face heightened counterparty default, custody, regulatory, and mark-to-model valuation risks.
+\end{itemize}
+\vspace{2.5pt}
+\textbf{4. Past Performance \& Quantitative Limitations:}\\[1.5pt]
+\textbf{Past performance is not indicative of, nor a guarantee of, future results.} The value of investments and the income derived from them may go down as well as up. Simulated, bootstrap, or regression-based indicators (including Alpha, Beta, Sharpe Ratio, Sortino Ratio, and Capture Ratios) are backward-looking statistical estimates and do not represent a promise or forecast of future risk-adjusted returns.\\[4.5pt]
+\textbf{5. Qualified Investors Only \& Confidentiality:}\\[1.5pt]
+This document is strictly confidential and is directed exclusively at \textbf{Institutional, Professional, and Qualified Investors} (including Qualified Investors within the meaning of the Swiss Collective Investment Schemes Act (CISA) and Financial Services Act (FinSA)). It may not be copied, reproduced, distributed, or disclosed to any third party, nor distributed in any jurisdiction where such distribution would be unlawful.
+}
+\end{tcolorbox}
+
+\vspace{0.45em}
+
+% --- PART II: EXTENDED SINGLE-FUND QUANTITATIVE DIAGNOSTICS ---
+\begin{tcolorbox}[colback=white, colframe=primary, title=\textbf{\small\strut Appendix A: Extended Statistical, Bootstrap \& Factor Diagnostics}, fonttitle=\sffamily\bfseries\small, arc=5pt, boxrule=0.8pt, toptitle=4pt, bottomtitle=4pt, left=6pt, right=6pt, top=3.5pt, bottom=3.5pt, colbacktitle=primary]
+\renewcommand{\arraystretch}{1.22}
+\scriptsize
+\begin{tabularx}{\textwidth}{l X r}
+\toprule
+\textbf{\textcolor{primary}{Diagnostic Family}} & \textbf{\textcolor{primary}{Methodology / Statistical Specification}} & \textbf{\textcolor{primary}{Empirical Value}} \\
+\midrule
+\textbf{Pearson Correlation CI} & 95\% Confidence Interval (IID Bootstrap vs. Moving Block $B=3$, 1,000 iters) & Std: [0.01, 0.45] $\vert$ Blk: [0.02, 0.49] \\
+\rowcolor{cardbg} \textbf{Spearman Rank Corr. CI} & 95\% Confidence Interval (Rank Monotonic Co-Movement, IID vs. Block $B=3$) & Std: [-0.04, 0.48] $\vert$ Blk: [-0.00, 0.52] \\
+\textbf{Worst-Case Co-Dependence} & 97.5th Percentile Upper-Bound Block Bootstrap Correlation (PSD Projection) & $\rho_{\text{wc}} = 0.49$ \\
+\rowcolor{cardbg} \textbf{Serial Correlation (Lag 1 \& 3)} & Ljung-Box $Q$-Statistic $p$-values testing for return smoothing / illiquidity bias & $p_1=0.58,\ p_3=0.53\ (\text{Pass})$ \\
+\textbf{Conditional Up-Market OLS} & Annualized Alpha \& Beta estimated during positive S\&P 500 months ($n=38$) & $\alpha=19.9\%,\ \beta=0.06$ ($t_\alpha=2.21$) \\
+\rowcolor{cardbg} \textbf{Conditional Down-Market OLS} & Annualized Alpha \& Beta estimated during negative S\&P 500 months ($n=21$) & $\alpha=12.8\%,\ \beta=0.12$ ($t_\alpha=1.09$) \\
+\textbf{Commodity Factor (WTI)} & OLS Regression against Front-Month WTI Crude Oil Monthly Returns & $\beta=-0.02\ (t=-0.47),\ \alpha=17.4\%$ \\
+\rowcolor{cardbg} \textbf{Digital Asset Factor (BTC)} & OLS Regression against Bitcoin (BTC-USD) Monthly Returns & $\beta=0.00\ (t=0.20),\ \alpha=17.1\%$ \\
+\bottomrule
+\end{tabularx}
+\end{tcolorbox}
+
+\vspace{0.35em}
+
+% --- PART III: METHODOLOGY DEFINITIONS ---
+\begin{tcolorbox}[colback=cardbg, colframe=cardborder, title=\textbf{\small\strut Appendix B: Quantitative Framework \& Indicator Definitions}, fonttitle=\sffamily\bfseries\small\color{primary}, arc=5pt, boxrule=0.8pt, toptitle=3.5pt, bottomtitle=3.5pt, left=6pt, right=6pt, top=3.5pt, bottom=3.5pt, colbacktitle=cardborder]
+\scriptsize
+\begin{itemize}[leftmargin=1.2em, itemsep=1.2pt, topsep=1pt]
+    \item \textbf{CAGR \& Annualized Volatility:} Compound Annual Growth Rate is computed geometrically as $\text{CAGR} = \left(\prod_{t=1}^T (1 + r_t)\right)^{12/T} - 1$. Annualized Volatility is sample standard deviation scaled by $\sqrt{12}$: $\sigma_{\text{ann}} = \hat{\sigma}_m \sqrt{12}$. Proxy Sharpe Ratio assumes $r_f = 0\%$ ($\bar{r}_{\text{ann}} / \sigma_{\text{ann}}$).
+    \item \textbf{Maximum Drawdown (MDD) \& Calmar Ratio:} Maximum peak-to-trough decline of cumulative compounded wealth $W_t = \prod_{s \le t}(1+r_s)$, defined as $\text{MDD} = \min_t \left((W_t - \max_{s \le t} W_s) / \max_{s \le t} W_s\right)$. Calmar Ratio is $\text{CAGR} / |\text{MDD}|$.
+    \item \textbf{OLS Alpha ($\alpha$), Beta ($\beta$) \& Capture Ratios:} Estimated via Ordinary Least Squares $r_{\text{fund},t} = \alpha_m + \beta r_{\text{SPX},t} + \varepsilon_t$, where $\alpha_{\text{ann}} = 12 \times \alpha_m$. Upside (Downside) Capture measures the ratio of the fund's mean return to the S\&P 500's mean return during positive (negative) S\&P 500 months.
+    \item \textbf{Tail Correlations \& Moving Block Bootstrap:} Tail correlations evaluate linear ($r$) and rank ($\rho$) co-movement during S\&P 500 drawdowns below the 25th percentile ($Q_1$) and 10th percentile ($D_1$). Moving Block Bootstrap ($B=3$ months) preserves local serial dependencies when constructing 95\% confidence intervals.
+\end{itemize}
+\end{tcolorbox}
+
+\vfill
+
+% --- PAGE 2 FOOTER ---
+\noindent{\color{cardborder}\rule{\textwidth}{0.6pt}}\\[2pt]
+\noindent
+\begin{minipage}[c]{0.74\textwidth}
+    {\tiny \textcolor{mutedtext}{\textbf{Ath\'en\'ee Investment} $\vert$ Quai des Bergues 23, 1201 Geneva, Switzerland $\vert$ \href{mailto:arthur.dhonneur@athenee-investment.com}{arthur.dhonneur@athenee-investment.com}}\\[1pt]
+    \tiny \textcolor{mutedtext}{\textit{\textcopyright\ 2026 Ath\'en\'ee Investment. All rights reserved. For Institutional \& Qualified Investors Only.}}}
+\end{minipage}%
+\hfill
+\begin{minipage}[c]{0.24\textwidth}
+    \raggedleft
+    {\tiny \bfseries \textcolor{primary}{Page 2 of 2}}
+\end{minipage}
+
+\end{document}
