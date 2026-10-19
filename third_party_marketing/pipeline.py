@@ -4,7 +4,9 @@ Athénée Investment — Third-Party Marketing & Capital Introduction Tear Sheet
 Selects one or multiple hedge funds from `data/hf_returns/` using their CSV names,
 computes the full `single_fund_analysis` quantitative metrics suite against the S&P 500
 (and cross-asset benchmarks WTI & BTC), and compiles a modern 2-page LaTeX PDF:
-  - Page 1: Institutional One-Pager Tear Sheet (Logo, Quantitative Indicators, Monthly Return Matrix)
+  - Page 1: Institutional One-Pager Tear Sheet (Logo, 5 KPI Cards incl. Corr/Alpha/Beta,
+            Aligned Quantitative Indicator Panels, Growth & Worst-20% SPX Charts,
+            and Proportionally-Scaled Monthly Return Matrix)
   - Page 2: Quantitative Appendix, Extended Diagnostics & Capital Introduction Risk / Legal Disclaimer
 """
 
@@ -397,7 +399,6 @@ def _ljung_box_1_3(xs: List[float]) -> Tuple[float, float, float, float]:
 
     r1 = acf(1)
     q1 = n * (n + 2) * ((r1 ** 2) / (n - 1))
-    # Chi-square df=1 survival function: erfc(sqrt(q1 / 2))
     p1 = math.erfc(math.sqrt(max(0.0, q1) / 2.0))
 
     r2 = acf(2)
@@ -405,7 +406,6 @@ def _ljung_box_1_3(xs: List[float]) -> Tuple[float, float, float, float]:
     q3 = n * (n + 2) * (
         (r1 ** 2) / (n - 1) + (r2 ** 2) / (n - 2) + (r3 ** 2) / (n - 3)
     )
-    # Chi-square df=3 survival function: erfc(sqrt(x/2)) + sqrt(2x/pi) * exp(-x/2)
     q3_pos = max(0.0, q3)
     p3 = math.erfc(math.sqrt(q3_pos / 2.0)) + math.sqrt(2.0 * q3_pos / math.pi) * math.exp(-q3_pos / 2.0)
     p3 = min(1.0, max(0.0, p3))
@@ -691,7 +691,7 @@ def build_monthly_return_matrix(records: List[Dict[str, Any]]) -> Dict[int, Dict
 
 
 # ---------------------------------------------------------------------------
-# Step 4: LaTeX Formatting & Modern Tear Sheet + Appendix/Risk Generator
+# Step 4: Native Vector TikZ Charts Generator (Growth vs SP500 & Worst 20% SP500)
 # ---------------------------------------------------------------------------
 def _isna(val: Any) -> bool:
     if val is None:
@@ -731,6 +731,191 @@ def fmt_num(val: float, decimals: int = 2, signed: bool = False) -> str:
     return escape_latex(fmt)
 
 
+def _build_tikz_charts_section(
+    records: List[Dict[str, Any]],
+    short_title: str,
+    chart_height_cm: float,
+) -> str:
+    """
+    Build two side-by-side vector TikZ charts inside matching tcolorbox panels:
+      - Left: Cumulative Growth of $100 (Fund vs. S&P 500)
+      - Right: Performance During Worst 20% S&P 500 Months (Max 10 Worst Months)
+    """
+    n = len(records)
+    W = 7.45  # plot area width in cm
+    H = chart_height_cm  # plot area height in cm
+
+    # --- 1. Left Chart Data: Growth of $100 ---
+    w_fund = [100.0]
+    w_spx = [100.0]
+    for r in records:
+        w_fund.append(w_fund[-1] * (1.0 + r["fund"]))
+        w_spx.append(w_spx[-1] * (1.0 + r["sp500"]))
+
+    all_w = w_fund + w_spx
+    min_w = min(min(all_w), 95.0)
+    max_w = max(max(all_w), 110.0)
+    span_w = max(max_w - min_w, 10.0)
+    y_lo = max(0.0, min_w - 0.06 * span_w)
+    y_hi = max_w + 0.12 * span_w
+
+    def map_gx(idx: int) -> float:
+        return (idx / n) * W if n > 0 else 0.0
+
+    def map_gy(val: float) -> float:
+        return ((val - y_lo) / (y_hi - y_lo)) * H if y_hi > y_lo else H / 2.0
+
+    # Downsample if very many points (>120) to keep TikZ ultra fast
+    step = 1 if n <= 120 else 2
+    idxs = list(range(0, n + 1, step))
+    if idxs[-1] != n:
+        idxs.append(n)
+
+    fund_coords = " ".join(f"({map_gx(i):.3f},{map_gy(w_fund[i]):.3f})" for i in idxs)
+    spx_coords = " ".join(f"({map_gx(i):.3f},{map_gy(w_spx[i]):.3f})" for i in idxs)
+    fill_coords = f"(0.000,0.000) {fund_coords} ({W:.3f},0.000)"
+
+    # 5 horizontal grid lines & y-tick labels for Growth Chart
+    g_grid_lines = ""
+    for k in range(5):
+        yv = y_lo + (k / 4.0) * (y_hi - y_lo)
+        yp = map_gy(yv)
+        lbl = f"\\${yv:,.0f}" if yv < 1000 else f"\\${yv/1000.0:.1f}k"
+        g_grid_lines += (
+            f"\\draw[cardborder, densely dashed, line width=0.4pt] (0,{yp:.3f}) -- ({W:.3f},{yp:.3f});\n"
+            f"\\node[anchor=east, font=\\sffamily\\tiny, text=mutedtext, inner sep=1.5pt] at (-0.06,{yp:.3f}) {{{lbl}}};\n"
+        )
+
+    # $100 baseline if inside range
+    if y_lo <= 100.0 <= y_hi:
+        y100 = map_gy(100.0)
+        g_grid_lines += f"\\draw[mutedtext!60, dotted, line width=0.5pt] (0,{y100:.3f}) -- ({W:.3f},{y100:.3f});\n"
+
+    # 5 x-axis date labels for Growth Chart
+    g_x_ticks = ""
+    num_xticks = min(5, n)
+    for k in range(num_xticks):
+        rec_idx = int(round(k * (n - 1) / max(1, num_xticks - 1)))
+        xp = map_gx(rec_idx + 1) if k > 0 else 0.0
+        ym = records[rec_idx]["ym"]
+        ym_lbl = f"{ym[0]}-{ym[1]:02d}"
+        g_x_ticks += (
+            f"\\draw[cardborder, line width=0.4pt] ({xp:.3f},0) -- ({xp:.3f},-0.08);\n"
+            f"\\node[anchor=north, font=\\sffamily\\tiny, text=mutedtext, inner sep=1.5pt] at ({xp:.3f},-0.10) {{{ym_lbl}}};\n"
+        )
+
+    # --- 2. Right Chart Data: Worst 20% S&P 500 Months (Max 10 Months) ---
+    sp_vals = [r["sp500"] for r in records]
+    q20 = _quantile_linear(sp_vals, 0.20)
+    worst_recs = [r for r in records if r["sp500"] <= q20]
+    worst_recs.sort(key=lambda r: r["sp500"])  # Most negative SPX month first
+    worst_recs = worst_recs[:10]  # Cap at maximum of 10 months as requested!
+    if not worst_recs:
+        worst_recs = sorted(records, key=lambda r: r["sp500"])[: min(5, n)]
+
+    k_bars = len(worst_recs)
+    bar_vals = [r["sp500"] * 100.0 for r in worst_recs] + [r["fund"] * 100.0 for r in worst_recs]
+    b_min = min(min(bar_vals), -2.0) * 1.15
+    b_max = max(max(bar_vals), 2.0) * 1.18
+    if b_max - b_min < 4.0:
+        b_max += 2.0
+        b_min -= 2.0
+
+    def map_by(pct_val: float) -> float:
+        return ((pct_val - b_min) / (b_max - b_min)) * H
+
+    y_zero = map_by(0.0)
+
+    # 5 horizontal grid lines & y-tick labels for Bar Chart
+    b_grid_lines = ""
+    for k in range(5):
+        bv = b_min + (k / 4.0) * (b_max - b_min)
+        bp = map_by(bv)
+        b_grid_lines += (
+            f"\\draw[cardborder, densely dashed, line width=0.4pt] (0,{bp:.3f}) -- ({W:.3f},{bp:.3f});\n"
+            f"\\node[anchor=east, font=\\sffamily\\tiny, text=mutedtext, inner sep=1.5pt] at (-0.06,{bp:.3f}) {{{bv:+.0f}\\%}};\n"
+        )
+
+    # Bars & x-axis labels for Worst 20% SPX Months (Max 10)
+    slot_w = W / max(1, k_bars)
+    bar_w = min(0.28, slot_w * 0.34)
+    bars_tikz = ""
+    for idx, r in enumerate(worst_recs):
+        cx = (idx + 0.5) * slot_w
+        spx_pct = r["sp500"] * 100.0
+        fnd_pct = r["fund"] * 100.0
+        ys = map_by(spx_pct)
+        yf = map_by(fnd_pct)
+
+        # SPX bar (left of pair)
+        x1_s, x2_s = cx - bar_w - 0.015, cx - 0.015
+        y1_s, y2_s = min(y_zero, ys), max(y_zero, ys)
+        bars_tikz += f"\\fill[primary!45] ({x1_s:.3f},{y1_s:.3f}) rectangle ({x2_s:.3f},{y2_s:.3f});\n"
+
+        # Fund bar (right of pair)
+        x1_f, x2_f = cx + 0.015, cx + bar_w + 0.015
+        y1_f, y2_f = min(y_zero, yf), max(y_zero, yf)
+        f_color = "accent" if fnd_pct >= 0 else "negred!85!black"
+        bars_tikz += f"\\fill[{f_color}] ({x1_f:.3f},{y1_f:.3f}) rectangle ({x2_f:.3f},{y2_f:.3f});\n"
+
+        ym_short = f"{str(r['year'])[2:]}-{r['month']:02d}"
+        bars_tikz += (
+            f"\\node[anchor=north, font=\\sffamily\\tiny, text=mutedtext, inner sep=1.5pt] at ({cx:.3f},-0.10) {{{ym_short}}};\n"
+        )
+
+    bars_tikz += f"\\draw[primary!80, line width=0.55pt] (0,{y_zero:.3f}) -- ({W:.3f},{y_zero:.3f});\n"
+
+    words = short_title.split()
+    short_words: List[str] = []
+    for w in words:
+        if sum(len(x) for x in short_words) + len(short_words) + len(w) <= 20:
+            short_words.append(w)
+        else:
+            break
+    short_lbl = escape_latex(" ".join(short_words) if short_words else short_title[:18])
+
+    charts_latex = rf"""% --- SECTION 3: GROWTH VS SP500 & WORST 20% SP500 MONTHS CHARTS ---
+\noindent
+\begin{{tcolorbox}}[nobeforeafter, box align=top, width=0.492\textwidth, colback=white, colframe=primary, title=\textbf{{\small\strut Cumulative Growth of \$100 (Fund vs. S\&P 500)}}, fonttitle=\sffamily\bfseries\small, arc=5pt, boxrule=0.9pt, toptitle=3.5pt, bottomtitle=3.5pt, left=4pt, right=4pt, top=3pt, bottom=2pt, colbacktitle=primary, halign title=center]
+\centering
+\begin{{tikzpicture}}[x=1cm, y=1cm]
+    \useasboundingbox (-0.95,-0.42) rectangle ({W+0.15:.2f},{H+0.42:.2f});
+    {g_grid_lines}
+    \fill[accent!10!white] {fill_coords} -- cycle;
+    \draw[primary!45, line width=1.1pt] plot coordinates {{{spx_coords}}};
+    \draw[accent, line width=1.5pt] plot coordinates {{{fund_coords}}};
+    \draw[cardborder, line width=0.6pt] (0,0) rectangle ({W:.3f},{H:.3f});
+    {g_x_ticks}
+    % Legend
+    \draw[accent, line width=1.6pt] (0.15,{H+0.20:.3f}) -- (0.55,{H+0.20:.3f});
+    \node[anchor=west, font=\sffamily\tiny\bfseries, text=primary] at (0.60,{H+0.20:.3f}) {{{short_lbl} (\${w_fund[-1]:,.0f})}};
+    \draw[primary!45, line width=1.2pt] (3.95,{H+0.20:.3f}) -- (4.35,{H+0.20:.3f});
+    \node[anchor=west, font=\sffamily\tiny, text=mutedtext] at (4.40,{H+0.20:.3f}) {{S\&P 500 (\${w_spx[-1]:,.0f})}};
+\end{{tikzpicture}}
+\end{{tcolorbox}}\hfill
+\begin{{tcolorbox}}[nobeforeafter, box align=top, width=0.492\textwidth, colback=white, colframe=primary, title=\textbf{{\small\strut Worst 20\% S\&P 500 Months (Top {k_bars} Worst Months)}}, fonttitle=\sffamily\bfseries\small, arc=5pt, boxrule=0.9pt, toptitle=3.5pt, bottomtitle=3.5pt, left=4pt, right=4pt, top=3pt, bottom=2pt, colbacktitle=primary, halign title=center]
+\centering
+\begin{{tikzpicture}}[x=1cm, y=1cm]
+    \useasboundingbox (-0.95,-0.42) rectangle ({W+0.15:.2f},{H+0.42:.2f});
+    {b_grid_lines}
+    {bars_tikz}
+    \draw[cardborder, line width=0.6pt] (0,0) rectangle ({W:.3f},{H:.3f});
+    % Legend
+    \fill[accent] (0.35,{H+0.13:.3f}) rectangle (0.65,{H+0.27:.3f});
+    \node[anchor=west, font=\sffamily\tiny\bfseries, text=primary] at (0.72,{H+0.20:.3f}) {{Fund (+ve)}};
+    \fill[negred!85!black] (2.65,{H+0.13:.3f}) rectangle (2.95,{H+0.27:.3f});
+    \node[anchor=west, font=\sffamily\tiny\bfseries, text=primary] at (3.02,{H+0.20:.3f}) {{Fund (-ve)}};
+    \fill[primary!45] (4.95,{H+0.13:.3f}) rectangle (5.25,{H+0.27:.3f});
+    \node[anchor=west, font=\sffamily\tiny, text=mutedtext] at (5.32,{H+0.20:.3f}) {{S\&P 500}};
+\end{{tikzpicture}}
+\end{{tcolorbox}}
+"""
+    return charts_latex
+
+
+# ---------------------------------------------------------------------------
+# Step 5: Modern 2-Page LaTeX Document Generator
+# ---------------------------------------------------------------------------
 def _format_matrix_cell_latex(val: float, is_yearly: bool = False) -> str:
     """Format a monthly or yearly return cell with heatmap shading."""
     if _isna(val):
@@ -749,6 +934,7 @@ def _format_matrix_cell_latex(val: float, is_yearly: bool = False) -> str:
 
 def generate_latex_tearsheet(
     fund_csv_name: str,
+    records: List[Dict[str, Any]],
     metrics: Dict[str, Any],
     monthly_matrix: Dict[int, Dict[Union[int, str], float]],
     logo_rel_path: str = "athenee_logo.png",
@@ -757,30 +943,55 @@ def generate_latex_tearsheet(
 ) -> str:
     """
     Generate the complete 2-page modern LaTeX document:
-      - Page 1: Logo + Header + Hero KPI Cards + Full Single-Fund Quantitative Indicators + Return Matrix
+      - Page 1: Logo + Header + 5 KPI Cards (incl. Corr to S&P 500 + Alpha/Beta) +
+                2 Strictly-Aligned Quantitative Indicator Boxes +
+                Side-by-Side Growth & Worst-20% SPX Charts +
+                Dynamically Proportioned Monthly Return Matrix
       - Page 2: Quantitative Appendix, Extended Diagnostics & Capital Introduction Legal / Risk Disclaimer
     """
     stem = fund_csv_name.replace(".csv", "").strip()
-    display_title = escape_latex(custom_title if custom_title else format_fund_title(stem))
+    raw_title = custom_title if custom_title else format_fund_title(stem)
+    display_title = escape_latex(raw_title)
     display_subtitle = escape_latex(custom_subtitle if custom_subtitle else format_fund_subtitle(stem))
 
     n_years_rows = len(monthly_matrix)
-    # Adapt table compactness if a fund has a very long track record (e.g., > 10 years) so Page 1 stays 1 page
-    if n_years_rows <= 7:
-        matrix_arraystretch = "1.28"
+
+    # Dynamic vertical proportioning so the Monthly Return Matrix and Charts fill Page 1 top-to-bottom!
+    if n_years_rows <= 4:
+        matrix_fontsize = r"\small"
+        matrix_arraystretch = f"{2.65 - 0.14 * n_years_rows:.2f}"
+        matrix_top_bot_pad = "8pt"
+        chart_height_cm = 4.80
+        stats_arraystretch = "1.28"
+        section_gap = "0.65em"
+    elif n_years_rows <= 7:
         matrix_fontsize = r"\footnotesize"
-        section_vspace = "0.60em"
-        stats_arraystretch = "1.22"
-    elif n_years_rows <= 12:
-        matrix_arraystretch = "1.10"
+        matrix_arraystretch = f"{2.25 - 0.08 * n_years_rows:.2f}"
+        matrix_top_bot_pad = "6pt"
+        chart_height_cm = 4.25
+        stats_arraystretch = "1.24"
+        section_gap = "0.52em"
+    elif n_years_rows <= 11:
+        matrix_fontsize = r"\footnotesize"
+        matrix_arraystretch = f"{1.95 - 0.045 * n_years_rows:.2f}"
+        matrix_top_bot_pad = "4.5pt"
+        chart_height_cm = 3.70
+        stats_arraystretch = "1.20"
+        section_gap = "0.42em"
+    elif n_years_rows <= 18:
         matrix_fontsize = r"\scriptsize"
-        section_vspace = "0.42em"
-        stats_arraystretch = "1.14"
+        matrix_arraystretch = f"{1.56 - 0.022 * n_years_rows:.2f}"
+        matrix_top_bot_pad = "2.5pt"
+        chart_height_cm = 2.75
+        stats_arraystretch = "1.16"
+        section_gap = "0.32em"
     else:
-        matrix_arraystretch = "0.94"
         matrix_fontsize = r"\tiny"
-        section_vspace = "0.25em"
-        stats_arraystretch = "1.06"
+        matrix_arraystretch = f"{max(0.95, 1.32 - 0.014 * n_years_rows):.2f}"
+        matrix_top_bot_pad = "1pt"
+        chart_height_cm = 2.20
+        stats_arraystretch = "1.10"
+        section_gap = "0.22em"
 
     # Build Monthly Return Matrix LaTeX rows
     matrix_rows_latex = ""
@@ -844,8 +1055,8 @@ def generate_latex_tearsheet(
     )
     r2_str = fmt_pct(metrics["r_squared"], 1) if not _isna(metrics["r_squared"]) else "-"
 
-    pearson_str = fmt_num(metrics["pearson_corr"])
-    spearman_str = fmt_num(metrics["spearman_corr"])
+    pearson_str = fmt_num(metrics["pearson_corr"], signed=True)
+    spearman_str = fmt_num(metrics["spearman_corr"], signed=True)
     pearson_blk_ci_str = (
         f"[{fmt_num(metrics['pearson_blk_ci_low'])}, {fmt_num(metrics['pearson_blk_ci_high'])}]"
         if not _isna(metrics["pearson_blk_ci_low"])
@@ -869,23 +1080,23 @@ def generate_latex_tearsheet(
     worst_case_corr_str = fmt_num(metrics["worst_case_corr"])
 
     up_reg_str = (
-        f"\\alpha={fmt_pct(metrics['up_alpha'], 1)}, \\beta={fmt_num(metrics['up_beta'])}"
+        f"\\alpha={fmt_pct(metrics['up_alpha'], 1)},\\ \\beta={fmt_num(metrics['up_beta'])}"
         if not _isna(metrics["up_alpha"])
         else "-"
     )
     down_reg_str = (
-        f"\\alpha={fmt_pct(metrics['down_alpha'], 1)}, \\beta={fmt_num(metrics['down_beta'])}"
+        f"\\alpha={fmt_pct(metrics['down_alpha'], 1)},\\ \\beta={fmt_num(metrics['down_beta'])}"
         if not _isna(metrics["down_alpha"])
         else "-"
     )
 
     q1_corr_str = (
-        f"r={fmt_num(metrics['q1_pearson'])}, \\rho={fmt_num(metrics['q1_spearman'])}\\ (n={metrics['n_q1']})"
+        f"r={fmt_num(metrics['q1_pearson'])},\\ \\rho={fmt_num(metrics['q1_spearman'])}\\ (n={metrics['n_q1']})"
         if not _isna(metrics["q1_pearson"])
         else "-"
     )
     d1_corr_str = (
-        f"r={fmt_num(metrics['d1_pearson'])}, \\rho={fmt_num(metrics['d1_spearman'])}\\ (n={metrics['n_d1']})"
+        f"r={fmt_num(metrics['d1_pearson'])},\\ \\rho={fmt_num(metrics['d1_spearman'])}\\ (n={metrics['n_d1']})"
         if not _isna(metrics["d1_pearson"])
         else "-"
     )
@@ -912,7 +1123,7 @@ def generate_latex_tearsheet(
     lb1_pval = metrics["lb_lag1_pval"]
     lb3_pval = metrics["lb_lag3_pval"]
     if not _isna(lb1_pval) and not _isna(lb3_pval):
-        lb_status = "Pass (No Serial Corr.)" if (lb1_pval >= 0.05 and lb3_pval >= 0.05) else "Serial Corr. Detected"
+        lb_status = "Pass" if (lb1_pval >= 0.05 and lb3_pval >= 0.05) else "Serial Corr."
         lb_str = f"p_1={fmt_num(lb1_pval, 2)},\\ p_3={fmt_num(lb3_pval, 2)}\\ (\\text{{{lb_status}}})"
     else:
         lb_str = "-"
@@ -921,10 +1132,17 @@ def generate_latex_tearsheet(
         f"{metrics['start_date']} - {metrics['end_date']} ({metrics['n_months']} Months / {metrics['years_elapsed']:.1f} Years)"
     )
 
+    # Build the two side-by-side TikZ charts
+    charts_section_latex = _build_tikz_charts_section(
+        records=records,
+        short_title=raw_title,
+        chart_height_cm=chart_height_cm,
+    )
+
     latex_doc = rf"""\documentclass[10pt,a4paper]{{article}}
 \usepackage[utf8]{{inputenc}}
 \usepackage[T1]{{fontenc}}
-\usepackage[left=0.32in, right=0.32in, top=0.28in, bottom=0.28in]{{geometry}}
+\usepackage[left=0.30in, right=0.30in, top=0.24in, bottom=0.24in]{{geometry}}
 \usepackage{{graphicx}}
 \usepackage{{booktabs}}
 \usepackage{{xcolor}}
@@ -968,110 +1186,102 @@ def generate_latex_tearsheet(
 % --- HEADER BAR WITH LOGO ---
 \noindent
 \begin{{minipage}}[c]{{0.68\textwidth}}
-    {{\fontsize{{20}}{{24}}\selectfont \bfseries \textcolor{{primary}}{{{display_title}}}}}\\[3pt]
-    {{\normalsize \bfseries \textcolor{{accent}}{{{display_subtitle}}}}}\\[3pt]
-    {{\footnotesize \textcolor{{mutedtext}}{{\textbf{{Track Record:}} {period_str} \quad $\vert$ \quad \textbf{{Benchmark:}} S\&P 500 Total Return}}}}
+    {{\fontsize{{19}}{{23}}\selectfont \bfseries \textcolor{{primary}}{{{display_title}}}}}\\[2pt]
+    {{\small \bfseries \textcolor{{accent}}{{{display_subtitle}}}}}\\[2pt]
+    {{\scriptsize \textcolor{{mutedtext}}{{\textbf{{Track Record:}} {period_str} \quad $\vert$ \quad \textbf{{Benchmark:}} S\&P 500 Total Return}}}}
 \end{{minipage}}%
 \hfill
 \begin{{minipage}}[c]{{0.30\textwidth}}
     \raggedleft
-    \includegraphics[height=1.15cm, keepaspectratio]{{{logo_rel_path}}}\\[2pt]
+    \includegraphics[height=1.08cm, keepaspectratio]{{{logo_rel_path}}}\\[1.5pt]
     {{\tiny \bfseries \textcolor{{goldaccent}}{{CAPITAL INTRODUCTION \& THIRD-PARTY MARKETING}}}}
 \end{{minipage}}
 
-\vspace{{0.30em}}
-\noindent{{\color{{goldaccent}}\rule{{\textwidth}}{{1.5pt}}}}
-\vspace{{{section_vspace}}}
+\vspace{{0.22em}}
+\noindent{{\color{{goldaccent}}\rule{{\textwidth}}{{1.4pt}}}}
+\vspace{{{section_gap}}}
 
-% --- SECTION 1: TOP-LINE KPI HIGHLIGHT CARDS ---
+% --- SECTION 1: TOP-LINE KPI HIGHLIGHT CARDS (WITH CORR TO SP500 + ALPHA & BETA) ---
 \noindent
-\begin{{minipage}}[t]{{0.192\textwidth}}\vspace{{0pt}}
-\begin{{tcolorbox}}[equal height group=kpicards, colback=white, colframe=primary, title=\textbf{{\footnotesize\strut CAGR (Net)}}, fonttitle=\sffamily\bfseries\footnotesize, arc=4pt, boxrule=0.8pt, toptitle=3.5pt, bottomtitle=3.5pt, left=2pt, right=2pt, top=4pt, bottom=4pt, colbacktitle=primary, halign title=center]
+\begin{{tcolorbox}}[nobeforeafter, box align=top, width=0.192\textwidth, colback=white, colframe=primary, title=\textbf{{\footnotesize\strut CAGR (Net)}}, fonttitle=\sffamily\bfseries\footnotesize, arc=4pt, boxrule=0.8pt, toptitle=3pt, bottomtitle=3pt, left=2pt, right=2pt, top=3.5pt, bottom=3.5pt, colbacktitle=primary, halign title=center]
     \centering
-    {{\Large \bfseries \textcolor{{primary}}{{\strut {cagr_str}}}}}\\[2pt]
+    {{\Large \bfseries \textcolor{{primary}}{{\strut {cagr_str}}}}}\\[1.5pt]
     {{\tiny \textcolor{{mutedtext}}{{\strut S\&P 500: {sp_cagr_str}}}}}
-\end{{tcolorbox}}
-\end{{minipage}}\hfill
-\begin{{minipage}}[t]{{0.192\textwidth}}\vspace{{0pt}}
-\begin{{tcolorbox}}[equal height group=kpicards, colback=white, colframe=primary, title=\textbf{{\footnotesize\strut Ann. Volatility}}, fonttitle=\sffamily\bfseries\footnotesize, arc=4pt, boxrule=0.8pt, toptitle=3.5pt, bottomtitle=3.5pt, left=2pt, right=2pt, top=4pt, bottom=4pt, colbacktitle=primary, halign title=center]
+\end{{tcolorbox}}\hfill
+\begin{{tcolorbox}}[nobeforeafter, box align=top, width=0.192\textwidth, colback=white, colframe=primary, title=\textbf{{\footnotesize\strut Ann. Volatility}}, fonttitle=\sffamily\bfseries\footnotesize, arc=4pt, boxrule=0.8pt, toptitle=3pt, bottomtitle=3pt, left=2pt, right=2pt, top=3.5pt, bottom=3.5pt, colbacktitle=primary, halign title=center]
     \centering
-    {{\Large \bfseries \textcolor{{primary}}{{\strut {vol_str}}}}}\\[2pt]
+    {{\Large \bfseries \textcolor{{primary}}{{\strut {vol_str}}}}}\\[1.5pt]
     {{\tiny \textcolor{{mutedtext}}{{\strut S\&P 500: {sp_vol_str}}}}}
-\end{{tcolorbox}}
-\end{{minipage}}\hfill
-\begin{{minipage}}[t]{{0.192\textwidth}}\vspace{{0pt}}
-\begin{{tcolorbox}}[equal height group=kpicards, colback=white, colframe=primary, title=\textbf{{\footnotesize\strut Sharpe Ratio}}, fonttitle=\sffamily\bfseries\footnotesize, arc=4pt, boxrule=0.8pt, toptitle=3.5pt, bottomtitle=3.5pt, left=2pt, right=2pt, top=4pt, bottom=4pt, colbacktitle=primary, halign title=center]
+\end{{tcolorbox}}\hfill
+\begin{{tcolorbox}}[nobeforeafter, box align=top, width=0.192\textwidth, colback=white, colframe=primary, title=\textbf{{\footnotesize\strut Sharpe Ratio}}, fonttitle=\sffamily\bfseries\footnotesize, arc=4pt, boxrule=0.8pt, toptitle=3pt, bottomtitle=3pt, left=2pt, right=2pt, top=3.5pt, bottom=3.5pt, colbacktitle=primary, halign title=center]
     \centering
-    {{\Large \bfseries \textcolor{{primary}}{{\strut {sharpe_str}}}}}\\[2pt]
+    {{\Large \bfseries \textcolor{{primary}}{{\strut {sharpe_str}}}}}\\[1.5pt]
     {{\tiny \textcolor{{mutedtext}}{{\strut S\&P 500: {sp_sharpe_str} $\vert$ Sortino: {sortino_str}}}}}
-\end{{tcolorbox}}
-\end{{minipage}}\hfill
-\begin{{minipage}}[t]{{0.192\textwidth}}\vspace{{0pt}}
-\begin{{tcolorbox}}[equal height group=kpicards, colback=white, colframe=primary, title=\textbf{{\footnotesize\strut Max Drawdown}}, fonttitle=\sffamily\bfseries\footnotesize, arc=4pt, boxrule=0.8pt, toptitle=3.5pt, bottomtitle=3.5pt, left=2pt, right=2pt, top=4pt, bottom=4pt, colbacktitle=primary, halign title=center]
+\end{{tcolorbox}}\hfill
+\begin{{tcolorbox}}[nobeforeafter, box align=top, width=0.192\textwidth, colback=white, colframe=primary, title=\textbf{{\footnotesize\strut Max Drawdown}}, fonttitle=\sffamily\bfseries\footnotesize, arc=4pt, boxrule=0.8pt, toptitle=3pt, bottomtitle=3pt, left=2pt, right=2pt, top=3.5pt, bottom=3.5pt, colbacktitle=primary, halign title=center]
     \centering
-    {{\Large \bfseries \textcolor{{primary}}{{\strut {mdd_str}}}}}\\[2pt]
+    {{\Large \bfseries \textcolor{{primary}}{{\strut {mdd_str}}}}}\\[1.5pt]
     {{\tiny \textcolor{{mutedtext}}{{\strut S\&P 500: {sp_mdd_str} $\vert$ Calmar: {calmar_str}}}}}
-\end{{tcolorbox}}
-\end{{minipage}}\hfill
-\begin{{minipage}}[t]{{0.192\textwidth}}\vspace{{0pt}}
-\begin{{tcolorbox}}[equal height group=kpicards, colback=white, colframe=primary, title=\textbf{{\footnotesize\strut Ann. Alpha ($\alpha$)}}, fonttitle=\sffamily\bfseries\footnotesize, arc=4pt, boxrule=0.8pt, toptitle=3.5pt, bottomtitle=3.5pt, left=2pt, right=2pt, top=4pt, bottom=4pt, colbacktitle=primary, halign title=center]
+\end{{tcolorbox}}\hfill
+\begin{{tcolorbox}}[nobeforeafter, box align=top, width=0.192\textwidth, colback=white, colframe=primary, title=\textbf{{\footnotesize\strut Corr. to S\&P 500}}, fonttitle=\sffamily\bfseries\footnotesize, arc=4pt, boxrule=0.8pt, toptitle=3pt, bottomtitle=3pt, left=2pt, right=2pt, top=3.5pt, bottom=3.5pt, colbacktitle=primary, halign title=center]
     \centering
-    {{\Large \bfseries \textcolor{{primary}}{{\strut {fmt_pct(metrics['alpha'])}}}}}\\[2pt]
-    {{\tiny \textcolor{{mutedtext}}{{\strut Beta: {fmt_num(metrics['beta'])} $\vert$ Corr: {pearson_str}}}}}
+    {{\Large \bfseries \textcolor{{primary}}{{\strut {pearson_str}}}}}\\[1.5pt]
+    {{\tiny \textcolor{{mutedtext}}{{\strut Alpha: {fmt_pct(metrics['alpha'], 1)} $\vert$ Beta: {fmt_num(metrics['beta'])}}}}}
 \end{{tcolorbox}}
-\end{{minipage}}
 
-\vspace{{{section_vspace}}}
+\vspace{{{section_gap}}}
 
-% --- SECTION 2: COMPREHENSIVE SINGLE-FUND ANALYSIS INDICATORS ---
+% --- SECTION 2: COMPREHENSIVE SINGLE-FUND ANALYSIS INDICATORS (STRICTLY ALIGNED 13 ROWS EACH) ---
 \noindent
-\begin{{minipage}}[t]{{0.492\textwidth}}\vspace{{0pt}}
-\begin{{tcolorbox}}[equal height group=statspanels, colback=white, colframe=primary, title=\textbf{{\small\strut Performance, Risk \& Hit Rate Indicators}}, fonttitle=\sffamily\bfseries\small, arc=5pt, boxrule=0.9pt, toptitle=4pt, bottomtitle=4pt, left=2pt, right=2pt, top=1pt, bottom=1pt, colbacktitle=primary]
+\begin{{tcolorbox}}[nobeforeafter, box align=top, width=0.492\textwidth, colback=white, colframe=primary, title=\textbf{{\small\strut Performance, Risk \& Hit Rate Indicators}}, fonttitle=\sffamily\bfseries\small, arc=5pt, boxrule=0.9pt, toptitle=3.5pt, bottomtitle=3.5pt, left=4pt, right=4pt, top=1pt, bottom=1pt, colbacktitle=primary]
 \renewcommand{{\arraystretch}}{{{stats_arraystretch}}}
+\setlength{{\tabcolsep}}{{2pt}}
 \scriptsize
-\begin{{tabularx}}{{\textwidth}}{{>{{\columncolor{{white}}}}X >{{\columncolor{{white}}}}r >{{\columncolor{{white}}}}r}}
-\rowcolor{{primary!10!white}} \textbf{{\textcolor{{primary}}{{Indicator}}}} & \textbf{{\textcolor{{primary}}{{Fund}}}} & \textbf{{\textcolor{{mutedtext}}{{S\&P 500}}}} \\
-\textbf{{\textcolor{{primary}}{{CAGR (Compound Annual Growth)}}}} & \textbf{{\textcolor{{primary}}{{{cagr_str}}}}} & \textcolor{{mutedtext}}{{{sp_cagr_str}}} \\
-\rowcolor{{cardbg}} \textbf{{\textcolor{{primary}}{{Annualized Mean Return}}}} & \textcolor{{primary}}{{{ann_mean_str}}} & \textcolor{{mutedtext}}{{{sp_ann_mean_str}}} \\
-\textbf{{\textcolor{{primary}}{{Annualized Volatility (Std. Dev.)}}}} & \textcolor{{primary}}{{{vol_str}}} & \textcolor{{mutedtext}}{{{sp_vol_str}}} \\
-\rowcolor{{cardbg}} \textbf{{\textcolor{{primary}}{{Proxy Sharpe Ratio ($r_f = 0\%$)}}}} & \textbf{{\textcolor{{primary}}{{{sharpe_str}}}}} & \textcolor{{mutedtext}}{{{sp_sharpe_str}}} \\
-\textbf{{\textcolor{{primary}}{{Annualized Sortino Ratio}}}} & \textcolor{{primary}}{{{sortino_str}}} & \textcolor{{mutedtext}}{{{sp_sortino_str}}} \\
-\rowcolor{{cardbg}} \textbf{{\textcolor{{primary}}{{Maximum Drawdown (MDD)}}}} & \textbf{{\textcolor{{primary}}{{{mdd_str}}}}} & \textcolor{{mutedtext}}{{{sp_mdd_str}}} \\
-\textbf{{\textcolor{{primary}}{{Calmar Ratio (CAGR / $|$MDD$|$)}}}} & \textcolor{{primary}}{{{calmar_str}}} & \textcolor{{mutedtext}}{{{sp_calmar_str}}} \\
-\rowcolor{{cardbg}} \textbf{{\textcolor{{primary}}{{Cumulative Total Return}}}} & \textcolor{{primary}}{{{cum_ret_str}}} & \textcolor{{mutedtext}}{{{sp_cum_ret_str}}} \\
-\textbf{{\textcolor{{primary}}{{Best / Worst Monthly Return}}}} & \textcolor{{primary}}{{{best_m_str} / {worst_m_str}}} & \textcolor{{mutedtext}}{{{sp_best_m_str} / {sp_worst_m_str}}} \\
-\rowcolor{{cardbg}} \textbf{{\textcolor{{primary}}{{Positive Months (Hit Rate)}}}} & \textcolor{{primary}}{{{pos_months_str}}} & \textcolor{{mutedtext}}{{{sp_pos_months_str}}} \\
-\textbf{{\textcolor{{primary}}{{Crisis Hit Rate ($\text{{Fund}}>0 \mid \text{{SPX}}<0$)}}}} & \textbf{{\textcolor{{primary}}{{{crisis_hit_str}}}}} & \textcolor{{mutedtext}}{{--}} \\
-\rowcolor{{cardbg}} \textbf{{\textcolor{{primary}}{{Up-Mkt Loss ($\text{{Fund}}<0 \mid \text{{SPX}}>0$)}}}} & \textcolor{{primary}}{{{up_loss_str}}} & \textcolor{{mutedtext}}{{--}} \\
-\end{{tabularx}}
-\end{{tcolorbox}}
-\end{{minipage}}\hfill
-\begin{{minipage}}[t]{{0.492\textwidth}}\vspace{{0pt}}
-\begin{{tcolorbox}}[equal height group=statspanels, colback=white, colframe=primary, title=\textbf{{\small\strut Alpha, Beta, Correlation \& Tail Analysis (vs. S\&P 500)}}, fonttitle=\sffamily\bfseries\small, arc=5pt, boxrule=0.9pt, toptitle=4pt, bottomtitle=4pt, left=2pt, right=2pt, top=1pt, bottom=1pt, colbacktitle=primary]
+\begin{{tabular*}}{{\textwidth}}{{@{{\extracolsep{{\fill}}}} l r r @{{}}}}
+\rowcolor{{primary!10!white}}[0pt][0pt] \textbf{{\textcolor{{primary}}{{\strut Indicator}}}} & \textbf{{\textcolor{{primary}}{{\strut Fund}}}} & \textbf{{\textcolor{{mutedtext}}{{\strut S\&P 500}}}} \\
+\textbf{{\textcolor{{primary}}{{\strut CAGR (Annualized)}}}} & \textbf{{\textcolor{{primary}}{{{cagr_str}}}}} & \textcolor{{mutedtext}}{{{sp_cagr_str}}} \\
+\rowcolor{{cardbg}}[0pt][0pt] \textbf{{\textcolor{{primary}}{{\strut Annualized Mean Return}}}} & \textcolor{{primary}}{{{ann_mean_str}}} & \textcolor{{mutedtext}}{{{sp_ann_mean_str}}} \\
+\textbf{{\textcolor{{primary}}{{\strut Annualized Volatility}}}} & \textcolor{{primary}}{{{vol_str}}} & \textcolor{{mutedtext}}{{{sp_vol_str}}} \\
+\rowcolor{{cardbg}}[0pt][0pt] \textbf{{\textcolor{{primary}}{{\strut Proxy Sharpe Ratio ($r_f = 0\%$)}}}} & \textbf{{\textcolor{{primary}}{{{sharpe_str}}}}} & \textcolor{{mutedtext}}{{{sp_sharpe_str}}} \\
+\textbf{{\textcolor{{primary}}{{\strut Annualized Sortino Ratio}}}} & \textcolor{{primary}}{{{sortino_str}}} & \textcolor{{mutedtext}}{{{sp_sortino_str}}} \\
+\rowcolor{{cardbg}}[0pt][0pt] \textbf{{\textcolor{{primary}}{{\strut Maximum Drawdown (MDD)}}}} & \textbf{{\textcolor{{primary}}{{{mdd_str}}}}} & \textcolor{{mutedtext}}{{{sp_mdd_str}}} \\
+\textbf{{\textcolor{{primary}}{{\strut Calmar Ratio (CAGR / $|$MDD$|$)}}}} & \textcolor{{primary}}{{{calmar_str}}} & \textcolor{{mutedtext}}{{{sp_calmar_str}}} \\
+\rowcolor{{cardbg}}[0pt][0pt] \textbf{{\textcolor{{primary}}{{\strut Cumulative Total Return}}}} & \textcolor{{primary}}{{{cum_ret_str}}} & \textcolor{{mutedtext}}{{{sp_cum_ret_str}}} \\
+\textbf{{\textcolor{{primary}}{{\strut Best / Worst Monthly}}}} & \textcolor{{primary}}{{{best_m_str} / {worst_m_str}}} & \textcolor{{mutedtext}}{{{sp_best_m_str} / {sp_worst_m_str}}} \\
+\rowcolor{{cardbg}}[0pt][0pt] \textbf{{\textcolor{{primary}}{{\strut Positive Months (Hit Rate)}}}} & \textcolor{{primary}}{{{pos_months_str}}} & \textcolor{{mutedtext}}{{{sp_pos_months_str}}} \\
+\textbf{{\textcolor{{primary}}{{\strut Crisis Hit Rate ($\text{{Fund}}>0 \mid \text{{SPX}}<0$)}}}} & \textbf{{\textcolor{{primary}}{{{crisis_hit_str}}}}} & \textcolor{{mutedtext}}{{--}} \\
+\rowcolor{{cardbg}}[0pt][0pt] \textbf{{\textcolor{{primary}}{{\strut Up-Mkt Loss ($\text{{Fund}}<0 \mid \text{{SPX}}>0$)}}}} & \textcolor{{primary}}{{{up_loss_str}}} & \textcolor{{mutedtext}}{{--}} \\
+\end{{tabular*}}
+\end{{tcolorbox}}\hfill
+\begin{{tcolorbox}}[nobeforeafter, box align=top, width=0.492\textwidth, colback=white, colframe=primary, title=\textbf{{\small\strut Alpha, Beta, Correlation \& Tail Analysis (vs. S\&P 500)}}, fonttitle=\sffamily\bfseries\small, arc=5pt, boxrule=0.9pt, toptitle=3.5pt, bottomtitle=3.5pt, left=4pt, right=4pt, top=1pt, bottom=1pt, colbacktitle=primary]
 \renewcommand{{\arraystretch}}{{{stats_arraystretch}}}
+\setlength{{\tabcolsep}}{{2pt}}
 \scriptsize
-\begin{{tabularx}}{{\textwidth}}{{>{{\columncolor{{white}}}}X >{{\columncolor{{white}}}}r}}
-\rowcolor{{primary!10!white}} \textbf{{\textcolor{{primary}}{{Quantitative Metric}}}} & \textbf{{\textcolor{{primary}}{{Estimate / Diagnostic}}}} \\
-\textbf{{\textcolor{{primary}}{{Annualized Alpha ($\alpha$) \& $t$-stat}}}} & \textbf{{\textcolor{{primary}}{{{alpha_str}}}}} \\
-\rowcolor{{cardbg}} \textbf{{\textcolor{{primary}}{{Market Beta ($\beta_{{\text{{SPX}}}}$) \& $t$-stat}}}} & \textcolor{{primary}}{{{beta_str} ($R^2={r2_str}$)}} \\
-\textbf{{\textcolor{{primary}}{{Pearson Corr. ($r$) to S\&P 500}}}} & \textbf{{\textcolor{{primary}}{{{pearson_str}}}}} \textcolor{{mutedtext}}{{(95\% Blk CI: {pearson_blk_ci_str})}} \\
-\rowcolor{{cardbg}} \textbf{{\textcolor{{primary}}{{Spearman Rank Corr. ($\rho$)}}}} & \textcolor{{primary}}{{{spearman_str}}} \textcolor{{mutedtext}}{{(95\% Blk CI: {spearman_blk_ci_str})}} \\
-\textbf{{\textcolor{{primary}}{{Upside / Downside Capture}}}} & \textcolor{{primary}}{{Up: \textbf{{{up_cap_str}}} $\vert$ Down: \textbf{{{down_cap_str}}}}} \\
-\rowcolor{{cardbg}} \textbf{{\textcolor{{primary}}{{Cond. Up-Market ($\text{{SPX}}>0$)}}}} & \textcolor{{primary}}{{${up_reg_str}$}} \\
-\textbf{{\textcolor{{primary}}{{Cond. Down-Market ($\text{{SPX}}<0$)}}}} & \textcolor{{primary}}{{${down_reg_str}$}} \\
-\rowcolor{{cardbg}} \textbf{{\textcolor{{primary}}{{Tail Corr. ($\text{{SPX}} < \text{{Q}}_1$, 25\%)}}}} & \textcolor{{primary}}{{${q1_corr_str}$}} \\
-\textbf{{\textcolor{{primary}}{{Tail Corr. ($\text{{SPX}} < \text{{D}}_1$, 10\%)}}}} & \textcolor{{primary}}{{${d1_corr_str}$}} \\
-\rowcolor{{cardbg}} \textbf{{\textcolor{{primary}}{{Worst 20\% SPX Months Mean}}}} & \textcolor{{primary}}{{{worst20_str}}} \\
-\textbf{{\textcolor{{primary}}{{Cross-Asset Beta (WTI / BTC)}}}} & \textcolor{{primary}}{{{wti_btc_compact}}} \\
-\rowcolor{{cardbg}} \textbf{{\textcolor{{primary}}{{Ljung-Box Serial Corr.}}}} & \textcolor{{primary}}{{${lb_str}$}} \\
-\end{{tabularx}}
+\begin{{tabular*}}{{\textwidth}}{{@{{\extracolsep{{\fill}}}} l r @{{}}}}
+\rowcolor{{primary!10!white}}[0pt][0pt] \textbf{{\textcolor{{primary}}{{\strut Quantitative Metric}}}} & \textbf{{\textcolor{{primary}}{{\strut Estimate / Diagnostic}}}} \\
+\textbf{{\textcolor{{primary}}{{\strut Annualized Alpha ($\alpha$) \& $t$-stat}}}} & \textbf{{\textcolor{{primary}}{{{alpha_str}}}}} \\
+\rowcolor{{cardbg}}[0pt][0pt] \textbf{{\textcolor{{primary}}{{\strut Market Beta ($\beta_{{\text{{SPX}}}}$) \& $t$-stat}}}} & \textcolor{{primary}}{{{beta_str} ($R^2={r2_str}$)}} \\
+\textbf{{\textcolor{{primary}}{{\strut Pearson Correlation ($r$) to S\&P 500}}}} & \textbf{{\textcolor{{primary}}{{{pearson_str}}}}} \textcolor{{mutedtext}}{{(95\% Blk CI: {pearson_blk_ci_str})}} \\
+\rowcolor{{cardbg}}[0pt][0pt] \textbf{{\textcolor{{primary}}{{\strut Spearman Rank Correlation ($\rho$)}}}} & \textcolor{{primary}}{{{spearman_str}}} \textcolor{{mutedtext}}{{(95\% Blk CI: {spearman_blk_ci_str})}} \\
+\textbf{{\textcolor{{primary}}{{\strut Upside / Downside Capture Ratio}}}} & \textcolor{{primary}}{{Up: \textbf{{{up_cap_str}}} $\vert$ Down: \textbf{{{down_cap_str}}}}} \\
+\rowcolor{{cardbg}}[0pt][0pt] \textbf{{\textcolor{{primary}}{{\strut Cond. Up-Market ($\text{{SPX}}>0$)}}}} & \textcolor{{primary}}{{${up_reg_str}$}} \\
+\textbf{{\textcolor{{primary}}{{\strut Cond. Down-Market ($\text{{SPX}}<0$)}}}} & \textcolor{{primary}}{{${down_reg_str}$}} \\
+\rowcolor{{cardbg}}[0pt][0pt] \textbf{{\textcolor{{primary}}{{\strut Tail Corr. ($\text{{SPX}} < Q_1$, Worst 25\%)}}}} & \textcolor{{primary}}{{${q1_corr_str}$}} \\
+\textbf{{\textcolor{{primary}}{{\strut Tail Corr. ($\text{{SPX}} < D_1$, Worst 10\%)}}}} & \textcolor{{primary}}{{${d1_corr_str}$}} \\
+\rowcolor{{cardbg}}[0pt][0pt] \textbf{{\textcolor{{primary}}{{\strut Worst 20\% SPX Months Avg. Return}}}} & \textcolor{{primary}}{{{worst20_str}}} \\
+\textbf{{\textcolor{{primary}}{{\strut Cross-Asset Beta (WTI / BTC)}}}} & \textcolor{{primary}}{{{wti_btc_compact}}} \\
+\rowcolor{{cardbg}}[0pt][0pt] \textbf{{\textcolor{{primary}}{{\strut Ljung-Box Serial Correlation}}}} & \textcolor{{primary}}{{${lb_str}$}} \\
+\end{{tabular*}}
 \end{{tcolorbox}}
-\end{{minipage}}
 
-\vspace{{{section_vspace}}}
+\vspace{{{section_gap}}}
 
-% --- SECTION 3: MONTHLY RETURN MATRIX ---
-\begin{{tcolorbox}}[colback=white, colframe=primary, title=\textbf{{\small\strut Historical Monthly \& Yearly Net Return Matrix (\%)}}, fonttitle=\sffamily\bfseries\small, arc=5pt, boxrule=0.9pt, toptitle=4pt, bottomtitle=4pt, left=3pt, right=3pt, top=1pt, bottom=1pt, colbacktitle=primary, halign title=center]
+{charts_section_latex}
+
+\vspace{{{section_gap}}}
+
+% --- SECTION 4: MONTHLY RETURN MATRIX ---
+\begin{{tcolorbox}}[colback=white, colframe=primary, title=\textbf{{\small\strut Historical Monthly \& Yearly Net Return Matrix (\%)}}, fonttitle=\sffamily\bfseries\small, arc=5pt, boxrule=0.9pt, toptitle=3.5pt, bottomtitle=3.5pt, left=3pt, right=3pt, top={matrix_top_bot_pad}, bottom={matrix_top_bot_pad}, colbacktitle=primary, halign title=center]
 \renewcommand{{\arraystretch}}{{{matrix_arraystretch}}}
 {matrix_fontsize}
 \begin{{tabularx}}{{\textwidth}}{{l *{{12}}{{>{{\centering\arraybackslash}}X}} >{{\centering\arraybackslash}}p{{1.15cm}}}}
@@ -1143,7 +1353,7 @@ def generate_latex_tearsheet(
 \vspace{{0.35em}}
 
 % --- PART II: METHODOLOGY DEFINITIONS ---
-\begin{{tcolorbox}}[colback=cardbg, colframe=cardborder, title=\textbf{{\small Appendix B: Quantitative Framework \& Indicator Definitions}}, fonttitle=\sffamily\bfseries\small\color{{primary}}, arc=5pt, boxrule=0.8pt, toptitle=4pt, bottomtitle=4pt, left=6pt, right=6pt, top=4pt, bottom=4pt, colbacktitle=cardborder]
+\begin{{tcolorbox}}[colback=cardbg, colframe=cardborder, title=\textbf{{\small\strut Appendix B: Quantitative Framework \& Indicator Definitions}}, fonttitle=\sffamily\bfseries\small\color{{primary}}, arc=5pt, boxrule=0.8pt, toptitle=4pt, bottomtitle=4pt, left=6pt, right=6pt, top=4pt, bottom=4pt, colbacktitle=cardborder]
 \scriptsize
 \begin{{itemize}}[leftmargin=1.2em, itemsep=1.5pt, topsep=1pt]
     \item \textbf{{CAGR \& Annualized Volatility:}} Compound Annual Growth Rate is computed geometrically as $\text{{CAGR}} = \left(\prod_{{t=1}}^T (1 + r_t)\right)^{{12/T}} - 1$. Annualized Volatility is sample standard deviation scaled by $\sqrt{{12}}$: $\sigma_{{\text{{ann}}}} = \hat{{\sigma}}_m \sqrt{{12}}$. Proxy Sharpe Ratio assumes $r_f = 0\%$ ($\bar{{r}}_{{\text{{ann}}}} / \sigma_{{\text{{ann}}}}$).
@@ -1156,7 +1366,7 @@ def generate_latex_tearsheet(
 \vspace{{0.35em}}
 
 % --- PART III: CAPITAL INTRODUCTION & RISK DISCLAIMER ---
-\begin{{tcolorbox}}[colback=white, colframe=accent, title=\textbf{{\small Important Legal Disclaimer, Risk Disclosures \& Capital Introduction Notice}}, fonttitle=\sffamily\bfseries\small, arc=5pt, boxrule=0.9pt, toptitle=5pt, bottomtitle=5pt, left=8pt, right=8pt, top=5pt, bottom=5pt, colbacktitle=accent]
+\begin{{tcolorbox}}[colback=white, colframe=accent, title=\textbf{{\small\strut Important Legal Disclaimer, Risk Disclosures \& Capital Introduction Notice}}, fonttitle=\sffamily\bfseries\small, arc=5pt, boxrule=0.9pt, toptitle=5pt, bottomtitle=5pt, left=8pt, right=8pt, top=5pt, bottom=5pt, colbacktitle=accent]
 \scriptsize
 \textcolor{{primary}}{{
 \textbf{{1. Role of Ath\'en\'ee Investment — Capital Introduction Services Only (No Investment Advice):}}\\[1.5pt]
@@ -1200,7 +1410,7 @@ This document is strictly confidential and is directed exclusively at \textbf{{I
 
 
 # ---------------------------------------------------------------------------
-# Step 5: CSV Writers & Pipeline Runners (Single & Batch)
+# Step 6: CSV Writers & Pipeline Runners (Single & Batch)
 # ---------------------------------------------------------------------------
 def _write_dict_csv(path: Path, rows: List[Dict[str, Any]]) -> None:
     if not rows:
@@ -1311,6 +1521,7 @@ def run_fund_pipeline(
     # 4. Generate LaTeX file
     latex_code = generate_latex_tearsheet(
         fund_csv_name=stem,
+        records=records,
         metrics=metrics,
         monthly_matrix=monthly_matrix,
         logo_rel_path="athenee_logo.png",
@@ -1470,4 +1681,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
