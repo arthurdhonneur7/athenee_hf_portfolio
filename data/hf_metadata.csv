@@ -24,6 +24,7 @@ coban_orca,ATH-954,Dubhe Prime,Coban ORCA Strategy,Institutional Alternative Inv
 coban_plettenberg,ATH-962,Altair Ridge,Coban Plettenberg Strategy,Institutional Alternative Investment Strategy — Quantitative Performance Analysis,Net,Commingled Fund,2%,20%,Quarter Liquidity,No Lockup,1M USD,250M,Cayman Islands,
 coban_pod_1,ATH-310,Verzasca Nexus,Coban Multi-Manager Pod 1,Institutional Alternative Investment Strategy — Quantitative Performance Analysis,Net,Commingled Fund,2%,20%,Quarter Liquidity,No Lockup,1M USD,250M,Cayman Islands,
 coban_pod_2,ATH-484,Dubhe Axis,Coban Multi-Manager Pod 2,Institutional Alternative Investment Strategy — Quantitative Performance Analysis,Net,Commingled Fund,2%,20%,Quarter Liquidity,No Lockup,1M USD,250M,Cayman Islands,
+counterpoint,ATH-395,Altair Vanguard,Counterpoint,Crypto Market Making Multi Pair,Gross,Commingled Fund,2%,20%,Quarter Liquidity,No Lockup,1M USD,30,BVI,
 dcm_systematic,ATH-514,Schedar Bastion,DCM Systematic,Systematic Multi-Asset & Diversified Quantitative Strategy,Net,Commingled Fund,2%,20%,Quarter Liquidity,No Lockup,1M USD,250M,Cayman Islands,
 double_digit,ATH-944,Cygnus Solstice,Double Digit,Institutional Alternative Investment Strategy — Quantitative Performance Analysis,Net,Commingled Fund,2%,20%,Quarter Liquidity,No Lockup,1M USD,250M,Cayman Islands,
 edge_capital,ATH-982,Mintaka Vertex,Edge Capital Market Neutral,Institutional Alternative Investment Strategy — Quantitative Performance Analysis,Net,Commingled Fund,2%,20%,Quarter Liquidity,No Lockup,1M USD,250M,Cayman Islands,
@@ -72,3 +73,4 @@ vadantia,ATH-496,Mizar Bastion,Vadantia Quant FX & Metals,Quantitative High-Velo
 winton,ATH-626,Canopus Ridge,Winton Systematic Strategy,Institutional Alternative Investment Strategy — Quantitative Performance Analysis,Net,Commingled Fund,2%,20%,Quarter Liquidity,No Lockup,1M USD,250M,Cayman Islands,
 wizard_quant,ATH-969,Gruyere Alpha,Wizard Quant Market Neutral,Quantitative Equity Market-Neutral Strategy,Net,Commingled Fund,2%,20%,Quarter Liquidity,No Lockup,1M USD,250M,Cayman Islands,
 wizard_quant_offshore,ATH-339,Mizar Horizon,Wizard Quant Offshore,Institutional Alternative Investment Strategy — Quantitative Performance Analysis,Net,Commingled Fund,2%,20%,Quarter Liquidity,No Lockup,1M USD,250M,Cayman Islands,
+zavara,ATH-988,Albula Solstice,Zavara,BTC Options Market Making,Net,SMA,1%,30%,Immediate,No Lockup,1M USD,40,,

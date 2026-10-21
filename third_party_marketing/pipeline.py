@@ -1890,12 +1890,13 @@ def run_fund_pipeline(
     """
     stem = fund_csv_name.replace(".csv", "").strip()
     out_dir = Path(output_dir).resolve()
-    out_dir.mkdir(parents=True, exist_ok=True)
+    if compile_pdf or keep_tex or save_csv_files:
+        out_dir.mkdir(parents=True, exist_ok=True)
 
     # Ensure logo is present in output directory during compilation so pdflatex finds it cleanly
     target_logo = out_dir / "athenee_logo.png"
     logo_was_created = False
-    if not target_logo.exists():
+    if (compile_pdf or keep_tex) and not target_logo.exists():
         if LOGO_PATH.exists():
             shutil.copy(LOGO_PATH, target_logo)
             logo_was_created = True
@@ -1935,31 +1936,32 @@ def run_fund_pipeline(
         _write_return_matrix_csv(matrix_csv_path, monthly_matrix)
 
     # 4. Generate LaTeX file (automatically pulls metadata & terms from fund_database.csv)
-    latex_code = generate_latex_tearsheet(
-        fund_csv_name=stem,
-        records=records,
-        metrics=metrics,
-        monthly_matrix=monthly_matrix,
-        logo_rel_path="athenee_logo.png",
-        custom_title=custom_title,
-        custom_subtitle=custom_subtitle,
-        fund_meta=fund_meta,
-        anonymize=anonymize,
-    )
     tex_path = out_dir / f"{file_prefix}_tearsheet.tex"
-    with open(tex_path, "w", encoding="utf-8") as f:
-        f.write(latex_code)
-
     pdf_path = None
-    if compile_pdf:
-        pdf_path = compile_tex_to_pdf(tex_path)
-        if pdf_path and pdf_path.exists() and not keep_tex:
-            if tex_path.exists():
-                tex_path.unlink()
-            if logo_was_created and target_logo.exists():
-                target_logo.unlink()
-    elif logo_was_created and not keep_tex and target_logo.exists():
-        target_logo.unlink()
+    if compile_pdf or keep_tex:
+        latex_code = generate_latex_tearsheet(
+            fund_csv_name=stem,
+            records=records,
+            metrics=metrics,
+            monthly_matrix=monthly_matrix,
+            logo_rel_path="athenee_logo.png",
+            custom_title=custom_title,
+            custom_subtitle=custom_subtitle,
+            fund_meta=fund_meta,
+            anonymize=anonymize,
+        )
+        with open(tex_path, "w", encoding="utf-8") as f:
+            f.write(latex_code)
+
+        if compile_pdf:
+            pdf_path = compile_tex_to_pdf(tex_path)
+            if pdf_path and pdf_path.exists() and not keep_tex:
+                if tex_path.exists():
+                    tex_path.unlink()
+                if logo_was_created and target_logo.exists():
+                    target_logo.unlink()
+        elif logo_was_created and not keep_tex and target_logo.exists():
+            target_logo.unlink()
 
     db_meta = get_fund_metadata(stem, hf_returns_dir=Path(hf_returns_dir))
     if fund_meta:
@@ -2178,19 +2180,68 @@ def _estimate_formatted_cell_length(val: Any, style_id: int) -> int:
     return len(s)
 
 
+def _shift_merge_ref(m_ref: str, row_delta: int = 1) -> str:
+    """Shift a merge reference like 'A1:H1' vertically by `row_delta` rows."""
+    if ":" not in m_ref:
+        return m_ref
+    left_ref, right_ref = m_ref.split(":", 1)
+    c1_str = "".join(ch for ch in left_ref if ch.isalpha())
+    r1_str = "".join(ch for ch in left_ref if ch.isdigit())
+    c2_str = "".join(ch for ch in right_ref if ch.isalpha())
+    r2_str = "".join(ch for ch in right_ref if ch.isdigit())
+    return f"{c1_str}{int(r1_str) + row_delta}:{c2_str}{int(r2_str) + row_delta}"
+
+
+def _build_sheet_logo_drawing_xml() -> str:
+    """Build OpenXML SpreadsheetDrawing XML anchoring the Athénée Investment PNG logo in Row 1 (top-left)."""
+    return (
+        '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n'
+        '<wsDr xmlns="http://schemas.openxmlformats.org/drawingml/2006/spreadsheetDrawing">\n'
+        '  <oneCellAnchor>\n'
+        '    <from><col>0</col><colOff>95250</colOff><row>0</row><rowOff>47625</rowOff></from>\n'
+        '    <ext cx="1943100" cy="600075"/>\n'
+        '    <pic>\n'
+        '      <nvPicPr>\n'
+        '        <cNvPr id="1" name="Athenee Logo" descr="Athenee Investment Logo"/>\n'
+        '        <cNvPicPr/>\n'
+        '      </nvPicPr>\n'
+        '      <blipFill>\n'
+        '        <a:blip xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" '
+        'xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" cstate="print" r:embed="rId1"/>\n'
+        '        <a:stretch xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main"><a:fillRect/></a:stretch>\n'
+        '      </blipFill>\n'
+        '      <spPr>\n'
+        '        <a:prstGeom xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" prst="rect"/>\n'
+        '      </spPr>\n'
+        '    </pic>\n'
+        '    <clientData/>\n'
+        '  </oneCellAnchor>\n'
+        '</wsDr>'
+    )
+
+
 def _render_worksheet_xml(
     rows_data: List[Tuple[int, Optional[float], List[Tuple[int, Any, int]]]],
     col_widths: List[Tuple[int, int, float]],
     merges: Optional[List[str]] = None,
     freeze_row: Optional[int] = None,
     auto_fit_columns: bool = True,
+    include_logo: bool = True,
 ) -> str:
     """
     Render an OpenXML worksheet XML string with:
+      - Embedded Athénée Investment logo (`athenee_logo.png`) in a dedicated white Row 1 header bar
       - `showGridLines="0"` on EVERY worksheet so there is NO grid background
       - Automatic column width calculation (`bestFit="1" customWidth="1"`) across all non-merged cells
         so every header and value fits without manual clicking
     """
+    has_logo = bool(include_logo and LOGO_PATH.exists())
+    if has_logo:
+        rows_data = [(1, 56.0, [])] + [(r_idx + 1, r_ht, cells) for r_idx, r_ht, cells in rows_data]
+        merges = [_shift_merge_ref(m, 1) for m in (merges or [])]
+        if freeze_row and freeze_row > 0:
+            freeze_row = freeze_row + 1
+
     lines = [
         '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>',
         '<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">',
@@ -2271,6 +2322,9 @@ def _render_worksheet_xml(
             lines.append(f'    <mergeCell ref="{m_ref}"/>')
         lines.append("  </mergeCells>")
 
+    if has_logo:
+        lines.append('  <drawing xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" r:id="rIdDrawing1"/>')
+
     lines.append("</worksheet>")
     return "\n".join(lines)
 
@@ -2306,7 +2360,7 @@ def _build_disclaimer_sheet_xml(n_funds: int) -> str:
     ]
 
     rows_data = [
-        (1, 34.0, [(1, "ATHÉNÉE INVESTMENT — THIRD-PARTY MARKETING (TPM) & CAPITAL INTRODUCTION PROPOSITION", 1)] + [(c, None, 1) for c in range(2, 9)]),
+        (1, 34.0, [(1, "THIRD-PARTY MARKETING (TPM) & CAPITAL INTRODUCTION PROPOSITION", 1)] + [(c, None, 1) for c in range(2, 9)]),
         (2, 24.0, [(1, "IMPORTANT LEGAL DISCLAIMER, CONFLICTS OF INTEREST DISCLOSURE & RISK NOTICE  |  Quai des Bergues 23, 1201 Geneva, Switzerland", 2)] + [(c, None, 2) for c in range(2, 9)]),
         (3, 12.0, []),
     ]
@@ -2392,7 +2446,7 @@ def _build_summary_sheet_xml(fund_results: List[Dict[str, Any]], anonymize: bool
         (
             1,
             32.0,
-            [(1, "ATHÉNÉE INVESTMENT — EXECUTIVE SUMMARY OF ANALYZED MANDATES (VS. S&P 500 TOTAL RETURN)", 1)]
+            [(1, "EXECUTIVE SUMMARY OF ANALYZED MANDATES (VS. S&P 500 TOTAL RETURN)", 1)]
             + [(c, None, 1) for c in range(2, ncols + 1)],
         ),
         (
@@ -2478,67 +2532,6 @@ def _build_summary_sheet_xml(fund_results: List[Dict[str, Any]], anonymize: bool
             (45, meta.get("domicile_structure", ""), 8),
         ]
         rows_data.append((r_num, 21.0, row_vals))
-
-    # Add Equal-Weighted Average row at the bottom if >= 2 funds
-    if len(fund_results) >= 2:
-        avg_row_num = 5 + len(fund_results)
-        rows_data.append((avg_row_num, 8.0, []))
-        avg_row_num += 1
-
-        def _avg_metric(key: str) -> float:
-            vals = [
-                float(r["metrics"][key])
-                for r in fund_results
-                if key in r["metrics"] and not _isna(r["metrics"][key])
-            ]
-            return sum(vals) / len(vals) if vals else float("nan")
-
-        avg_1m = sum(
-            1_000_000.0 * (1.0 + (r["metrics"]["cum_ret"] if not _isna(r["metrics"]["cum_ret"]) else 0.0))
-            for r in fund_results
-        ) / len(fund_results)
-
-        avg_cells = [
-            (1, None, 9),
-            (2, "AVERAGE", 20),
-            (3, f"Equal-Weighted Average ({len(fund_results)} Mandates)", 9),
-            (4, "", 9),
-            (5, "", 9),
-            (6, "", 9),
-            (7, "", 9),
-            (8, "", 9),
-            (9, round(_avg_metric("n_months")), 16),
-            (10, _avg_metric("years_elapsed"), 15),
-            (11, _avg_metric("cagr"), 11),
-            (12, _avg_metric("sp_cagr"), 11),
-            (13, _avg_metric("ann_mean"), 11),
-            (14, _avg_metric("ann_vol"), 11),
-            (15, _avg_metric("sp_ann_vol"), 11),
-            (16, _avg_metric("sharpe"), 15),
-            (17, _avg_metric("sp_sharpe"), 15),
-            (18, _avg_metric("sortino"), 15),
-            (19, _avg_metric("mdd"), 11),
-            (20, _avg_metric("sp_mdd"), 11),
-            (21, _avg_metric("calmar"), 15),
-            (22, _avg_metric("cum_ret"), 11),
-            (23, avg_1m, 17),
-            (24, _avg_metric("alpha"), 11),
-            (25, _avg_metric("alpha_tstat"), 15),
-            (26, _avg_metric("beta"), 15),
-            (27, _avg_metric("beta_tstat"), 15),
-            (28, _avg_metric("pearson_corr"), 15),
-            (29, _avg_metric("spearman_corr"), 15),
-            (30, _avg_metric("worst_case_corr"), 15),
-            (31, _avg_metric("fund_pos_rate"), 11),
-            (32, _avg_metric("crisis_hit_rate"), 11),
-            (33, _avg_metric("up_capture"), 15),
-            (34, _avg_metric("down_capture"), 15),
-            (35, _avg_metric("worst20_fund_mean"), 11),
-            (36, _avg_metric("worst20_sp500_mean"), 11),
-            (37, _avg_metric("best_month"), 11),
-            (38, _avg_metric("worst_month"), 11),
-        ] + [(c, "", 9) for c in range(39, ncols + 1)]
-        rows_data.append((avg_row_num, 23.0, avg_cells))
 
     col_widths = [(1, 1, 6.0)]
     return _render_worksheet_xml(rows_data, col_widths, merges=merges, freeze_row=4, auto_fit_columns=True)
@@ -2835,6 +2828,7 @@ def build_tpm_excel_workbook(
         sheets.append((tab_name, _build_single_fund_sheet_xml(res, anonymize=anonymize)))
 
     # Package into OpenXML .xlsx ZIP archive
+    has_logo = LOGO_PATH.exists()
     content_types_Overrides = [
         '<Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/>',
         '<Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>',
@@ -2848,6 +2842,10 @@ def build_tpm_excel_workbook(
         content_types_Overrides.append(
             f'<Override PartName="/xl/worksheets/sheet{idx}.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>'
         )
+        if has_logo:
+            content_types_Overrides.append(
+                f'<Override PartName="/xl/drawings/drawing{idx}.xml" ContentType="application/vnd.openxmlformats-officedocument.drawing+xml"/>'
+            )
         wb_sheets_xml.append(
             f'<sheet name="{xml_escape(s_name)}" sheetId="{idx}" r:id="rId{idx}"/>'
         )
@@ -2855,11 +2853,14 @@ def build_tpm_excel_workbook(
             f'<Relationship Id="rId{idx}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet{idx}.xml"/>'
         )
 
+    png_default_xml = '  <Default Extension="png" ContentType="image/png"/>\n' if has_logo else ""
     content_types_xml = (
         '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n'
         '<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">\n'
         '  <Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>\n'
-        '  <Default Extension="xml" ContentType="application/xml"/>\n  '
+        '  <Default Extension="xml" ContentType="application/xml"/>\n'
+        + png_default_xml
+        + "  "
         + "\n  ".join(content_types_Overrides)
         + "\n</Types>"
     )
@@ -2887,14 +2888,34 @@ def build_tpm_excel_workbook(
         + "\n</Relationships>"
     )
 
+    drawing_xml_str = _build_sheet_logo_drawing_xml() if has_logo else ""
+    drawing_rels_xml_str = (
+        '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n'
+        '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">\n'
+        '  <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="../media/image1.png"/>\n'
+        '</Relationships>'
+    )
+
     with zipfile.ZipFile(target_path, "w", compression=zipfile.ZIP_DEFLATED) as zf:
         zf.writestr("[Content_Types].xml", content_types_xml)
         zf.writestr("_rels/.rels", root_rels_xml)
         zf.writestr("xl/workbook.xml", workbook_xml)
         zf.writestr("xl/_rels/workbook.xml.rels", workbook_rels_xml)
         zf.writestr("xl/styles.xml", _build_xlsx_styles_xml())
+        if has_logo:
+            zf.writestr("xl/media/image1.png", LOGO_PATH.read_bytes())
         for idx, (_, s_xml) in enumerate(sheets, 1):
             zf.writestr(f"xl/worksheets/sheet{idx}.xml", s_xml)
+            if has_logo:
+                sheet_rels_xml = (
+                    '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n'
+                    '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">\n'
+                    f'  <Relationship Id="rIdDrawing1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/drawing" Target="../drawings/drawing{idx}.xml"/>\n'
+                    '</Relationships>'
+                )
+                zf.writestr(f"xl/worksheets/_rels/sheet{idx}.xml.rels", sheet_rels_xml)
+                zf.writestr(f"xl/drawings/drawing{idx}.xml", drawing_xml_str)
+                zf.writestr(f"xl/drawings/_rels/drawing{idx}.xml.rels", drawing_rels_xml_str)
 
     if also_save_to_output_dir is not None:
         out_copy = Path(also_save_to_output_dir).resolve() / target_path.name
@@ -3017,6 +3038,668 @@ def run_batch_pipeline(
 
 
 # ---------------------------------------------------------------------------
+# Step 8: Interactive Export Table & Control Console (Notebook + Web UI)
+# ---------------------------------------------------------------------------
+_DEFAULT_CORE_6 = ["dcm_systematic", "smithson", "26_miles", "adar1", "h3im", "sam_capital"]
+_DEFAULT_TOP_15 = [
+    "dcm_systematic", "quantstream", "m1", "vadantia", "r_squared",
+    "shiprock", "smithson", "26_miles", "adar1", "grasshoper",
+    "wizard_quant", "h3im", "sam_capital", "brummer", "graham",
+]
+_WEB_SERVER_INSTANCE: Optional[Tuple[Any, int]] = None
+
+
+def _get_logo_base64() -> str:
+    """Return base64-encoded PNG string of `athenee_logo.png` for embedding in interactive UIs."""
+    import base64
+
+    if LOGO_PATH.exists():
+        return base64.b64encode(LOGO_PATH.read_bytes()).decode("ascii")
+    return ""
+
+
+def _get_latest_run_and_excel(output_dir: Path = DEFAULT_OUTPUT_DIR) -> Tuple[Optional[Path], Optional[Path]]:
+    """Find the most recent `run_YYYYMMDD_HHMMSS` folder and latest Excel file."""
+    runs_dir = output_dir / "runs"
+    latest_run: Optional[Path] = None
+    if runs_dir.exists():
+        candidates = sorted([d for d in runs_dir.iterdir() if d.is_dir() and d.name.startswith("run_")])
+        if candidates:
+            latest_run = candidates[-1]
+    xlsx_candidates = sorted(DOWNLOADS_DIR.glob("Athenee_TPM_Fund_Analysis_*.xlsx"))
+    latest_xlsx: Optional[Path] = xlsx_candidates[-1] if xlsx_candidates else None
+    if latest_run:
+        run_xlsx = sorted(latest_run.glob("*.xlsx"))
+        if run_xlsx and latest_xlsx is None:
+            latest_xlsx = run_xlsx[-1]
+    return latest_run, latest_xlsx
+
+
+def start_exporter_web_server(output_dir: Union[str, Path] = DEFAULT_OUTPUT_DIR, open_browser: bool = False) -> str:
+    """
+    Start a lightweight background localhost HTTP server (`http://127.0.0.1:<port>`) providing a full-screen
+    interactive table with checkboxes, search filter, option toggles, and 1-click export buttons.
+    """
+    global _WEB_SERVER_INSTANCE
+    import json
+    import threading
+    import webbrowser
+    from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+
+    out_dir_path = Path(output_dir).resolve()
+
+    if _WEB_SERVER_INSTANCE is not None:
+        _, port = _WEB_SERVER_INSTANCE
+        url = f"http://127.0.0.1:{port}"
+        if open_browser:
+            webbrowser.open(url)
+        return url
+
+    logo_b64 = _get_logo_base64()
+
+    class ExporterHandler(BaseHTTPRequestHandler):
+        def log_message(self, format: str, *args: Any) -> None:
+            pass  # Silent background server
+
+        def _send_json(self, payload: Dict[str, Any], status: int = 200) -> None:
+            body = json.dumps(payload).encode("utf-8")
+            self.send_response(status)
+            self.send_header("Content-Type", "application/json; charset=utf-8")
+            self.send_header("Content-Length", str(len(body)))
+            self.send_header("Access-Control-Allow-Origin", "*")
+            self.end_headers()
+            self.wfile.write(body)
+
+        def do_OPTIONS(self) -> None:
+            self.send_response(204)
+            self.send_header("Access-Control-Allow-Origin", "*")
+            self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+            self.send_header("Access-Control-Allow-Headers", "Content-Type")
+            self.end_headers()
+
+        def do_GET(self) -> None:
+            if self.path == "/api/funds":
+                db = init_or_load_fund_database()
+                rows = []
+                for stem in sorted(db.keys()):
+                    meta = db[stem]
+                    aid = get_anonymized_fund_identity(stem)
+                    rows.append({
+                        "fund_csv": stem,
+                        "display_name": meta.get("display_name") or format_fund_title(stem),
+                        "anon_name": aid["anon_name"],
+                        "anon_code": aid["anon_code"],
+                        "vehicle": meta.get("investment_vehicle", "Commingled Fund"),
+                        "return_basis": meta.get("return_basis", "Net"),
+                        "fees": f"{meta.get('management_fee', '2%')} / {meta.get('performance_fee', '20%')}",
+                        "liquidity": meta.get("liquidity_terms", "Quarter Liquidity"),
+                        "aum": meta.get("current_aum", "250M"),
+                        "domicile": meta.get("domicile_structure", "Cayman Islands"),
+                    })
+                self._send_json({"funds": rows, "core6": _DEFAULT_CORE_6, "top15": _DEFAULT_TOP_15})
+                return
+
+            html_page = _build_web_exporter_html(logo_b64)
+            body = html_page.encode("utf-8")
+            self.send_response(200)
+            self.send_header("Content-Type", "text/html; charset=utf-8")
+            self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
+
+        def do_POST(self) -> None:
+            length = int(self.headers.get("Content-Length", "0"))
+            raw = self.rfile.read(length).decode("utf-8") if length > 0 else "{}"
+            data = json.loads(raw)
+
+            if self.path == "/api/export":
+                selected = data.get("funds") or []
+                compile_pdf = bool(data.get("compile_pdf", True))
+                build_excel = bool(data.get("build_excel", True))
+                anonymize = bool(data.get("anonymize", True))
+                start_date = (data.get("start_date") or "").strip() or None
+                end_date = (data.get("end_date") or "").strip() or None
+                if not selected:
+                    self._send_json({"ok": False, "error": "Please select at least one fund."}, status=400)
+                    return
+                try:
+                    metrics = run_batch_pipeline(
+                        selected_funds=selected,
+                        output_dir=out_dir_path,
+                        start_date=start_date,
+                        end_date=end_date,
+                        compile_pdf=compile_pdf,
+                        build_excel=build_excel,
+                        anonymize=anonymize,
+                        use_timestamp_subfolder=True,
+                    )
+                    latest_run, latest_xlsx = _get_latest_run_and_excel(out_dir_path)
+                    self._send_json({
+                        "ok": True,
+                        "count": len(metrics),
+                        "run_dir": str(latest_run) if latest_run else "",
+                        "factsheet_dir": str(latest_run / "factsheet") if (latest_run and compile_pdf) else "",
+                        "excel_path": str(latest_xlsx) if (latest_xlsx and build_excel) else "",
+                        "metrics": [
+                            {
+                                "code": m.get("anonymized_code", ""),
+                                "name": m.get("anonymized_name", ""),
+                                "cagr": f"{m['cagr']*100:.2f}%",
+                                "vol": f"{m['ann_vol']*100:.2f}%",
+                                "sharpe": f"{m['sharpe']:.2f}",
+                                "mdd": f"{m['mdd']*100:.2f}%",
+                                "corr": f"{m['pearson_corr']:+.2f}",
+                            }
+                            for m in metrics
+                        ],
+                    })
+                except Exception as e:
+                    self._send_json({"ok": False, "error": str(e)}, status=500)
+                return
+
+            if self.path == "/api/open":
+                target = data.get("target", "run")
+                latest_run, latest_xlsx = _get_latest_run_and_excel(out_dir_path)
+                path_to_open = latest_xlsx if target == "excel" else latest_run
+                if path_to_open and path_to_open.exists():
+                    subprocess.Popen(["open", str(path_to_open)])
+                    self._send_json({"ok": True, "opened": str(path_to_open)})
+                else:
+                    self._send_json({"ok": False, "error": "No generated file/folder found yet."}, status=404)
+                return
+
+            self._send_json({"ok": False, "error": "Unknown endpoint"}, status=404)
+
+    server = ThreadingHTTPServer(("127.0.0.1", 0), ExporterHandler)
+    port = server.server_address[1]
+    thread = threading.Thread(target=server.serve_forever, daemon=True)
+    thread.start()
+    _WEB_SERVER_INSTANCE = (server, port)
+    url = f"http://127.0.0.1:{port}"
+    if open_browser:
+        webbrowser.open(url)
+    return url
+
+
+def _build_web_exporter_html(logo_b64: str) -> str:
+    """Build the self-contained HTML/CSS/JS interactive fund selection & export table."""
+    logo_img = (
+        f'<img src="data:image/png;base64,{logo_b64}" alt="Athénée Investment" style="height:46px; width:auto;"/>'
+        if logo_b64
+        else '<span style="font-weight:700; font-size:20px; color:#14233C;">ATHÉNÉE INVESTMENT</span>'
+    )
+    return f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>Athénée Investment — Interactive TPM Export Console</title>
+<style>
+  * {{ box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }}
+  body {{ margin: 0; padding: 18px 24px; background: #F4F6F9; color: #1E242B; }}
+  .card {{ background: #FFFFFF; border: 1px solid #DCE1E8; border-radius: 10px; box-shadow: 0 2px 10px rgba(20,35,60,0.06); overflow: hidden; max-width: 1320px; margin: 0 auto; }}
+  .hdr {{ display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; border-bottom: 2px solid #B08D57; background: #FFFFFF; }}
+  .hdr-title {{ font-size: 18px; font-weight: 700; color: #14233C; margin: 0; }}
+  .hdr-sub {{ font-size: 12px; color: #646E7A; margin-top: 3px; text-transform: uppercase; letter-spacing: 0.6px; }}
+  .opts-bar {{ display: flex; flex-wrap: wrap; gap: 18px; align-items: center; padding: 14px 24px; background: #14233C; color: #FFFFFF; }}
+  .opt-item {{ display: flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 500; cursor: pointer; }}
+  .opt-item input[type="checkbox"] {{ width: 16px; height: 16px; accent-color: #B08D57; cursor: pointer; }}
+  .date-input {{ background: #1E3252; border: 1px solid #3A5074; color: #FFF; padding: 5px 9px; border-radius: 5px; font-size: 12px; width: 110px; }}
+  .toolbar {{ display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; padding: 12px 24px; background: #F8FAFC; border-bottom: 1px solid #E2E8F0; }}
+  .btn-group {{ display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }}
+  .btn {{ padding: 7px 13px; border-radius: 6px; border: 1px solid #CBD5E1; background: #FFFFFF; color: #14233C; font-size: 12.5px; font-weight: 600; cursor: pointer; transition: all 0.15s; }}
+  .btn:hover {{ background: #EDF2F7; border-color: #94A3B8; }}
+  .btn-primary {{ background: #14233C; color: #FFFFFF; border-color: #14233C; padding: 9px 18px; font-size: 13.5px; }}
+  .btn-primary:hover {{ background: #1E3356; }}
+  .btn-gold {{ background: #B08D57; color: #FFFFFF; border-color: #B08D57; }}
+  .btn-gold:hover {{ background: #9A7948; }}
+  .search-box {{ padding: 7px 12px; border: 1px solid #CBD5E1; border-radius: 6px; width: 280px; font-size: 13px; }}
+  .badge {{ background: #EBF1F6; color: #14233C; border: 1px solid #B08D57; padding: 5px 11px; border-radius: 20px; font-size: 12.5px; font-weight: 700; }}
+  .tbl-wrap {{ max-height: 430px; overflow-y: auto; }}
+  table {{ width: 100%; border-collapse: collapse; font-size: 12.5px; }}
+  thead th {{ position: sticky; top: 0; background: #14233C; color: #FFFFFF; text-align: left; padding: 10px 12px; font-weight: 600; z-index: 2; border-bottom: 2px solid #B08D57; }}
+  tbody tr {{ border-bottom: 1px solid #EDF2F7; cursor: pointer; transition: background 0.1s; }}
+  tbody tr:hover {{ background: #F1F5F9; }}
+  tbody tr.selected {{ background: #EBF3FA; }}
+  td {{ padding: 8px 12px; color: #1E242B; }}
+  .code-pill {{ background: #14233C; color: #FFFFFF; padding: 2px 7px; border-radius: 4px; font-size: 11px; font-weight: 700; }}
+  .status-box {{ margin: 14px 24px; padding: 14px 18px; border-radius: 8px; background: #F0FDF4; border: 1px solid #86EFAC; color: #14532D; font-size: 13px; display: none; }}
+  .status-err {{ background: #FEF2F2; border-color: #FCA5A5; color: #7F1D1D; }}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="hdr">
+    <div>
+      <div class="hdr-title">Third-Party Marketing &amp; Capital Introduction — Interactive Export Console</div>
+      <div class="hdr-sub">Select funds, configure PDF &amp; Excel export options, and run in one click</div>
+    </div>
+    <div>{logo_img}</div>
+  </div>
+  <div class="opts-bar">
+    <label class="opt-item"><input type="checkbox" id="optExcel" checked/> 📊 Build Excel Workbook (.xlsx)</label>
+    <label class="opt-item"><input type="checkbox" id="optPdf" checked/> 📄 Compile 2-Page PDF Factsheets</label>
+    <label class="opt-item"><input type="checkbox" id="optAnon" checked/> 🔒 Anonymize Fund Names (Protect IP)</label>
+    <div style="margin-left:auto; display:flex; gap:10px; align-items:center; font-size:12px;">
+      <span>Start: <input type="text" id="optStart" class="date-input" placeholder="YYYY-MM (opt)"/></span>
+      <span>End: <input type="text" id="optEnd" class="date-input" placeholder="YYYY-MM (opt)"/></span>
+    </div>
+  </div>
+  <div class="toolbar">
+    <div class="btn-group">
+      <input type="text" id="searchBox" class="search-box" placeholder="🔍 Search CSV ID, real name, mandate name, ATH code..." oninput="renderRows()"/>
+      <button class="btn" onclick="selectPreset('all')">☑ Select All</button>
+      <button class="btn" onclick="selectPreset('none')">☐ Clear All</button>
+      <button class="btn" onclick="selectPreset('core6')">⭐ Core 6</button>
+      <button class="btn" onclick="selectPreset('top15')">🏆 Top 15</button>
+      <span class="badge" id="selCount">0 Selected</span>
+    </div>
+    <div class="btn-group">
+      <button class="btn" onclick="openOutput('excel')">📊 Open Latest Excel</button>
+      <button class="btn" onclick="openOutput('run')">📂 Open Run Folder</button>
+      <button class="btn btn-primary" id="runBtn" onclick="runExport()">🚀 Run Export Pipeline</button>
+    </div>
+  </div>
+  <div id="statusBox" class="status-box"></div>
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width:42px; text-align:center;">✓</th>
+          <th>Fund CSV ID</th>
+          <th>Real Name (Internal IP)</th>
+          <th>Anonymized Mandate Name</th>
+          <th>Mandate Code</th>
+          <th>Vehicle</th>
+          <th>Basis</th>
+          <th>Fees (Mgmt/Perf)</th>
+          <th>Liquidity</th>
+          <th>AUM</th>
+        </tr>
+      </thead>
+      <tbody id="fundTbody"></tbody>
+    </table>
+  </div>
+</div>
+<script>
+let allFunds = [];
+let core6 = [];
+let top15 = [];
+let selectedSet = new Set();
+
+async function init() {{
+  const res = await fetch('/api/funds');
+  const data = await res.json();
+  allFunds = data.funds;
+  core6 = data.core6;
+  top15 = data.top15;
+  core6.forEach(f => selectedSet.add(f));
+  renderRows();
+}}
+
+function renderRows() {{
+  const q = (document.getElementById('searchBox').value || '').toLowerCase().trim();
+  const tbody = document.getElementById('fundTbody');
+  tbody.innerHTML = '';
+  allFunds.forEach(f => {{
+    const hay = `${{f.fund_csv}} ${{f.display_name}} ${{f.anon_name}} ${{f.anon_code}} ${{f.vehicle}}`.toLowerCase();
+    if (q && !hay.includes(q)) return;
+    const isSel = selectedSet.has(f.fund_csv);
+    const tr = document.createElement('tr');
+    if (isSel) tr.className = 'selected';
+    tr.onclick = (e) => {{
+      if (e.target.tagName !== 'INPUT') toggleFund(f.fund_csv);
+    }};
+    tr.innerHTML = `
+      <td style="text-align:center;"><input type="checkbox" ${{isSel ? 'checked' : ''}} onchange="toggleFund('${{f.fund_csv}}')"/></td>
+      <td style="font-family:monospace; font-weight:600;">${{f.fund_csv}}</td>
+      <td>${{f.display_name}}</td>
+      <td style="font-weight:700; color:#14233C;">${{f.anon_name}}</td>
+      <td><span class="code-pill">${{f.anon_code}}</span></td>
+      <td>${{f.vehicle}}</td>
+      <td>${{f.return_basis}}</td>
+      <td>${{f.fees}}</td>
+      <td>${{f.liquidity}}</td>
+      <td>${{f.aum}}</td>
+    `;
+    tbody.appendChild(tr);
+  }});
+  document.getElementById('selCount').textContent = `${{selectedSet.size}} / ${{allFunds.length}} Selected`;
+}}
+
+function toggleFund(stem) {{
+  if (selectedSet.has(stem)) selectedSet.delete(stem);
+  else selectedSet.add(stem);
+  renderRows();
+}}
+
+function selectPreset(mode) {{
+  if (mode === 'all') allFunds.forEach(f => selectedSet.add(f.fund_csv));
+  else if (mode === 'none') selectedSet.clear();
+  else if (mode === 'core6') {{ selectedSet.clear(); core6.forEach(f => selectedSet.add(f)); }}
+  else if (mode === 'top15') {{ selectedSet.clear(); top15.forEach(f => selectedSet.add(f)); }}
+  renderRows();
+}}
+
+async function runExport() {{
+  const btn = document.getElementById('runBtn');
+  const box = document.getElementById('statusBox');
+  if (selectedSet.size === 0) {{
+    box.className = 'status-box status-err';
+    box.style.display = 'block';
+    box.innerHTML = '<b>Please select at least one fund from the table below.</b>';
+    return;
+  }}
+  btn.disabled = true;
+  btn.textContent = `⏳ Running Pipeline (${{selectedSet.size}} funds)...`;
+  box.className = 'status-box';
+  box.style.display = 'block';
+  box.innerHTML = `Computing metrics and generating exports for <b>${{selectedSet.size}}</b> fund(s)...`;
+  try {{
+    const res = await fetch('/api/export', {{
+      method: 'POST',
+      headers: {{'Content-Type': 'application/json'}},
+      body: JSON.stringify({{
+        funds: Array.from(selectedSet),
+        build_excel: document.getElementById('optExcel').checked,
+        compile_pdf: document.getElementById('optPdf').checked,
+        anonymize: document.getElementById('optAnon').checked,
+        start_date: document.getElementById('optStart').value,
+        end_date: document.getElementById('optEnd').value
+      }})
+    }});
+    const out = await res.json();
+    if (!out.ok) throw new Error(out.error || 'Export failed');
+    let html = `<b>✅ Export Complete (${{out.count}} Mandates Processed)!</b><br/>`;
+    if (out.run_dir) html += `<div style="margin-top:5px;">📂 <b>Run Folder:</b> <code>${{out.run_dir}}</code></div>`;
+    if (out.factsheet_dir) html += `<div>📄 <b>PDF Factsheets Folder:</b> <code>${{out.factsheet_dir}}</code></div>`;
+    if (out.excel_path) html += `<div>📊 <b>Downloads Excel File:</b> <code>${{out.excel_path}}</code></div>`;
+    box.innerHTML = html;
+  }} catch (err) {{
+    box.className = 'status-box status-err';
+    box.innerHTML = `<b>❌ Error:</b> ${{err.message}}`;
+  }} finally {{
+    btn.disabled = false;
+    btn.textContent = '🚀 Run Export Pipeline';
+  }}
+}}
+
+async function openOutput(target) {{
+  await fetch('/api/open', {{
+    method: 'POST',
+    headers: {{'Content-Type': 'application/json'}},
+    body: JSON.stringify({{target}})
+  }});
+}}
+
+init();
+</script>
+</body>
+</html>"""
+
+
+def launch_interactive_exporter(
+    default_selected: Optional[List[str]] = None,
+    output_dir: Union[str, Path] = DEFAULT_OUTPUT_DIR,
+    open_browser: bool = False,
+) -> Any:
+    """
+    Display an interactive Fund Selection & Export Table with buttons inside a Jupyter / VS Code Notebook
+    (using `ipywidgets`), backed by a local web UI (`http://127.0.0.1:<port>`) that can also be opened
+    in any browser window with a single click.
+    """
+    db = init_or_load_fund_database()
+    web_url = start_exporter_web_server(output_dir=output_dir, open_browser=open_browser)
+    logo_b64 = _get_logo_base64()
+    out_dir_path = Path(output_dir).resolve()
+    initial_sel = set(default_selected if default_selected is not None else _DEFAULT_CORE_6)
+
+    try:
+        import ipywidgets as widgets
+        from IPython.display import HTML, clear_output, display
+    except ImportError:
+        print(f"Interactive Web Exporter running at: {web_url}")
+        return web_url
+
+    logo_html = (
+        f'<img src="data:image/png;base64,{logo_b64}" style="height:42px; width:auto;"/>'
+        if logo_b64
+        else '<b style="color:#14233C; font-size:18px;">ATHÉNÉE INVESTMENT</b>'
+    )
+
+    header_widget = widgets.HTML(
+        value=(
+            f'<div style="display:flex; align-items:center; justify-content:space-between; padding:12px 18px; '
+            f'background:#FFFFFF; border:1px solid #DCE1E8; border-bottom:2px solid #B08D57; border-radius:8px 8px 0 0;">'
+            f'<div>'
+            f'<div style="font-size:16px; font-weight:700; color:#14233C;">'
+            f'Athénée Investment — Interactive TPM &amp; Factsheet Export Console</div>'
+            f'<div style="font-size:11.5px; color:#646E7A;">'
+            f'Select funds below, choose export options (Excel / PDF / IP Anonymization), and click Run Export'
+            f' &nbsp;|&nbsp; <a href="{web_url}" target="_blank" style="color:#B08D57; font-weight:600;">'
+            f'🌐 Open Fullscreen in Browser ({web_url})</a></div>'
+            f'</div>'
+            f'<div>{logo_html}</div>'
+            f'</div>'
+        )
+    )
+
+    # Options controls
+    chk_excel = widgets.Checkbox(value=True, description="📊 Build Excel Workbook (.xlsx)", indent=False, layout=widgets.Layout(width="230px"))
+    chk_pdf = widgets.Checkbox(value=True, description="📄 Compile 2-Page PDF Factsheets", indent=False, layout=widgets.Layout(width="245px"))
+    chk_anon = widgets.Checkbox(value=True, description="🔒 Anonymize Fund Names (IP)", indent=False, layout=widgets.Layout(width="225px"))
+    txt_start = widgets.Text(value="", placeholder="YYYY-MM (opt)", description="Start:", layout=widgets.Layout(width="175px"), style={"description_width": "42px"})
+    txt_end = widgets.Text(value="", placeholder="YYYY-MM (opt)", description="End:", layout=widgets.Layout(width="170px"), style={"description_width": "36px"})
+
+    options_bar = widgets.HBox(
+        [chk_excel, chk_pdf, chk_anon, txt_start, txt_end],
+        layout=widgets.Layout(padding="8px 14px", background="#F8FAFC", border="1px solid #DCE1E8"),
+    )
+
+    # Search & Quick-Select buttons
+    search_input = widgets.Text(
+        value="",
+        placeholder="🔍 Filter by CSV ID, real name, mandate name, ATH code...",
+        layout=widgets.Layout(width="320px"),
+    )
+    btn_all = widgets.Button(description="☑ Select All", layout=widgets.Layout(width="105px"))
+    btn_none = widgets.Button(description="☐ Clear All", layout=widgets.Layout(width="100px"))
+    btn_core6 = widgets.Button(description="⭐ Core 6", layout=widgets.Layout(width="95px"))
+    btn_top15 = widgets.Button(description="🏆 Top 15", layout=widgets.Layout(width="95px"))
+    lbl_count = widgets.HTML(value="")
+
+    btn_run = widgets.Button(
+        description="🚀 Run Export Pipeline",
+        button_style="primary",
+        layout=widgets.Layout(width="200px", height="34px"),
+    )
+    btn_open_excel = widgets.Button(
+        description="📊 Open Latest Excel",
+        layout=widgets.Layout(width="160px", height="34px"),
+    )
+    btn_open_folder = widgets.Button(
+        description="📂 Open Run Folder",
+        layout=widgets.Layout(width="155px", height="34px"),
+    )
+
+    # Build interactive table rows
+    checkbox_map: Dict[str, Any] = {}
+    row_widgets_map: Dict[str, Any] = {}
+    all_stems = sorted(db.keys())
+
+    table_header = widgets.HTML(
+        value=(
+            '<div style="display:grid; grid-template-columns: 36px 150px 185px 175px 90px 130px 75px 100px 130px; '
+            'gap:8px; padding:8px 12px; background:#14233C; color:#FFFFFF; font-size:12px; font-weight:600; '
+            'border-bottom:2px solid #B08D57;">'
+            '<div>✓</div><div>Fund CSV ID</div><div>Real Name (Internal)</div>'
+            '<div>Anonymized Mandate</div><div>Code</div><div>Vehicle</div>'
+            '<div>Basis</div><div>Fees</div><div>Liquidity</div>'
+            '</div>'
+        )
+    )
+
+    def _update_count_badge(*_: Any) -> None:
+        n_sel = sum(1 for c in checkbox_map.values() if c.value)
+        lbl_count.value = (
+            f'<span style="background:#EBF1F6; color:#14233C; border:1px solid #B08D57; '
+            f'padding:4px 10px; border-radius:14px; font-size:12px; font-weight:700;">'
+            f'{n_sel} / {len(all_stems)} Selected</span>'
+        )
+
+    for idx, stem in enumerate(all_stems):
+        meta = db[stem]
+        aid = get_anonymized_fund_identity(stem)
+        real_name = meta.get("display_name") or format_fund_title(stem)
+        veh = meta.get("investment_vehicle", "Commingled Fund")
+        basis = meta.get("return_basis", "Net")
+        fees = f"{meta.get('management_fee', '2%')} / {meta.get('performance_fee', '20%')}"
+        liq = meta.get("liquidity_terms", "Quarter Liquidity")
+
+        cb = widgets.Checkbox(
+            value=(stem in initial_sel),
+            indent=False,
+            layout=widgets.Layout(width="28px", margin="2px 0 0 6px"),
+        )
+        cb.observe(_update_count_badge, names="value")
+        checkbox_map[stem] = cb
+
+        bg = "#FFFFFF" if idx % 2 == 0 else "#F8FAFC"
+        info_html = widgets.HTML(
+            value=(
+                f'<div style="display:grid; grid-template-columns: 150px 185px 175px 90px 130px 75px 100px 130px; '
+                f'gap:8px; align-items:center; font-size:12px; color:#1E242B; padding:4px 0;">'
+                f'<div style="font-family:monospace; font-weight:600; overflow:hidden; text-overflow:ellipsis;">{stem}</div>'
+                f'<div style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">{real_name}</div>'
+                f'<div style="font-weight:700; color:#14233C;">{aid["anon_name"]}</div>'
+                f'<div><span style="background:#14233C; color:#FFF; padding:1px 6px; border-radius:4px; font-size:11px; font-weight:700;">{aid["anon_code"]}</span></div>'
+                f'<div>{veh}</div>'
+                f'<div>{basis}</div>'
+                f'<div>{fees}</div>'
+                f'<div>{liq}</div>'
+                f'</div>'
+            )
+        )
+        row_box = widgets.HBox(
+            [cb, info_html],
+            layout=widgets.Layout(
+                align_items="center",
+                padding="2px 6px",
+                border="0 0 1px 0 solid #EDF2F7",
+                background=bg,
+            ),
+        )
+        row_widgets_map[stem] = (
+            row_box,
+            f"{stem} {real_name} {aid['anon_name']} {aid['anon_code']} {veh}".lower(),
+        )
+
+    rows_container = widgets.VBox(
+        [rw for rw, _ in row_widgets_map.values()],
+        layout=widgets.Layout(max_height="340px", overflow_y="auto", border="1px solid #DCE1E8"),
+    )
+
+    def _on_search_change(change: Any) -> None:
+        q = (change["new"] or "").lower().strip()
+        filtered = [
+            rw for rw, hay in row_widgets_map.values() if (not q or q in hay)
+        ]
+        rows_container.children = filtered
+
+    search_input.observe(_on_search_change, names="value")
+
+    def _set_selection(target_set: Optional[set]) -> None:
+        for stem, cb in checkbox_map.items():
+            cb.unobserve(_update_count_badge, names="value")
+            cb.value = True if target_set is None else (stem in target_set)
+            cb.observe(_update_count_badge, names="value")
+        _update_count_badge()
+
+    btn_all.on_click(lambda _: _set_selection(None))
+    btn_none.on_click(lambda _: _set_selection(set()))
+    btn_core6.on_click(lambda _: _set_selection(set(_DEFAULT_CORE_6)))
+    btn_top15.on_click(lambda _: _set_selection(set(_DEFAULT_TOP_15)))
+
+    out_log = widgets.Output(
+        layout=widgets.Layout(padding="10px 14px", border="1px solid #DCE1E8", background="#FFFFFF")
+    )
+
+    def _on_run_clicked(_: Any) -> None:
+        selected_funds = [s for s, cb in checkbox_map.items() if cb.value]
+        with out_log:
+            clear_output()
+            if not selected_funds:
+                print("⚠️ Please select at least one fund from the table above.")
+                return
+            btn_run.disabled = True
+            btn_run.description = f"⏳ Running ({len(selected_funds)})..."
+            try:
+                s_date = txt_start.value.strip() or None
+                e_date = txt_end.value.strip() or None
+                metrics_list = run_batch_pipeline(
+                    selected_funds=selected_funds,
+                    output_dir=out_dir_path,
+                    start_date=s_date,
+                    end_date=e_date,
+                    compile_pdf=chk_pdf.value,
+                    build_excel=chk_excel.value,
+                    anonymize=chk_anon.value,
+                    use_timestamp_subfolder=True,
+                )
+                latest_run, latest_xlsx = _get_latest_run_and_excel(out_dir_path)
+                display(
+                    HTML(
+                        f'<div style="margin-top:8px; padding:10px 14px; background:#F0FDF4; border:1px solid #86EFAC; '
+                        f'border-radius:6px; color:#14532D; font-size:12.5px;">'
+                        f'<b>✅ Export Finished ({len(metrics_list)} Mandates)!</b><br/>'
+                        + (f'📂 <b>Run Folder:</b> <code>{latest_run}</code><br/>' if latest_run else "")
+                        + (f'📄 <b>Factsheets Folder:</b> <code>{latest_run / "factsheet"}</code><br/>' if (latest_run and chk_pdf.value) else "")
+                        + (f'📊 <b>Excel in Downloads:</b> <code>{latest_xlsx}</code>' if (latest_xlsx and chk_excel.value) else "")
+                        + "</div>"
+                    )
+                )
+            finally:
+                btn_run.disabled = False
+                btn_run.description = "🚀 Run Export Pipeline"
+
+    def _on_open_excel(_: Any) -> None:
+        _, latest_xlsx = _get_latest_run_and_excel(out_dir_path)
+        if latest_xlsx and latest_xlsx.exists():
+            subprocess.Popen(["open", str(latest_xlsx)])
+        else:
+            with out_log:
+                print("No Excel workbook found yet — click 'Run Export Pipeline' first.")
+
+    def _on_open_folder(_: Any) -> None:
+        latest_run, _ = _get_latest_run_and_excel(out_dir_path)
+        if latest_run and latest_run.exists():
+            subprocess.Popen(["open", str(latest_run)])
+        else:
+            with out_log:
+                print("No run folder found yet — click 'Run Export Pipeline' first.")
+
+    btn_run.on_click(_on_run_clicked)
+    btn_open_excel.on_click(_on_open_excel)
+    btn_open_folder.on_click(_on_open_folder)
+    _update_count_badge()
+
+    toolbar_row = widgets.HBox(
+        [search_input, btn_all, btn_none, btn_core6, btn_top15, lbl_count],
+        layout=widgets.Layout(padding="8px 12px", align_items="center", justify_content="space-between", border="0 1px 0 1px solid #DCE1E8"),
+    )
+    action_row = widgets.HBox(
+        [btn_run, btn_open_excel, btn_open_folder],
+        layout=widgets.Layout(padding="10px 12px", gap="10px", background="#F8FAFC", border="1px solid #DCE1E8"),
+    )
+
+    dashboard = widgets.VBox(
+        [header_widget, options_bar, toolbar_row, table_header, rows_container, action_row, out_log],
+        layout=widgets.Layout(width="100%"),
+    )
+    display(dashboard)
+    return dashboard
+
+
+# ---------------------------------------------------------------------------
 # CLI Entrypoint
 # ---------------------------------------------------------------------------
 def main():
@@ -3089,9 +3772,25 @@ def main():
         action="store_true",
         help="Initialize or sync third_party_marketing/fund_database.csv and confidential_fund_mapping.csv.",
     )
+    parser.add_argument(
+        "--ui",
+        action="store_true",
+        help="Launch the interactive fund selection & export table in your web browser.",
+    )
 
     args = parser.parse_args()
     init_or_load_fund_database()
+
+    if args.ui:
+        url = start_exporter_web_server(output_dir=args.output_dir, open_browser=True)
+        print(f"=== Athénée Interactive TPM Export Console running at: {url} ===")
+        print("Press Ctrl+C to stop the server.")
+        try:
+            import time
+            while True:
+                time.sleep(1)
+        except KeyboardInterrupt:
+            return
 
     if args.init_db:
         print(f"Fund database initialized and synced at: {FUND_DATABASE_PATH}")
