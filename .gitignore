@@ -4,3 +4,5 @@
 # /report/educational
 *.log
 .venv/
+__pycache__/
+output/

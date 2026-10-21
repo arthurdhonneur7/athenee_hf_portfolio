@@ -1875,6 +1875,8 @@ def run_fund_pipeline(
     fund_meta: Optional[Dict[str, str]] = None,
     compile_pdf: bool = True,
     anonymize: bool = True,
+    save_csv_files: bool = False,
+    keep_tex: bool = False,
 ) -> Dict[str, Any]:
     """
     Run the complete pipeline for a single fund CSV:
@@ -1884,22 +1886,25 @@ def run_fund_pipeline(
       4. Load fund terms / return basis from `third_party_marketing/fund_database.csv` (plus any overrides in `fund_meta`)
       5. Apply deterministic readable anonymization (when `anonymize=True`) so no IP is leaked
       6. Generate the modern LaTeX document (Page 1 Tear Sheet + Page 2 Legal Disclaimer & Appendix)
-      7. Compile to PDF using `pdflatex` (if compile_pdf=True)
+      7. Compile to PDF using `pdflatex` (if compile_pdf=True) and clean up temporary .tex/logo files
     """
     stem = fund_csv_name.replace(".csv", "").strip()
     out_dir = Path(output_dir).resolve()
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    # Ensure logo is present in output directory so pdflatex finds it cleanly
+    # Ensure logo is present in output directory during compilation so pdflatex finds it cleanly
     target_logo = out_dir / "athenee_logo.png"
+    logo_was_created = False
     if not target_logo.exists():
         if LOGO_PATH.exists():
             shutil.copy(LOGO_PATH, target_logo)
+            logo_was_created = True
         else:
             fallback_logo = PROJECT_ROOT / "report" / "educational" / "educational_easier" / "athenee_logo.png"
             if fallback_logo.exists():
                 shutil.copy(fallback_logo, LOGO_PATH)
                 shutil.copy(LOGO_PATH, target_logo)
+                logo_was_created = True
 
     # 1. Load data
     records = load_fund_and_benchmarks(
@@ -1922,12 +1927,12 @@ def run_fund_pipeline(
 
     file_prefix = anon_id["anon_slug"] if anonymize else stem
 
-    # Save CSV exports of metrics and monthly return matrix (using anonymized file prefix when anonymize=True)
+    # Optional CSV exports of metrics and monthly return matrix
     metrics_csv_path = out_dir / f"{file_prefix}_metrics.csv"
-    _write_dict_csv(metrics_csv_path, [metrics])
-
     matrix_csv_path = out_dir / f"{file_prefix}_return_matrix.csv"
-    _write_return_matrix_csv(matrix_csv_path, monthly_matrix)
+    if save_csv_files:
+        _write_dict_csv(metrics_csv_path, [metrics])
+        _write_return_matrix_csv(matrix_csv_path, monthly_matrix)
 
     # 4. Generate LaTeX file (automatically pulls metadata & terms from fund_database.csv)
     latex_code = generate_latex_tearsheet(
@@ -1948,6 +1953,13 @@ def run_fund_pipeline(
     pdf_path = None
     if compile_pdf:
         pdf_path = compile_tex_to_pdf(tex_path)
+        if pdf_path and pdf_path.exists() and not keep_tex:
+            if tex_path.exists():
+                tex_path.unlink()
+            if logo_was_created and target_logo.exists():
+                target_logo.unlink()
+    elif logo_was_created and not keep_tex and target_logo.exists():
+        target_logo.unlink()
 
     db_meta = get_fund_metadata(stem, hf_returns_dir=Path(hf_returns_dir))
     if fund_meta:
@@ -1963,10 +1975,10 @@ def run_fund_pipeline(
         "metrics": metrics,
         "return_matrix": monthly_matrix,
         "db_meta": db_meta,
-        "tex_path": str(tex_path),
+        "tex_path": str(tex_path) if tex_path.exists() else None,
         "pdf_path": str(pdf_path) if pdf_path else None,
-        "metrics_csv_path": str(metrics_csv_path),
-        "matrix_csv_path": str(matrix_csv_path),
+        "metrics_csv_path": str(metrics_csv_path) if save_csv_files else None,
+        "matrix_csv_path": str(matrix_csv_path) if save_csv_files else None,
     }
 
 
@@ -2905,12 +2917,17 @@ def run_batch_pipeline(
     excel_path: Union[str, Path] = DEFAULT_DOWNLOADS_EXCEL_PATH,
     anonymize: bool = True,
     use_timestamp_subfolder: bool = True,
+    save_csv_files: bool = False,
+    keep_tex: bool = False,
 ) -> List[Dict[str, Any]]:
     """
     Run the tear sheet & Excel generation pipeline for multiple funds in one shot:
-      - Creates a clean timestamped subfolder `third_party_marketing/output/run_YYYYMMDD_HHMMSS/` so local outputs stay organized
+      - Stores runs inside `<output_dir>/runs/run_YYYYMMDD_HHMMSS/`
+      - Inside each run folder:
+          * `Athenee_TPM_Fund_Analysis_YYYYMMDD_HHMMSS.xlsx` (the timestamped Excel workbook)
+          * `factsheet/` subfolder containing all related PDF factsheets (`*_tearsheet.pdf`)
       - Anonymizes all fund names deterministically (`anonymize=True` by default) so no IP is leaked
-      - Saves the timestamped Excel workbook directly to `~/Downloads/Athenee_TPM_Fund_Analysis_YYYYMMDD_HHMMSS.xlsx`
+      - Also saves the timestamped Excel workbook directly to `~/Downloads/Athenee_TPM_Fund_Analysis_YYYYMMDD_HHMMSS.xlsx`
     """
     init_or_load_fund_database(hf_returns_dir=Path(hf_returns_dir))
 
@@ -2924,14 +2941,23 @@ def run_batch_pipeline(
 
     run_ts = datetime.now().strftime("%Y%m%d_%H%M%S")
     base_out_dir = Path(output_dir).resolve()
-    out_dir = (base_out_dir / f"run_{run_ts}") if use_timestamp_subfolder else base_out_dir
-    out_dir.mkdir(parents=True, exist_ok=True)
+    if use_timestamp_subfolder:
+        runs_root = base_out_dir if base_out_dir.name == "runs" else (base_out_dir / "runs")
+        run_dir = runs_root / f"run_{run_ts}"
+    else:
+        run_dir = base_out_dir
+
+    factsheet_dir = run_dir / "factsheet"
+    run_dir.mkdir(parents=True, exist_ok=True)
+    if compile_pdf or keep_tex:
+        factsheet_dir.mkdir(parents=True, exist_ok=True)
     fund_configs = fund_configs or {}
 
     all_metrics: List[Dict[str, Any]] = []
     fund_results: List[Dict[str, Any]] = []
     print(f"=== Running Athénée Third-Party Marketing Pipeline for {len(fund_list)} fund(s) [Anonymize={anonymize}] ===")
-    print(f"=== Local Run Folder: {out_dir} ===")
+    print(f"=== Local Run Folder: {run_dir} ===")
+    print(f"=== Factsheets Folder: {factsheet_dir} ===")
 
     for idx, fund_name in enumerate(fund_list, 1):
         stem = fund_name.replace(".csv", "").strip()
@@ -2939,7 +2965,7 @@ def run_batch_pipeline(
         try:
             res = run_fund_pipeline(
                 fund_csv_name=stem,
-                output_dir=out_dir,
+                output_dir=factsheet_dir,
                 hf_returns_dir=hf_returns_dir,
                 start_date=cfg.get("start_date", start_date),
                 end_date=cfg.get("end_date", end_date),
@@ -2950,12 +2976,18 @@ def run_batch_pipeline(
                 fund_meta=cfg,
                 compile_pdf=compile_pdf,
                 anonymize=anonymize,
+                save_csv_files=save_csv_files,
+                keep_tex=keep_tex,
             )
             m = res["metrics"]
             anon_id = res["anon_id"]
             all_metrics.append(m)
             fund_results.append(res)
-            status_label = os.path.basename(res["pdf_path"]) if res["pdf_path"] else os.path.basename(res["tex_path"])
+            status_label = (
+                f"factsheet/{os.path.basename(res['pdf_path'])}"
+                if res["pdf_path"]
+                else (f"factsheet/{os.path.basename(res['tex_path'])}" if res["tex_path"] else "excel-only")
+            )
             anon_label = f"{anon_id['anon_name']} ({anon_id['anon_code']})"
             print(
                 f"  [{idx}/{len(fund_list)}] {anon_label:<28} | "
@@ -2967,18 +2999,20 @@ def run_batch_pipeline(
             print(f"  [{idx}/{len(fund_list)}] ERROR processing '{stem}': {e}")
 
     if all_metrics:
-        summary_csv = out_dir / f"summary_selected_funds_metrics_{run_ts}.csv"
-        _write_dict_csv(summary_csv, all_metrics)
+        if save_csv_files:
+            summary_csv = run_dir / f"summary_selected_funds_metrics_{run_ts}.csv"
+            _write_dict_csv(summary_csv, all_metrics)
         if build_excel and fund_results:
             saved_xlsx = build_tpm_excel_workbook(
                 fund_results=fund_results,
                 excel_path=excel_path,
-                also_save_to_output_dir=out_dir,
+                also_save_to_output_dir=run_dir,
                 anonymize=anonymize,
                 timestamp_str=run_ts,
             )
             print(f"=== Timestamped Excel Spreadsheet saved to Downloads: {saved_xlsx} ===")
-        print(f"=== Batch Complete! All outputs saved cleanly in subfolder: {out_dir} ===")
+            print(f"=== Timestamped Excel Spreadsheet saved in Run Folder: {run_dir / saved_xlsx.name} ===")
+        print(f"=== Batch Complete! Run folder: {run_dir} ===")
     return all_metrics
 
 
