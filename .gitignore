@@ -1,6 +1,6 @@
-/arthur_hf_scraping
-/indian_funds
-/ucits
+/hf_research/cap_intro_scraping
+/hf_research/group_fund_analysis/indian_funds
+/hf_research/group_fund_analysis/ucits
 # /report/educational
 *.log
 .venv/
