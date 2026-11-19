@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2026.7.4)  9 SEP 2026 11:03
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2026.7.4)  19 NOV 2026 09:32
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -574,22 +574,37 @@ Underfull \hbox (badness 10000) in paragraph at lines 32--33
 
 (/Users/arthurdhonneur/Library/TinyTeX/texmf-dist/tex/latex/microtype/mt-cmr.cfg)
 Overfull \hbox (1.39542pt too wide) in paragraph at lines 69--69
- []|\OT1/phv/m/n/10.95 (-20) 32.5%| 
+ []|\OT1/phv/m/n/10.95 (-20) 12.4%| 
+ []
+
+
+Overfull \hbox (7.36177pt too wide) in paragraph at lines 69--69
+ []|\OT1/phv/m/n/10.95 (-20) 118.1%| 
  []
 
 
 Overfull \hbox (1.39542pt too wide) in paragraph at lines 69--69
- []|\OT1/phv/m/n/10.95 (-20) 24.8%| 
+ []|\OT1/phv/m/n/10.95 (-20) 78.6%| 
  []
 
 
 Overfull \hbox (1.39542pt too wide) in paragraph at lines 69--69
- []|\OT1/phv/m/n/10.95 (-20) 22.7%| 
+ []|\OT1/phv/m/n/10.95 (-20) 73.7%| 
  []
 
 
 Overfull \hbox (1.39542pt too wide) in paragraph at lines 69--69
- []|\OT1/phv/m/n/10.95 (-20) 25.1%| 
+ []|\OT1/phv/m/n/10.95 (-20) 77.6%| 
+ []
+
+
+Overfull \hbox (1.39542pt too wide) in paragraph at lines 69--69
+ []|\OT1/phv/m/n/10.95 (-20) 10.9%| 
+ []
+
+
+Overfull \hbox (1.39542pt too wide) in paragraph at lines 69--69
+ []|\OT1/phv/m/n/10.95 (-20) 31.5%| 
  []
 
 
@@ -610,15 +625,15 @@ Package rerunfilecheck Info: File `presentation.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 23853 strings out of 475229
- 464493 string characters out of 5765256
- 929283 words of memory out of 5000000
- 46328 multiletter control sequences out of 15000+600000
+ 23871 strings out of 475229
+ 464927 string characters out of 5765256
+ 929279 words of memory out of 5000000
+ 46346 multiletter control sequences out of 15000+600000
  574295 words of font info for 100 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  98i,13n,101p,1009b,675s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </Users/arthurdhonneur/Library/TinyTeX/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></Users/arthurdhonneur/Library/TinyTeX/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb>
-Output written on presentation.pdf (1 page, 28624 bytes).
+Output written on presentation.pdf (1 page, 28907 bytes).
 PDF statistics:
  30 PDF objects out of 1000 (max. 8388607)
  20 compressed objects within 1 object stream
